@@ -1,4 +1,4 @@
-package cz.cvut.fel.ear.library;
+package cz.cvut.fel.ear.library.model;
 
 public enum BookState {
     VOLNA,
