@@ -2,6 +2,8 @@ package cz.cvut.fel.ear.library;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+
 @Entity
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +28,24 @@ public class User {
     @Basic
     @Column(name = "bank_account")
     private String bankAccount;
+
+    @OneToMany
+    private ArrayList<Role> roles;
+
+    @OneToMany
+    private ArrayList<Rating> ratings;
+
+    @OneToMany
+    private ArrayList<ProfilePicture> profilePictures;
+
+    @OneToMany
+    private ArrayList<Reservation> reservations;
+
+    @OneToMany
+    private ArrayList<BookLoan> bookLoans;
+
+    @OneToMany
+    private ArrayList<Book> books;  // books that the user offers or loans
 
     public int getId() {
         return id;

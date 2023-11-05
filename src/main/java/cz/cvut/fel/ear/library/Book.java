@@ -36,6 +36,18 @@ public class Book {
     @Column(name = "id_user")
     private int idUser;
 
+    @OneToMany
+    private ArrayList<BookLoan> bookLoans;
+
+    @OneToMany
+    private ArrayList<Reservation> reservations;
+
+    @OneToMany
+    private ArrayList<BookCover> bookCovers;
+
+    @OneToMany
+    private ArrayList<Rating> ratings;
+
     public int getId() {
         return id;
     }
