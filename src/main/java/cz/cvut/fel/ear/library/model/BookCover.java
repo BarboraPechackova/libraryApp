@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "book_cover", schema = "public", catalog = "ear2023zs_2")
-public class BookCover {
+public class BookCover extends Picture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
