@@ -1,4 +1,4 @@
-package cz.cvut.fel;
+package cz.cvut.fel.ear.library;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
