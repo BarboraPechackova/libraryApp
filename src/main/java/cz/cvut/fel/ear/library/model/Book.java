@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Book.findByUser", query = "SELECT b from Book b WHERE idUser = :idUser")
+})
 public class Book {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)

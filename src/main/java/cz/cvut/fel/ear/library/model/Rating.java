@@ -3,6 +3,10 @@ package cz.cvut.fel.ear.library.model;
 import jakarta.persistence.*;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Rating.findByUser", query = "SELECT r from Rating r WHERE idUser = :idUser"),
+        @NamedQuery(name = "Rating.findByBook", query = "SELECT r from Rating r WHERE idBook = :idBook")
+})
 public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

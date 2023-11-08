@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "book_cover", schema = "public", catalog = "ear2023zs_2")
+@NamedQueries({
+        @NamedQuery(name = "Cover.findByBook", query = "SELECT bc from BookCover bc WHERE idBook = :idBook")
+})
 public class BookCover extends Picture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
