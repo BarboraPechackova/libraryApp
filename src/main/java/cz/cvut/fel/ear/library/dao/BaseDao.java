@@ -3,13 +3,11 @@ package cz.cvut.fel.ear.library.dao;
 import cz.cvut.fel.ear.library.exceptions.PersistenceException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-@Transactional
 public abstract class BaseDao<T> implements GenericDao<T> {
 
     @PersistenceContext
