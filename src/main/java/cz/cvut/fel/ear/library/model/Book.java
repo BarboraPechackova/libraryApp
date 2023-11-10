@@ -30,6 +30,7 @@ public class Book {
     @Column(name = "ISBN")
     private String isbn;
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "state")
     private BookState state;
     @Basic
