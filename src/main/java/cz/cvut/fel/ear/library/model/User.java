@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 @Entity
 @Table(name = "users")
+@NamedQueries({
+        @NamedQuery(name = "User.findByRole", query = "SELECT u from User u WHERE :role MEMBER OF u.roles"),
+})
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
