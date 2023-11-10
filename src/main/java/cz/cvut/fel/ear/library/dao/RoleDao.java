@@ -8,4 +8,6 @@ public class RoleDao extends BaseDao<Role>{
     public RoleDao() {
         super(Role.class);
     }
+
+    // TODO: implement find all users by role method (using named query)
 }
