@@ -1,6 +1,7 @@
 package cz.cvut.fel.ear.library.dao;
 
 import cz.cvut.fel.ear.library.DemoApplication;
+import cz.cvut.fel.ear.library.model.Role;
 import cz.cvut.fel.ear.library.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@ComponentScan(basePackageClasses = DemoApplication.class, excludeFilters = {
-//        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SystemInitializer.class)
-})
-@ActiveProfiles("test")
+@ComponentScan(basePackageClasses = DemoApplication.class)
+//@ActiveProfiles("test")
 public class UserDaoTest {
 
     // TestEntityManager provides additional test-related methods (it is Spring-specific)
@@ -30,20 +29,26 @@ public class UserDaoTest {
     private UserDao userDao;
 
     @Test
-    public void findAllByCategoryReturnsProductsInSpecifiedCategory() {
-        final User usr = generateUser(1, "john_doe", "john", "doe", "john.doe@gmail.com", "+420604444444", "2100000000/2010");
+    public void findAllUsersByRoleReturnsAllUsersByRole() {
+        final Role role = generateRole("user");
+        final User usr1 = generateUserwithRole(1, "john_doe", "john", "doe", "john.doe@gmail.com", "+420604444444", "2100000000/2010", role);
+        final User usr2 = generateUserwithRole(2, "jane_doe", "jane", "doe", "jane.doe@gmail.com", "+420604444445", "2200000000/2010", role);
+        List<User> users = List.of(usr1, usr2);
 
-        final List<User> role = generateRole(role);
         final List<User> result = userDao.findAll(role);
-        assertEquals(products.size(), result.size());
-        usr.sort(Comparator.comparing(Product::getName));
-        result.sort(Comparator.comparing(Product::getName));
-        for (int i = 0; i < products.size(); i++) {
-            assertEquals(products.get(i).getId(), result.get(i).getId());
-        }
+        assertEquals(users.size(), result.size());
+        assertEquals(usr1.getId(), result.get(0).getId());
+        assertEquals(usr2.getId(), result.get(1).getId());
     }
 
-    private User generateUser(int id, String username, String firstName, String surname, String email, String phone, String bankAccount) {
+    private Role generateRole(String name) {
+        final Role role = new Role();
+        role.setRole(name);
+        em.persist(role);
+        return role;
+    }
+
+    private User generateUserwithRole(int id, String username, String firstName, String surname, String email, String phone, String bankAccount, Role role) {
         final User user = new User();
         user.setId(id);
         user.setUsername(username);
@@ -55,6 +60,8 @@ public class UserDaoTest {
         em.persist(user);
         return user;
     }
+
+
 
 
 }
