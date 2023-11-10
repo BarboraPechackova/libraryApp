@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ComponentScan(basePackageClasses = DemoApplication.class)
-//@ActiveProfiles("test")
+@ActiveProfiles("test")
 public class UserDaoTest {
 
     // TestEntityManager provides additional test-related methods (it is Spring-specific)
@@ -31,8 +32,8 @@ public class UserDaoTest {
     @Test
     public void findAllUsersByRoleReturnsAllUsersByRole() {
         final Role role = generateRole("user");
-        final User usr1 = generateUserwithRole(1, "john_doe", "john", "doe", "john.doe@gmail.com", "+420604444444", "2100000000/2010", role);
-        final User usr2 = generateUserwithRole(2, "jane_doe", "jane", "doe", "jane.doe@gmail.com", "+420604444445", "2200000000/2010", role);
+        final User usr1 = generateUserwithRole("john_doe", "john", "doe", "john.doe@gmail.com", "+420604444444", "2100000000/2010", role);
+        final User usr2 = generateUserwithRole("jane_doe", "jane", "doe", "jane.doe@gmail.com", "+420604444445", "2200000000/2010", role);
         List<User> users = List.of(usr1, usr2);
 
         final List<User> result = userDao.findAll(role);
@@ -48,9 +49,8 @@ public class UserDaoTest {
         return role;
     }
 
-    private User generateUserwithRole(int id, String username, String firstName, String surname, String email, String phone, String bankAccount, Role role) {
+    private User generateUserwithRole(String username, String firstName, String surname, String email, String phone, String bankAccount, Role role) {
         final User user = new User();
-        user.setId(id);
         user.setUsername(username);
         user.setFirstName(firstName);
         user.setSurname(surname);
@@ -58,7 +58,7 @@ public class UserDaoTest {
         user.setPhone(phone);
         user.setBankAccount(bankAccount);
 
-        user.setRole(role);
+        user.setRoles(List.of(role));
 
         em.persist(user);
         return user;

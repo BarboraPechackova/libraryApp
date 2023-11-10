@@ -3,6 +3,7 @@ package cz.cvut.fel.ear.library.model;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -34,22 +35,22 @@ public class User {
     private String bankAccount;
 
     @OneToMany
-    private ArrayList<Role> roles;
+    private List<Role> roles;
 
     @OneToMany
-    private ArrayList<Rating> ratings;
+    private List<Rating> ratings;
 
     @OneToMany
-    private ArrayList<ProfilePicture> profilePictures;
+    private List<ProfilePicture> profilePictures;
 
     @OneToMany
-    private ArrayList<Reservation> reservations;
+    private List<Reservation> reservations;
 
     @OneToMany
-    private ArrayList<BookLoan> bookLoans;
+    private List<BookLoan> bookLoans;
 
     @OneToMany
-    private ArrayList<Book> books;  // books that the user offers or loans
+    private List<Book> books;  // books that the user offers or loans
 
     public int getId() {
         return id;
@@ -107,51 +108,51 @@ public class User {
         this.bankAccount = bankAccount;
     }
 
-    public ArrayList<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(ArrayList<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
-    public ArrayList<Rating> getRatings() {
+    public List<Rating> getRatings() {
         return ratings;
     }
 
-    public void setRatings(ArrayList<Rating> ratings) {
+    public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
     }
 
-    public ArrayList<ProfilePicture> getProfilePictures() {
+    public List<ProfilePicture> getProfilePictures() {
         return profilePictures;
     }
 
-    public void setProfilePictures(ArrayList<ProfilePicture> profilePictures) {
+    public void setProfilePictures(List<ProfilePicture> profilePictures) {
         this.profilePictures = profilePictures;
     }
 
-    public ArrayList<Reservation> getReservations() {
+    public List<Reservation> getReservations() {
         return reservations;
     }
 
-    public void setReservations(ArrayList<Reservation> reservations) {
+    public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
     }
 
-    public ArrayList<BookLoan> getBookLoans() {
+    public List<BookLoan> getBookLoans() {
         return bookLoans;
     }
 
-    public void setBookLoans(ArrayList<BookLoan> bookLoans) {
+    public void setBookLoans(List<BookLoan> bookLoans) {
         this.bookLoans = bookLoans;
     }
 
-    public ArrayList<Book> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(ArrayList<Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 
