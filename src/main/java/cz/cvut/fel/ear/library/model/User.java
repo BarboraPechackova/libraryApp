@@ -107,6 +107,54 @@ public class User {
         this.bankAccount = bankAccount;
     }
 
+    public ArrayList<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(ArrayList<Role> roles) {
+        this.roles = roles;
+    }
+
+    public ArrayList<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(ArrayList<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public ArrayList<ProfilePicture> getProfilePictures() {
+        return profilePictures;
+    }
+
+    public void setProfilePictures(ArrayList<ProfilePicture> profilePictures) {
+        this.profilePictures = profilePictures;
+    }
+
+    public ArrayList<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(ArrayList<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public ArrayList<BookLoan> getBookLoans() {
+        return bookLoans;
+    }
+
+    public void setBookLoans(ArrayList<BookLoan> bookLoans) {
+        this.bookLoans = bookLoans;
+    }
+
+    public ArrayList<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(ArrayList<Book> books) {
+        this.books = books;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

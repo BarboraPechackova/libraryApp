@@ -57,6 +57,9 @@ public class UserDaoTest {
         user.setEmail(email);
         user.setPhone(phone);
         user.setBankAccount(bankAccount);
+
+        user.setRole(role);
+
         em.persist(user);
         return user;
     }
