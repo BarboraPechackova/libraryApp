@@ -2,7 +2,7 @@ package cz.cvut.fel.ear.library.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NamedQueries({
@@ -41,16 +41,16 @@ public class Book {
     private int idUser;
 
     @OneToMany
-    private ArrayList<BookLoan> bookLoans;
+    private List<BookLoan> bookLoans;
 
     @OneToMany
-    private ArrayList<Reservation> reservations;
+    private List<Reservation> reservations;
 
     @OneToMany
-    private ArrayList<BookCover> bookCovers;
+    private List<BookCover> bookCovers;
 
     @OneToMany
-    private ArrayList<Rating> ratings;
+    private List<Rating> ratings;
 
     public int getId() {
         return id;

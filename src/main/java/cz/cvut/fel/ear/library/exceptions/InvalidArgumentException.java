@@ -1,6 +1,6 @@
 package cz.cvut.fel.ear.library.exceptions;
 
-public class InvalidArgumentException extends Exception {
+public class InvalidArgumentException extends AbstractException {
     public InvalidArgumentException(String message) {
         super(message);
     }

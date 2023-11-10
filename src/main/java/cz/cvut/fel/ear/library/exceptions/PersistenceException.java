@@ -1,6 +1,6 @@
 package cz.cvut.fel.ear.library.exceptions;
 
-public class PersistenceException extends RuntimeException {
+public class PersistenceException extends AbstractException {
 
     public PersistenceException(String message) {
         super(message);

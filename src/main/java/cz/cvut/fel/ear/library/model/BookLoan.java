@@ -3,9 +3,17 @@ package cz.cvut.fel.ear.library.model;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "book_loan", schema = "public", catalog = "ear2023zs_2")
+@NamedQueries({
+        @NamedQuery(name = "BookLoan.loansOfBook",    query = "SELECT l FROM BookLoan l WHERE book = :book"),
+        @NamedQuery(name = "BookLoan.userBookLoans",  query = "SELECT l FROM BookLoan l WHERE user = :user"),
+        @NamedQuery(name = "BookLoan.actualBookLoan", query = "SELECT l FROM BookLoan l WHERE book = :book AND CURRENT_DATE BETWEEN dateFrom AND dateTo ")
+//        @NamedQuery(name = "BookLoan.loanWithBookIdExists", query = "SELECT l FROM BookLoan l WHERE id_book = :idBook")
+//        @NamedQuery(name = "BookLoan.loanWithBookIdExists", query = "SELECT l FROM BookLoan l WHERE id_book = :idBook"),
+})
 public class BookLoan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -23,12 +31,11 @@ public class BookLoan {
     @Basic
     @Column(name = "returned")
     private boolean returned;
-    @Basic
-    @Column(name = "id_user")
-    private int idUser;
-    @Basic
-    @Column(name = "id_book")
-    private int idBook;
+
+    @ManyToOne
+    private User user;
+    @ManyToOne
+    private Book book;
 
     public int getId() {
         return id;
@@ -70,20 +77,20 @@ public class BookLoan {
         this.returned = returned;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getIdBook() {
-        return idBook;
+    public Book getBook() {
+        return book;
     }
 
-    public void setIdBook(int idBook) {
-        this.idBook = idBook;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     @Override
@@ -96,10 +103,10 @@ public class BookLoan {
         if (id != bookLoan.id) return false;
         if (price != bookLoan.price) return false;
         if (returned != bookLoan.returned) return false;
-        if (idUser != bookLoan.idUser) return false;
-        if (idBook != bookLoan.idBook) return false;
-        if (dateFrom != null ? !dateFrom.equals(bookLoan.dateFrom) : bookLoan.dateFrom != null) return false;
-        if (dateTo != null ? !dateTo.equals(bookLoan.dateTo) : bookLoan.dateTo != null) return false;
+        if (user != bookLoan.user) return false;
+        if (book != bookLoan.book) return false;
+        if (!Objects.equals(dateFrom, bookLoan.dateFrom)) return false;
+        if (!Objects.equals(dateTo, bookLoan.dateTo)) return false;
 
         return true;
     }
@@ -111,8 +118,8 @@ public class BookLoan {
         result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
         result = 31 * result + price;
         result = 31 * result + (returned ? 1 : 0);
-        result = 31 * result + idUser;
-        result = 31 * result + idBook;
+        result = (31 * result) + user.getId();
+        result = (31 * result) + book.getId();
         return result;
     }
 }
