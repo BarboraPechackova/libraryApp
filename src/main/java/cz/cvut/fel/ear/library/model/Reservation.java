@@ -28,8 +28,10 @@ public class Reservation {
     @Column(name = "date_to")
     private Date dateTo;
     @ManyToOne
+    @JoinColumn(name = "id")
     private User user;
     @ManyToOne
+    @JoinColumn(name = "id")
     private Book book;
 
     public int getId() {
