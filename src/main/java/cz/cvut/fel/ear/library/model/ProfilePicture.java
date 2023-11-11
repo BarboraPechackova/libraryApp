@@ -21,6 +21,10 @@ public class ProfilePicture extends Picture {
     @JoinColumn(name = "id_user")
     private User user;
 
+//    @OneToOne
+//    @JoinColumn(name = "id_picture")
+//    private Picture picture;
+
     public int getId() {
         return id;
     }

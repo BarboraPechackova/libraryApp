@@ -6,7 +6,8 @@ import org.hibernate.annotations.EmbeddableInstantiator;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Picture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

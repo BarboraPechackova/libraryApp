@@ -12,10 +12,12 @@ public class BookCover extends Picture {
     @Id
     @Column(name = "id")
     private int id;
-
     @ManyToOne
     @JoinColumn(name = "id_book")
     private Book book;
+//    @OneToOne
+//    @JoinColumn(name = "id_picture")
+//    private Picture picture;
 
     public int getId() {
         return id;
