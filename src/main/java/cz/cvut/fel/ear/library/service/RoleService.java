@@ -2,6 +2,7 @@ package cz.cvut.fel.ear.library.service;
 
 import cz.cvut.fel.ear.library.dao.RoleDao;
 import cz.cvut.fel.ear.library.model.Role;
+import cz.cvut.fel.ear.library.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +24,6 @@ public class RoleService {
     public List<Role> findAll() {
         return dao.findAll();
     }
-
-//    @Transactional(readOnly = true)
-//    public List<Role> findAll(User user) {
-//        return dao.findAll(user);
-//    }
 
     @Transactional(readOnly = true)
     public Role find(Integer id) {
@@ -62,6 +58,4 @@ public class RoleService {
 
         dao.update(role);
     }
-
-    // TODO: implemnt test for last method
 }

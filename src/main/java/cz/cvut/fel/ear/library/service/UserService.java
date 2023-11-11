@@ -13,7 +13,6 @@ import java.util.Objects;
 
 @Service
 public class UserService {
-    // TODO: implement add and delete user methods
 
     private final UserDao dao;
 
@@ -75,6 +74,4 @@ public class UserService {
         Objects.requireNonNull(user);
         dao.remove(user);
     }
-
-    // TODO: implement tests for last 3 methods
 }
