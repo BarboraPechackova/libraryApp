@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,6 +38,13 @@ public class BookService {
         Objects.requireNonNull(book);
         validate(book);
         dao.persist(book);
+    }
+
+    @Transactional
+    public void persistAll(List<Book> books) throws InvalidArgumentException {
+        for (Book b : books) {
+            persist(b);
+        }
     }
 
     @Transactional
@@ -86,6 +94,13 @@ public class BookService {
         book.setState(BookState.VYPUJCENA);
         dao.update(book);
     }
+
+    // TODO dalsi metody, upravit ty co uz mam jestli ukazovat visible only
+
+    public void findBooksByState() {}
+    public void findAllVisible() {}
+
+    public void removeBooksFromUser (User user) {}
 
     private void validate(Book book) throws InvalidArgumentException {
         if (book.getPrice() < 0) {

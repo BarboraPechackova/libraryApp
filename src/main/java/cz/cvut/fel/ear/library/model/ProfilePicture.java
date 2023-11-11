@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "profile_picture", schema = "public", catalog = "ear2023zs_2")
+@Table(name = "profile_picture")
 public class ProfilePicture extends Picture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
