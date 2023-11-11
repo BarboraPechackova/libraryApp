@@ -17,7 +17,6 @@ public class BookService {
 
     private final BookDao dao;
 
-
     @Autowired
     public BookService(BookDao dao) {
         this.dao = dao;

@@ -5,6 +5,7 @@ import cz.cvut.fel.ear.library.dao.BookLoanDao;
 import cz.cvut.fel.ear.library.exceptions.*;
 import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.BookLoan;
+import cz.cvut.fel.ear.library.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +48,16 @@ public class BookLoanService {
         return dao.find(id);
     }
 
+    @Transactional(readOnly = true)
+    public List<BookLoan> getLoansOfBook(Book book) {
+        return dao.getBookLoans(book);
+    }
+
+    @Transactional(readOnly = true)
+    public List<BookLoan> getLoansOfUser(User user) {
+        return dao.getUserLoans(user);
+    }
+
     @Transactional
     public void persist(BookLoan loan) throws InvalidArgumentException {
         Objects.requireNonNull(loan);
@@ -58,6 +69,7 @@ public class BookLoanService {
     public void update(BookLoan loan) throws InvalidArgumentException {
         Objects.requireNonNull(loan);
         validateBookLoan(loan);
+        bookService.setBooked(loan.getBook());
         dao.update(loan);
     }
 
@@ -66,6 +78,18 @@ public class BookLoanService {
         if (!loan.isReturned())
             throw new BookIsNotReturnedException("Cannot delete a book has not been returned and is still loaned!");
         dao.remove(loan);
+    }
+
+    @Transactional(readOnly = true)
+    public void getActualBookLoan(Book book) {
+        dao.getCurrentLoanOfBook(book);
+    }
+
+    public void returnBook(Book book) {
+        Objects.requireNonNull(book);
+        BookLoan loan = dao.getCurrentLoanOfBook(book);
+        loan.setReturned(true);
+
     }
 
     private void validateBookLoan(BookLoan loan) throws InvalidArgumentException {

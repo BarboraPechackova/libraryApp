@@ -6,6 +6,13 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Reservation.reservationsOfBook",    query = "SELECT r FROM Reservation r WHERE book = :book"),
+        @NamedQuery(name = "Reservation.userBookReservations",  query = "SELECT r FROM Reservation r WHERE book = :book AND user = :user"),
+//        @NamedQuery(name = "Reservation.actualBookReservations", query = "SELECT r FROM Reservation r WHERE book = :book AND status = :status"),
+        @NamedQuery(name = "Reservation.allUserReservations", query = "SELECT r FROM Reservation r WHERE user = :user")
+//        @NamedQuery(name = "Reservation.actualBookReservations", query = "SELECT r FROM Reservation r WHERE book = :book AND CURRENT_DATE BETWEEN dateFrom AND dateTo ")
+})
 public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -20,12 +27,10 @@ public class Reservation {
     @Basic
     @Column(name = "date_to")
     private Date dateTo;
-    @Basic
-    @Column(name = "id_user")
-    private int idUser;
-    @Basic
-    @Column(name = "id_book")
-    private int idBook;
+    @ManyToOne
+    private User user;
+    @ManyToOne
+    private Book book;
 
     public int getId() {
         return id;
@@ -59,20 +64,20 @@ public class Reservation {
         this.dateTo = dateTo;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getIdBook() {
-        return idBook;
+    public Book getBook() {
+        return book;
     }
 
-    public void setIdBook(int idBook) {
-        this.idBook = idBook;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     @Override
@@ -83,8 +88,8 @@ public class Reservation {
         Reservation that = (Reservation) o;
 
         if (id != that.id) return false;
-        if (idUser != that.idUser) return false;
-        if (idBook != that.idBook) return false;
+        if (user != that.user) return false;
+        if (book != that.book) return false;
         if (reservationTs != null ? !reservationTs.equals(that.reservationTs) : that.reservationTs != null)
             return false;
         if (dateFrom != null ? !dateFrom.equals(that.dateFrom) : that.dateFrom != null) return false;
@@ -99,8 +104,8 @@ public class Reservation {
         result = 31 * result + (reservationTs != null ? reservationTs.hashCode() : 0);
         result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
         result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
-        result = 31 * result + idUser;
-        result = 31 * result + idBook;
+        result = 31 * result + user.getId();
+        result = 31 * result + book.getId();
         return result;
     }
 }
