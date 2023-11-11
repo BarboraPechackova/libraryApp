@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @NamedQueries({
-        @NamedQuery(name = "User.findByRole", query = "SELECT u from User u WHERE :role MEMBER OF u.roles"),
+        @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u JOIN u.roles r WHERE r.role = :role"),
 })
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +35,11 @@ public class User {
     private String bankAccount;
 
     @OneToMany
+//    (mappedBy = "tvoriCompositeKey.objednavka") mel by byt  composite key v user_roles tabulce
+//    Incorrect Table Design: If users_roles is meant to map a many-to-many relationship between Users and Roles, there should not be a unique constraint on the roles_id column alone. Instead, there should be a composite unique constraint on both user_id and roles_id to ensure that the same User cannot be associated with the same Role more than once.
+//    @JoinColumn(name = "id_user")
+//    @JoinTable(name = "users_roles")
+    // still missing the composite key!!!
     private List<Role> roles;
 
     @OneToMany

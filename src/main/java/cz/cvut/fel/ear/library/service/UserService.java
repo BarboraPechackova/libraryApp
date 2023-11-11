@@ -13,7 +13,6 @@ import java.util.Objects;
 
 @Service
 public class UserService {
-    // TODO: implement add and delete user methods
 
     private final UserDao dao;
 
@@ -41,14 +40,28 @@ public class UserService {
         dao.persist(user);
     }
 
+//    @Transactional
+//    public void addRoleToUser(User user, Role role) {
+//        Objects.requireNonNull(user);
+//        Objects.requireNonNull(role);
+//        List<Role> roles = user.getRoles();
+//        roles.add(role);
+//        user.setRoles(roles);
+//        dao.update(user);
+//    }
+
     @Transactional
-    public void addRoleToUser(User user, Role role) {
+    public void addRoleToUser(User user, String role) {
         Objects.requireNonNull(user);
         Objects.requireNonNull(role);
         List<Role> roles = user.getRoles();
-        roles.add(role);
+        Role userRole = new Role();
+        userRole.setRole(role);
+        userRole.setIdUser(user.getId());
+        roles.add(userRole);
         user.setRoles(roles);
         dao.update(user);
+        // TODO: also persist the role and update roles?
     }
 
     /**
@@ -75,6 +88,4 @@ public class UserService {
         Objects.requireNonNull(user);
         dao.remove(user);
     }
-
-    // TODO: implement tests for last 3 methods
 }

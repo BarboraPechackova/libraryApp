@@ -31,25 +31,27 @@ public class UserDaoTest {
 
     @Test
     public void findAllUsersByRoleReturnsAllUsersByRole() {
-        final Role role = generateRole("user");
-        final User usr1 = generateUserwithRole("john_doe", "john", "doe", "john.doe@gmail.com", "+420604444444", "2100000000/2010", role);
-        final User usr2 = generateUserwithRole("jane_doe", "jane", "doe", "jane.doe@gmail.com", "+420604444445", "2200000000/2010", role);
+        final User usr1 = generateUser("john_doe", "john", "doe", "john.doe@gmail.com", "+420604444444", "2100000000/2010");
+        final User usr2 = generateUser("jane_doe", "jane", "doe", "jane.doe@gmail.com", "+420604444445", "2200000000/2010");
         List<User> users = List.of(usr1, usr2);
+        final Role role1 = generateRoleforUser("USER", usr1.getId());
+        final Role role2 = generateRoleforUser("USER", usr2.getId());
 
-        final List<User> result = userDao.findAll(role);
+        final List<User> result = userDao.findAll(role1);
         assertEquals(users.size(), result.size());
-        assertEquals(usr1.getId(), result.get(0).getId());
-        assertEquals(usr2.getId(), result.get(1).getId());
+        assertEquals(0, result.get(0).getId());
+        assertEquals(1, result.get(1).getId());
     }
 
-    private Role generateRole(String name) {
+    private Role generateRoleforUser(String name, int userId) {
         final Role role = new Role();
         role.setRole(name);
+        role.setIdUser(userId);
         em.persist(role);
         return role;
     }
 
-    private User generateUserwithRole(String username, String firstName, String surname, String email, String phone, String bankAccount, Role role) {
+    private User generateUser(String username, String firstName, String surname, String email, String phone, String bankAccount) {
         final User user = new User();
         user.setUsername(username);
         user.setFirstName(firstName);
@@ -57,14 +59,7 @@ public class UserDaoTest {
         user.setEmail(email);
         user.setPhone(phone);
         user.setBankAccount(bankAccount);
-
-        user.setRoles(List.of(role));
-
         em.persist(user);
         return user;
     }
-
-
-
-
 }
