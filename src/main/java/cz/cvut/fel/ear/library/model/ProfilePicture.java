@@ -17,9 +17,8 @@ public class ProfilePicture extends Picture {
     @Basic
     @Column(name = "ts_to")
     private Timestamp tsTo;
-    @OneToOne
-    private Picture picture;
     @ManyToOne
+    @JoinColumn(name = "id_user")
     private User user;
 
     public int getId() {
@@ -46,13 +45,6 @@ public class ProfilePicture extends Picture {
         this.tsTo = tsTo;
     }
 
-    public int getIdPicture() {
-        return picture.getId();
-    }
-
-    public void setIdPicture(int idPicture) {
-        picture.setId(idPicture);
-    }
 
     public int getIdUser() {
         return user.getId();
@@ -70,7 +62,6 @@ public class ProfilePicture extends Picture {
         ProfilePicture that = (ProfilePicture) o;
 
         if (id != that.id) return false;
-        if (picture.getId() != that.picture.getId()) return false;
         if (user.getId() != that.user.getId()) return false;
         if (tsFrom != null ? !tsFrom.equals(that.tsFrom) : that.tsFrom != null) return false;
         if (tsTo != null ? !tsTo.equals(that.tsTo) : that.tsTo != null) return false;
@@ -83,7 +74,6 @@ public class ProfilePicture extends Picture {
         int result = id;
         result = 31 * result + (tsFrom != null ? tsFrom.hashCode() : 0);
         result = 31 * result + (tsTo != null ? tsTo.hashCode() : 0);
-        result = 31 * result + picture.getId();
         result = 31 * result + user.getId();
         return result;
     }

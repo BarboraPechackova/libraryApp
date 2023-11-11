@@ -37,6 +37,7 @@ public class Book {
     @Column(name = "visible")
     private boolean visible;
     @ManyToOne
+    @JoinColumn(name = "id_user")
     private User user;
 
     @OneToMany

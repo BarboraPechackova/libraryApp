@@ -12,10 +12,9 @@ public class BookCover extends Picture {
     @Id
     @Column(name = "id")
     private int id;
-    @OneToOne
-    private Picture picture;
 
     @ManyToOne
+    @JoinColumn(name = "id_book")
     private Book book;
 
     public int getId() {
@@ -24,14 +23,6 @@ public class BookCover extends Picture {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getIdPicture() {
-        return picture.getId();
-    }
-
-    public void setIdPicture(int idPicture) {
-        picture.setId(idPicture);
     }
 
     public int getIdBook() {
@@ -50,7 +41,6 @@ public class BookCover extends Picture {
         BookCover bookCover = (BookCover) o;
 
         if (id != bookCover.id) return false;
-        if (picture.getId() != bookCover.picture.getId()) return false;
         if (book.getId() != bookCover.book.getId()) return false;
 
         return true;
@@ -59,7 +49,6 @@ public class BookCover extends Picture {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + picture.getId();
         result = 31 * result + book.getId();
         return result;
     }

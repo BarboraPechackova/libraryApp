@@ -19,8 +19,10 @@ public class Rating {
     @Column(name = "note")
     private String note;
     @ManyToOne
+    @JoinColumn(name = "id_user")
     private User user;
     @ManyToOne
+    @JoinColumn(name = "id_book")
     private Book book;
 
     public int getId() {
