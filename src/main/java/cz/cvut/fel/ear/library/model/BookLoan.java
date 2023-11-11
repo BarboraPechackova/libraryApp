@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "book_loan", schema = "public", catalog = "ear2023zs_2")
+@Table(name = "book_loan")
 @NamedQueries({
         @NamedQuery(name = "BookLoan.loansOfBook",    query = "SELECT l FROM BookLoan l WHERE book = :book"),
         @NamedQuery(name = "BookLoan.userBookLoans",  query = "SELECT l FROM BookLoan l WHERE user = :user"),
@@ -33,8 +33,10 @@ public class BookLoan {
     private boolean returned;
 
     @ManyToOne
+    @JoinColumn(name = "id_user")
     private User user;
     @ManyToOne
+    @JoinColumn(name = "id_book")
     private Book book;
 
     public int getId() {

@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 
 @Entity
+@MappedSuperclass
 public class Picture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
