@@ -11,9 +11,8 @@ public class Role {
     @Basic
     @Column(name = "role")
     private String role;
-    @Basic
-    @Column(name = "id_user")
-    private int idUser;
+    @ManyToOne
+    private User user;
 
     public int getId() {
         return id;
@@ -32,11 +31,10 @@ public class Role {
     }
 
     public int getIdUser() {
-        return idUser;
+        return user.getId();
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setIdUser(int idUser) { user.setId(idUser);
     }
 
     @Override
@@ -47,7 +45,7 @@ public class Role {
         Role role1 = (Role) o;
 
         if (id != role1.id) return false;
-        if (idUser != role1.idUser) return false;
+        if (user.getId() != role1.user.getId()) return false;
         if (role != null ? !role.equals(role1.role) : role1.role != null) return false;
 
         return true;
@@ -57,7 +55,7 @@ public class Role {
     public int hashCode() {
         int result = id;
         result = 31 * result + (role != null ? role.hashCode() : 0);
-        result = 31 * result + idUser;
+        result = 31 * result + user.getId();
         return result;
     }
 }

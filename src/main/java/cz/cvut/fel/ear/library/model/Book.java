@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Book.findByUser", query = "SELECT b from Book b WHERE idUser = :idUser")
+        @NamedQuery(name = "Book.findByUser", query = "SELECT b from Book b WHERE user.id = :idUser")
 })
 public class Book {
 
@@ -36,20 +36,23 @@ public class Book {
     @Basic
     @Column(name = "visible")
     private boolean visible;
-    @Basic
-    @Column(name = "id_user")
-    private int idUser;
+    @ManyToOne
+    private User user;
 
     @OneToMany
+    @JoinColumn(name = "id_book")
     private List<BookLoan> bookLoans;
 
     @OneToMany
+    @JoinColumn(name = "id_book")
     private List<Reservation> reservations;
 
     @OneToMany
+    @JoinColumn(name = "id_book")
     private List<BookCover> bookCovers;
 
     @OneToMany
+    @JoinColumn(name = "id_book")
     private List<Rating> ratings;
 
     public int getId() {
@@ -117,11 +120,11 @@ public class Book {
     }
 
     public int getIdUser() {
-        return idUser;
+        return user.getId();
     }
 
     public void setIdUser(int idUser) {
-        this.idUser = idUser;
+        this.user.setId(idUser);
     }
 
     @Override
@@ -134,7 +137,7 @@ public class Book {
         if (id != book.id) return false;
         if (price != book.price) return false;
         if (visible != book.visible) return false;
-        if (idUser != book.idUser) return false;
+        if (user.getId() != book.user.getId()) return false;
         if (name != null ? !name.equals(book.name) : book.name != null) return false;
         if (author != null ? !author.equals(book.author) : book.author != null) return false;
         if (description != null ? !description.equals(book.description) : book.description != null) return false;
@@ -154,7 +157,7 @@ public class Book {
         result = 31 * result + (isbn != null ? isbn.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (visible ? 1 : 0);
-        result = 31 * result + idUser;
+        result = 31 * result + user.getId();
         return result;
     }
 }

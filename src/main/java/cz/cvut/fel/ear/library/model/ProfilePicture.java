@@ -17,12 +17,10 @@ public class ProfilePicture extends Picture {
     @Basic
     @Column(name = "ts_to")
     private Timestamp tsTo;
-    @Basic
-    @Column(name = "id_picture")
-    private int idPicture;
-    @Basic
-    @Column(name = "id_user")
-    private int idUser;
+    @OneToOne
+    private Picture picture;
+    @ManyToOne
+    private User user;
 
     public int getId() {
         return id;
@@ -49,19 +47,19 @@ public class ProfilePicture extends Picture {
     }
 
     public int getIdPicture() {
-        return idPicture;
+        return picture.getId();
     }
 
     public void setIdPicture(int idPicture) {
-        this.idPicture = idPicture;
+        picture.setId(idPicture);
     }
 
     public int getIdUser() {
-        return idUser;
+        return user.getId();
     }
 
     public void setIdUser(int idUser) {
-        this.idUser = idUser;
+        user.setId(idUser);
     }
 
     @Override
@@ -72,8 +70,8 @@ public class ProfilePicture extends Picture {
         ProfilePicture that = (ProfilePicture) o;
 
         if (id != that.id) return false;
-        if (idPicture != that.idPicture) return false;
-        if (idUser != that.idUser) return false;
+        if (picture.getId() != that.picture.getId()) return false;
+        if (user.getId() != that.user.getId()) return false;
         if (tsFrom != null ? !tsFrom.equals(that.tsFrom) : that.tsFrom != null) return false;
         if (tsTo != null ? !tsTo.equals(that.tsTo) : that.tsTo != null) return false;
 
@@ -85,8 +83,8 @@ public class ProfilePicture extends Picture {
         int result = id;
         result = 31 * result + (tsFrom != null ? tsFrom.hashCode() : 0);
         result = 31 * result + (tsTo != null ? tsTo.hashCode() : 0);
-        result = 31 * result + idPicture;
-        result = 31 * result + idUser;
+        result = 31 * result + picture.getId();
+        result = 31 * result + user.getId();
         return result;
     }
 }
