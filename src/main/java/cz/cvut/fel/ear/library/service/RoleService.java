@@ -44,10 +44,21 @@ public class RoleService {
         dao.update(role);
     }
 
+
+    /**
+     * Removes role and all users with the role. Restricts admin role removal.
+     *
+     * @return {@code true} if the role was removed, {@code false} otherwise
+     */
     @Transactional
     public void remove(Role role) {
         // TODO: Implement remove logic
         Objects.requireNonNull(role);
+
+        if (role.getRole().equals("ADMIN")) {
+            throw new IllegalArgumentException("Cannot remove admin role");
+        }
+
 
         dao.update(role);
     }
