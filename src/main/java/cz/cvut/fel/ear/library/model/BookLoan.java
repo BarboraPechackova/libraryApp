@@ -31,13 +31,21 @@ public class BookLoan {
     @Basic
     @Column(name = "returned")
     private boolean returned;
-
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
     @ManyToOne
     @JoinColumn(name = "id_book")
     private Book book;
+
+    public BookLoan(Date dateFrom, Date dateTo, User user, Book book) {
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.price = book.getPrice();
+        this.returned = false;
+        this.user = user;
+        this.book = book;
+    }
 
     public int getId() {
         return id;

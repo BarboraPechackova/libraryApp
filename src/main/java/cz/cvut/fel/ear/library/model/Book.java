@@ -1,5 +1,6 @@
 package cz.cvut.fel.ear.library.model;
 
+import cz.cvut.fel.ear.library.model.enums.BookState;
 import jakarta.persistence.*;
 
 import java.util.List;
