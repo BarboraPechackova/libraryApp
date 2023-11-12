@@ -7,7 +7,7 @@ import cz.cvut.fel.ear.library.exceptions.BookIsNotReturnedException;
 import cz.cvut.fel.ear.library.exceptions.InvalidArgumentException;
 import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.BookLoan;
-import cz.cvut.fel.ear.library.model.BookState;
+import cz.cvut.fel.ear.library.model.enums.BookState;
 import cz.cvut.fel.ear.library.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

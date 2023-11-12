@@ -41,7 +41,7 @@ public class RoleService {
 
 
     /**
-     * Removes role and all users with the role. Restricts admin role removal.
+     * Removes all users with the role. Restricts admin role removal.
      *
      * @return {@code true} if the role was removed, {@code false} otherwise
      */
@@ -56,11 +56,7 @@ public class RoleService {
         // Finds all users with the role and removes the role from them
         List<User> users = roleDao.findAllUsersByRoleName(role);
         for (User user : users) {
-            List<Role> roles = user.getRoles();
-            roles.removeIf(r -> r.getRole().equals(role));
-            // TODO: use removeRoleFromUser instead
-            user.setRoles(roles);
-            userDao.update(user);
+            removeRoleFromUser(user, role);
         }
     }
 
@@ -86,13 +82,45 @@ public class RoleService {
     }
 
     /**
-     * Removes role from user
+     * Removes role from user. Restricts lat/only admin role removal.
      *
      * @return {@code true} if the role was removed, {@code false} otherwise
      */
     @Transactional
-    public boolean removeRoleFromUser(User user, Role role) {
-        // TODO: Implement remove logic
-        return false;
+    public boolean removeRoleFromUser(User user, String role) {
+        Objects.requireNonNull(user);
+        Objects.requireNonNull(role);
+
+        // gets all roles of the user
+        List<Role> userRoles = user.getRoles();
+        // finds the user role to remove
+        Role roleToRemove = null;
+        for (Role r : userRoles) {
+            if (r.getRole().equals(role)) {
+                roleToRemove = r;
+                break;
+            }
+        }
+        // if the user does not have the role, returns false
+        if (roleToRemove == null) {
+            return false;
+        }
+        // checks if the role is admin
+        if (roleToRemove.getRole().equals("ADMIN")) {
+            // if the user is the only admin, returns false
+            if (roleDao.findAllAdmins() == null || roleDao.findAllAdmins().size() == 1) {
+                return false;
+            }
+        }
+        // removes the role from the Userlist of roles
+        userRoles.remove(roleToRemove);
+        // sets the list of roles to the user
+        user.setRoles(userRoles);
+        // updates the user
+        userDao.update(user);
+
+        // removes the role from the roles
+        roleDao.remove(roleToRemove);
+        return true;
     }
 }
