@@ -40,48 +40,6 @@ public class UserService {
         dao.persist(user);
     }
 
-//    @Transactional
-//    public void addRoleToUser(User user, Role role) {
-//        Objects.requireNonNull(user);
-//        Objects.requireNonNull(role);
-//        List<Role> roles = user.getRoles();
-//        roles.add(role);
-//        user.setRoles(roles);
-//        dao.update(user);
-//    }
-
-    @Transactional
-    public void addRoleToUser(User user, String role) {
-        Objects.requireNonNull(user);
-        Objects.requireNonNull(role);
-        List<Role> roles = user.getRoles();
-        Role userRole = new Role();
-        userRole.setRole(role);
-        userRole.setIdUser(user.getId());
-        roles.add(userRole);
-        user.setRoles(roles);
-        dao.update(user);
-        // TODO: also persist the role and update roles?
-    }
-
-    /**
-     * Removes role from user
-     *
-     * @return {@code true} if the role was removed, {@code false} otherwise
-     */
-    @Transactional
-    public boolean removeRoleFromUser(User user, Role role) {
-        Objects.requireNonNull(user);
-        Objects.requireNonNull(role);
-        List<Role> roles = user.getRoles();
-        boolean roleRemoved = roles.remove(role);
-        if (roleRemoved) {
-            user.setRoles(roles);
-            dao.update(user);
-        }
-        return roleRemoved;
-    }
-
     @Transactional
     public void removeUser(User user) {
         // TODO: Implement remove logic
