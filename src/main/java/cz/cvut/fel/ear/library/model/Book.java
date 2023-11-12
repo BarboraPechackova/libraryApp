@@ -6,7 +6,11 @@ import java.util.List;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Book.findByUser", query = "SELECT b from Book b WHERE user.id = :idUser")
+        @NamedQuery(name = "Book.findVisibleOnly", query = "SELECT b from Book b WHERE b.visible = TRUE"),
+        @NamedQuery(name = "Book.findByUser", query = "SELECT b from Book b WHERE user.id = :idUser"),
+        @NamedQuery(name = "Book.findVisibleByUser", query = "SELECT b from Book b WHERE user.id = :idUser and visible = TRUE"),
+        @NamedQuery(name = "Book.findByName", query = "SELECT b from Book b WHERE LOWER(b.name) LIKE LOWER(:name)"),
+        @NamedQuery(name = "Book.findVisibleByName", query = "SELECT b from Book b WHERE LOWER(b.name) LIKE LOWER(:name) and visible=TRUE")
 })
 public class Book {
 

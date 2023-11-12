@@ -14,7 +14,35 @@ public class BookDao extends BaseDao<Book>{
         super(Book.class);
     }
 
-    public List<Book> findAll(User user) {
+    public List<Book> findAllFromUser(User user) {
         return em.createNamedQuery("Book.findByUser",Book.class).setParameter("idUser",user.getId()).getResultList();
+    }
+
+    public List<Book> findAllFromUser(User user, boolean visibleOnly) {
+        if (visibleOnly) {
+            return em.createNamedQuery("Book.findVisibleByUser",Book.class).setParameter("idUser",user.getId()).getResultList();
+        } else {
+            return findAllFromUser(user);
+        }
+    }
+
+    public List<Book> findByName(String name) {
+        return em.createNamedQuery("Book.findByName",Book.class).setParameter("name","%"+name+"%").getResultList();
+    }
+
+    public List<Book> findByName(String name, boolean visibleOnly) {
+        if (visibleOnly) {
+            return em.createNamedQuery("Book.findVisibleByName", Book.class).setParameter("name","%"+name+"%").getResultList();
+        } else {
+            return findByName(name);
+        }
+    }
+
+    public List<Book> findAllVisible(boolean visibleOnly) {
+        if (visibleOnly) {
+            return em.createNamedQuery("Book.findVisibleOnly", Book.class).getResultList();
+        } else {
+            return findAll();
+        }
     }
 }
