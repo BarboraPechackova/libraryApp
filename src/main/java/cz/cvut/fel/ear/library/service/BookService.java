@@ -2,8 +2,8 @@ package cz.cvut.fel.ear.library.service;
 
 import cz.cvut.fel.ear.library.dao.BookDao;
 import cz.cvut.fel.ear.library.dao.BookLoanDao;
-import cz.cvut.fel.ear.library.exceptions.BookIsAlreadyLoanedException;
-import cz.cvut.fel.ear.library.exceptions.BookIsNotReturnedException;
+import cz.cvut.fel.ear.library.exceptions.BookAlreadyLoanedException;
+import cz.cvut.fel.ear.library.exceptions.BookNotReturnedException;
 import cz.cvut.fel.ear.library.exceptions.InvalidArgumentException;
 import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.BookLoan;

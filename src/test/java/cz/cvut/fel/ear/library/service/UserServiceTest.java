@@ -1,7 +1,7 @@
 package cz.cvut.fel.ear.library.service;
 
 import cz.cvut.fel.ear.library.dao.ReservationDao;
-import cz.cvut.fel.ear.library.exceptions.BookIsNotReturnedException;
+import cz.cvut.fel.ear.library.exceptions.BookNotReturnedException;
 import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.BookLoan;
 import cz.cvut.fel.ear.library.model.User;
@@ -62,7 +62,7 @@ class UserServiceTest {
         em.persist(book);
         em.persist(bookLoan);
 
-        assertThrows(BookIsNotReturnedException.class, () -> userService.removeUser(user));
+        assertThrows(BookNotReturnedException.class, () -> userService.removeUser(user));
     }
 
     @Test
@@ -76,6 +76,6 @@ class UserServiceTest {
         em.persist(book);
 
 
-        assertThrows(BookIsNotReturnedException.class, () -> userService.removeUser(user));
+        assertThrows(BookNotReturnedException.class, () -> userService.removeUser(user));
     }
 }

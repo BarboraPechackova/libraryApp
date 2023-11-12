@@ -4,10 +4,9 @@ import jakarta.persistence.*;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Role.findAllAdmins", query = "SELECT r from Role r WHERE role = 'ADMIN'"),
-        @NamedQuery(name = "Role.findAllBasicUsers", query = "SELECT r from Role r WHERE role = 'USER'"),
-        @NamedQuery(name = "Role.findAllUsersByRoleName", query = "SELECT r from Role r WHERE role = :name"),
-        @NamedQuery(name = "Role.findRolesOfUser", query = "SELECT r from Role r WHERE user.id=:idUser")
+        @NamedQuery(name = "Role.findAllAdmins", query = "SELECT r.user FROM Role r WHERE r.role = 'ADMIN'"),
+        @NamedQuery(name = "Role.findAllBasicUsers", query = "SELECT r.user FROM Role r WHERE r.role = 'USER'"),
+        @NamedQuery(name = "Role.findAllUsersByRoleName", query = "SELECT r.user FROM Role r WHERE r.role = :name"),
 })
 public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,11 +36,12 @@ public class Role {
         this.role = role;
     }
 
-    public int getIdUser() {
-        return user.getId();
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(int idUser) { user.setId(idUser);
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
