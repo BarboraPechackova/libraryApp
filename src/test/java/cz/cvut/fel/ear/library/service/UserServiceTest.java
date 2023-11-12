@@ -22,12 +22,6 @@ class UserServiceTest {
     private UserService userService;
 
     @Test
-    public void addRoleToUserAddsRoleToUser() {}
-
-    @Test
-    public void removeRoleFromUserRemovesRoleFromUser() {}
-
-    @Test
     public void removeUserRemovesUser() {}
 
 }
