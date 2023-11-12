@@ -8,11 +8,11 @@ DROP TABLE IF EXISTS Picture;
 DROP TABLE IF EXISTS Rating;
 DROP TABLE IF EXISTS Book;
 DROP TYPE IF EXISTS BookState;
-DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Library_user;
 
 
 
-CREATE TABLE Users(
+CREATE TABLE Library_user(
     "id" SERIAL PRIMARY KEY,
     "username" VARCHAR(255) NOT NULL,
     "first_name" VARCHAR(255) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE Book (
     "state" BookState NOT NULL DEFAULT 'VOLNA',
     "visible" BOOLEAN NOT NULL,
     "id_user" INT NOT NULL,
-    FOREIGN KEY (id_user) REFERENCES Users(id)
+    FOREIGN KEY (id_user) REFERENCES Library_user(id)
 );
 
 CREATE TABLE Picture(
@@ -50,7 +50,7 @@ CREATE TABLE Rating(
     "note" TEXT NOT NULL,
     "id_user" INT NOT NULL,
     "id_book" INT NOT NULL,
-    FOREIGN KEY (id_user) REFERENCES Users(id),
+    FOREIGN KEY (id_user) REFERENCES Library_user(id),
     FOREIGN KEY (id_book) REFERENCES Book(id)
 );
 
@@ -61,7 +61,7 @@ CREATE TABLE Profile_picture(
     "id_picture" INT NOT NULL,
     "id_user" INT NOT NULL,
     FOREIGN KEY (id_picture) REFERENCES Picture(id),
-    FOREIGN KEY (id_user) REFERENCES Users(id)
+    FOREIGN KEY (id_user) REFERENCES Library_user(id)
 );
 
 CREATE TABLE Book_cover(
@@ -76,7 +76,7 @@ CREATE TABLE Role(
     "id" SERIAL PRIMARY KEY,
     "role" VARCHAR(255) NOT NULL,
     "id_user" INT NOT NULL,
-    FOREIGN KEY (id_user) REFERENCES Users(id)
+    FOREIGN KEY (id_user) REFERENCES Library_user(id)
 );
 
 CREATE TABLE Book_loan(
@@ -87,7 +87,7 @@ CREATE TABLE Book_loan(
     "returned" BOOLEAN NOT NULL,
     "id_user" INT NOT NULL,
     "id_book" INT NOT NULL,
-    FOREIGN KEY (id_user) REFERENCES Users(id),
+    FOREIGN KEY (id_user) REFERENCES Library_user(id),
     FOREIGN KEY (id_book) REFERENCES Book(id)
 );
 
@@ -99,6 +99,6 @@ CREATE TABLE Reservation(
     "state" ReservationState NOT NULL DEFAULT 'AKTIVNI',
     "id_user" INT NOT NULL,
     "id_book" INT NOT NULL,
-    FOREIGN KEY (id_user) REFERENCES Users(id),
+    FOREIGN KEY (id_user) REFERENCES Library_user(id),
     FOREIGN KEY (id_book) REFERENCES Book(id)
 );
