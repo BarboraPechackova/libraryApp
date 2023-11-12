@@ -1,7 +1,6 @@
 package cz.cvut.fel.ear.library.service;
 
 import cz.cvut.fel.ear.library.exceptions.InvalidArgumentException;
-import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.Rating;
 import cz.cvut.fel.ear.library.model.User;
 import jakarta.persistence.EntityManager;
@@ -11,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
