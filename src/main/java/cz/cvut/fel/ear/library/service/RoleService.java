@@ -25,21 +25,6 @@ public class RoleService {
         this.userDao = userDao;
     }
 
-    @Transactional(readOnly = true)
-    public Role find(Integer id) {
-        return roleDao.find(id);
-    }
-
-    @Transactional
-    public void persist(Role role) {
-        roleDao.persist(role);
-    }
-
-    @Transactional
-    public void update(Role role) {
-        roleDao.update(role);
-    }
-
 
     /**
      * Removes all users with the role. Restricts admin role removal.
@@ -62,47 +47,53 @@ public class RoleService {
     }
 
     /**
-     * Adds role to user.
+     * Adds role to user
+     * @param user
+     * @param roleName
      */
     @Transactional
-    public void addRoleToUser(User user, String role) {
+    public void addRoleToUser(User user, String roleName) {
         Objects.requireNonNull(user);
-        Objects.requireNonNull(role);
+        Objects.requireNonNull(roleName);
 
-        // gets all roles of the user
+        // Initialize roles if null
         if (user.getRoles() == null) {
             user.setRoles(new ArrayList<>());
         }
-        List<Role> userRoles = user.getRoles();
+
         // creates new role
         Role newRole = new Role();
-        newRole.setRole(role);
-        // adds new role to the list of roles
+        newRole.setRole(roleName);
+        newRole.setUser(user);
+
+        // adds the new role to the list of roles
+        List<Role> userRoles = user.getRoles();
         userRoles.add(newRole);
-        // sets the list of roles to the user
         user.setRoles(userRoles);
-        // updates the user
-        userDao.update(user);
+
         // persists the new role
         roleDao.persist(newRole);
+        // updates the user
+        userDao.update(user);
     }
 
     /**
      * Removes role from user. Restricts lat/only admin role removal.
-     *
+     * @param user
+     * @param roleName
      * @return {@code true} if the role was removed, {@code false} otherwise
      */
     @Transactional
-    public boolean removeRoleFromUser(User user, String role) {
+    public boolean removeRoleFromUser(User user, String roleName) {
         Objects.requireNonNull(user);
-        Objects.requireNonNull(role);
+        Objects.requireNonNull(roleName);
 
         // gets all roles of the user
         List<Role> userRoles = user.getRoles();
         // finds the user role to remove
         Role roleToRemove = null;
         for (Role r : userRoles) {
-            if (r.getRole().equals(role)) {
+            if (r.getRole().equals(roleName)) {
                 roleToRemove = r;
                 break;
             }
@@ -128,5 +119,18 @@ public class RoleService {
         // removes the role from the roles
         roleDao.remove(roleToRemove);
         return true;
+    }
+
+    public List<User> findAllAdmins() {
+        return roleDao.findAllAdmins();
+    }
+
+    public List<User> findAllUsers() {
+        return roleDao.findAllUsers();
+    }
+
+    public List<User> findAllUsersByRoleName(String name) {
+        Objects.requireNonNull(name);
+        return roleDao.findAllUsersByRoleName(name);
     }
 }

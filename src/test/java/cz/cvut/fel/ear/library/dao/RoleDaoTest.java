@@ -57,6 +57,10 @@ public class RoleDaoTest {
         List<User> userList = roleDao.findAllUsersByRoleName("USER");
         assertEquals(1, userList.size());
         assertEquals("john_doe", userList.get(0).getUsername());
+
+        userList = roleDao.findAllUsersByRoleName("ADMIN");
+        assertEquals(1, userList.size());
+        assertEquals("jane_doe", userList.get(0).getUsername());
     }
 
     private void generateUserWithRole(String username, String roleName) {
@@ -65,11 +69,12 @@ public class RoleDaoTest {
 
         Role role = new Role();
         role.setRole(roleName);
+        role.setUser(user);
 
         user.setRoles(List.of(role));
 
-        em.persist(user);
         em.persist(role);
+        em.persist(user);
     }
 
 }

@@ -36,11 +36,12 @@ public class Role {
         this.role = role;
     }
 
-    public int getIdUser() {
-        return user.getId();
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(int idUser) { user.setId(idUser);
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
