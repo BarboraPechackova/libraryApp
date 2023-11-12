@@ -71,7 +71,7 @@ public class UserService {
         List<Book> userBooks = bookDao.findAllFromUser(user);
         for (Book book : userBooks) {
             if (book.getState() == BookState.VYPUJCENA) {
-                throw new BookIsAlreadyLoanedException("Remove user failed! Book " + book.getName() + " is lent.");
+                throw new BookIsNotReturnedException("Remove user failed! Book " + book.getName() + " is still lent.");
             }
         }
         List<BookLoan> userLoans = bookLoanDao.getUserLoans(user);

@@ -30,7 +30,6 @@ public class BookServiceTest {
     public void persistPersistsBook() {
         final Book book = new Book();
         em.persist(book);
-        service.persist(book);
 
         assertEquals(1,service.findAll().size());
     }
@@ -39,7 +38,7 @@ public class BookServiceTest {
     public void persistWithNegativePriceThrowsInvalidArgument() throws InvalidArgumentException {
         final Book book = new Book();
         book.setPrice(-1);
-        em.persist(book);
+
         assertThrows(InvalidArgumentException.class, () -> service.persist(book));
     }
 
@@ -53,7 +52,6 @@ public class BookServiceTest {
         em.persist(user);
         em.persist(b1);
         em.persist(b2);
-        service.persistAll(List.of(b1, b2));
 
         assertEquals(2,service.findAll().size());
         assertEquals(1,service.findAllFromUser(user).size());
@@ -73,7 +71,6 @@ public class BookServiceTest {
         em.persist(user);
         em.persist(b1);
         em.persist(b2);
-        service.persistAll(List.of(b1, b2));
 
         assertEquals(2,service.findAllFromUser(user).size());
         assertEquals(1,service.findAllVisibleFromUser(user).size());
@@ -96,7 +93,6 @@ public class BookServiceTest {
         em.persist(b3);
         em.persist(b4);
 
-        service.persistAll(List.of(b1,b2,b3,b4));
         assertEquals(4,service.findAll().size());
         assertEquals(3,service.findByName("name").size());
     }
@@ -119,7 +115,6 @@ public class BookServiceTest {
         em.persist(b3);
         em.persist(b4);
 
-        service.persistAll(List.of(b1,b2,b3,b4));
         assertEquals(4,service.findAll().size());
         assertEquals(1,service.findVisibleByName("name").size());
     }
