@@ -1,12 +1,8 @@
 package cz.cvut.fel.ear.library.model;
 
 import cz.cvut.fel.ear.library.model.enums.BookState;
-import cz.cvut.fel.ear.library.model.enums.ReservationState;
 import jakarta.persistence.*;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity

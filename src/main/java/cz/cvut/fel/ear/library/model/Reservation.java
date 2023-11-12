@@ -1,10 +1,8 @@
 package cz.cvut.fel.ear.library.model;
 
-import cz.cvut.fel.ear.library.model.enums.BookState;
 import cz.cvut.fel.ear.library.model.enums.ReservationState;
 import jakarta.persistence.*;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -13,7 +11,7 @@ import java.time.LocalDateTime;
         @NamedQuery(name = "Reservation.reservationsOfBook",    query = "SELECT r FROM Reservation r WHERE book = :book"),
         @NamedQuery(name = "Reservation.userBookReservations",  query = "SELECT r FROM Reservation r WHERE book = :book AND user = :user"),
         @NamedQuery(name = "Reservation.activeBookReservations", query = "SELECT r FROM Reservation r WHERE book = :book AND state = 'AKTIVNI'"),
-        @NamedQuery(name = "Reservation.activeUserReservations", query = "SELECT r FROM Reservation r WHERE book = :book AND state = 'AKTIVNI'"),
+        @NamedQuery(name = "Reservation.activeUserReservations", query = "SELECT r FROM Reservation r WHERE user = :user AND state = 'AKTIVNI'"),
         @NamedQuery(name = "Reservation.allUserReservations", query = "SELECT r FROM Reservation r WHERE user = :user")
 //        @NamedQuery(name = "Reservation.actualBookReservations", query = "SELECT r FROM Reservation r WHERE book = :book AND CURRENT_DATE BETWEEN dateFrom AND dateTo ")
 })

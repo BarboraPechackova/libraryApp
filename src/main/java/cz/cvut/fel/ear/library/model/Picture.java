@@ -1,7 +1,6 @@
 package cz.cvut.fel.ear.library.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.EmbeddableInstantiator;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
