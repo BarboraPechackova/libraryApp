@@ -21,14 +21,10 @@ import java.util.Objects;
 public class ReservationService {
 
     private final ReservationDao dao;
-    private final UserService userService;
-    private final BookService bookService;
 
     @Autowired
-    public ReservationService(ReservationDao dao, UserService userService, BookService bookService) {
+    public ReservationService(ReservationDao dao) {
         this.dao = dao;
-        this.userService = userService;
-        this.bookService = bookService;
     }
 
     @Transactional(readOnly = true)
