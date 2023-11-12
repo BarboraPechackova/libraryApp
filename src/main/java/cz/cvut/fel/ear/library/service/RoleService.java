@@ -2,6 +2,7 @@ package cz.cvut.fel.ear.library.service;
 
 import cz.cvut.fel.ear.library.dao.RoleDao;
 import cz.cvut.fel.ear.library.dao.UserDao;
+import cz.cvut.fel.ear.library.exceptions.AdminRemovalException;
 import cz.cvut.fel.ear.library.model.Role;
 import cz.cvut.fel.ear.library.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class RoleService {
         Objects.requireNonNull(role);
 
         if (role.equals("ADMIN")) {
-            throw new IllegalArgumentException("Cannot remove admin role");
+            throw new AdminRemovalException("Cannot remove all admin roles");
         }
 
         // Finds all users with the role and removes the role from them
@@ -78,7 +79,7 @@ public class RoleService {
     }
 
     /**
-     * Removes role from user. Restricts lat/only admin role removal.
+     * Removes role from user. Restricts last/only admin role removal (throws exception).
      * @param user
      * @param roleName
      * @return {@code true} if the role was removed, {@code false} otherwise
@@ -104,9 +105,9 @@ public class RoleService {
         }
         // checks if the role is admin
         if (roleToRemove.getRole().equals("ADMIN")) {
-            // if the user is the only admin, returns false
+            // if the user is the only admin, raises exception
             if (roleDao.findAllAdmins() == null || roleDao.findAllAdmins().size() == 1) {
-                return false;
+                throw new AdminRemovalException("Cannot remove the only admin");
             }
         }
         // removes the role from the Userlist of roles

@@ -1,5 +1,6 @@
 package cz.cvut.fel.ear.library.service;
 
+import cz.cvut.fel.ear.library.exceptions.AdminRemovalException;
 import cz.cvut.fel.ear.library.model.Role;
 import cz.cvut.fel.ear.library.model.User;
 import jakarta.persistence.EntityManager;
@@ -43,7 +44,7 @@ class RoleServiceTest {
 
     @Test
     public void removeAdminRoleThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> roleService.removeRole("ADMIN"));
+        assertThrows(AdminRemovalException.class, () -> roleService.removeRole("ADMIN"));
     }
 
     @Test
@@ -89,15 +90,13 @@ class RoleServiceTest {
     }
 
     @Test
-    public void removeAdminRoleFromOnlyAdminUserDoesntRemoveRoleFromUser() {
+    public void removeAdminRoleFromOnlyAdminUserThrowsException() {
         final User usr1 = generateUser("john_doe");
 
         roleService.addRoleToUser(usr1, "USER");
         roleService.addRoleToUser(usr1, "ADMIN");
-        boolean removed = roleService.removeRoleFromUser(usr1, "ADMIN");
 
-        assertFalse(removed);
-        assertEquals(2, usr1.getRoles().size());
+        assertThrows(AdminRemovalException.class, () -> roleService.removeRoleFromUser(usr1,"ADMIN"));
     }
 
     private User generateUser(String username) {

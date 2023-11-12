@@ -1,8 +1,8 @@
 package cz.cvut.fel.ear.library.service;
 
 import cz.cvut.fel.ear.library.dao.*;
-import cz.cvut.fel.ear.library.exceptions.BookIsAlreadyLoanedException;
-import cz.cvut.fel.ear.library.exceptions.BookIsNotReturnedException;
+import cz.cvut.fel.ear.library.exceptions.BookAlreadyLoanedException;
+import cz.cvut.fel.ear.library.exceptions.BookNotReturnedException;
 import cz.cvut.fel.ear.library.model.*;
 import cz.cvut.fel.ear.library.model.enums.BookState;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +17,15 @@ public class UserService {
 
     private final UserDao dao;
 
-    private final RoleDao roleDao;
+    private final RoleService roleService;
     private final BookDao bookDao;
     private final BookLoanDao bookLoanDao;
     private final ReservationDao reservationDao;
 
     @Autowired
-    public UserService(UserDao dao, RoleDao roleDao, BookDao bookDao, BookLoanDao bookLoanDao, ReservationDao reservationDao) {
+    public UserService(UserDao dao, RoleService roleService, BookDao bookDao, BookLoanDao bookLoanDao, ReservationDao reservationDao) {
         this.dao = dao;
-        this.roleDao = roleDao;
+        this.roleService = roleService;
         this.bookDao = bookDao;
         this.bookLoanDao = bookLoanDao;
         this.reservationDao = reservationDao;
@@ -56,13 +56,17 @@ public class UserService {
             reservationDao.remove(reservation);
         }
         for (Book book : bookDao.findAllFromUser(user)) {
-            for (Reservation reservation : reservationDao.getReservationsOfBook(book)) {
+//            for (Reservation reservation : reservationDao.getReservationsOfBook(book)) {
+            for (Reservation reservation : reservationDao.getUserReservationsOfBook(user,book)) {
                 reservationDao.remove(reservation);
             }
             bookDao.remove(book);
         }
-        for (Role role : roleDao.findRolesOfUser(user)) {
-            roleDao.remove(role);
+        if (user.getRoles()!=null) {
+            for (Role role : user.getRoles()) {
+                // TODO: this can raise exception if user is the only admin
+                roleService.removeRoleFromUser(user, role.getRole());
+            }
         }
         dao.remove(user);
     }
@@ -71,13 +75,13 @@ public class UserService {
         List<Book> userBooks = bookDao.findAllFromUser(user);
         for (Book book : userBooks) {
             if (book.getState() == BookState.VYPUJCENA) {
-                throw new BookIsNotReturnedException("Remove user failed! Book " + book.getName() + " is still lent.");
+                throw new BookNotReturnedException("Remove user failed! Book " + book.getName() + " is still lent.");
             }
         }
         List<BookLoan> userLoans = bookLoanDao.getUserLoans(user);
         for (BookLoan bookLoan : userLoans) {
             if (!bookLoan.isReturned()) {
-                throw new BookIsNotReturnedException("Remove user failed! Book " + bookLoan.getBook().getName() + " is not returned.");
+                throw new BookNotReturnedException("Remove user failed! Book " + bookLoan.getBook().getName() + " is not returned.");
             }
         }
     }
