@@ -3,6 +3,12 @@ package cz.cvut.fel.ear.library.model;
 import jakarta.persistence.*;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Role.findAllAdmins", query = "SELECT r from Role r WHERE role = 'ADMIN'"),
+        @NamedQuery(name = "Role.findAllBasicUsers", query = "SELECT r from Role r WHERE role = 'USER'"),
+        @NamedQuery(name = "Role.findAllUsersByRoleName", query = "SELECT r from Role r WHERE role = :name"),
+        @NamedQuery(name = "Role.findRolesOfUser", query = "SELECT r from Role r WHERE user.id=:idUser")
+})
 public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

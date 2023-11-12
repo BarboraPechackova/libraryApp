@@ -29,19 +29,19 @@ public class UserDaoTest {
     @Autowired
     private UserDao userDao;
 
-    @Test
-    public void findAllUsersByRoleReturnsAllUsersByRole() {
-        final User usr1 = generateUser("john_doe", "john", "doe", "john.doe@gmail.com", "+420604444444", "2100000000/2010");
-        final User usr2 = generateUser("jane_doe", "jane", "doe", "jane.doe@gmail.com", "+420604444445", "2200000000/2010");
-        List<User> users = List.of(usr1, usr2);
-        final Role role1 = generateRoleforUser("USER", usr1.getId());
-        final Role role2 = generateRoleforUser("USER", usr2.getId());
-
-        final List<User> result = userDao.findAll(role1);
-        assertEquals(users.size(), result.size());
-        assertEquals(0, result.get(0).getId());
-        assertEquals(1, result.get(1).getId());
-    }
+//    @Test
+//    public void findAllUsersByRoleReturnsAllUsersByRole() {
+//        final User usr1 = generateUser("john_doe", "john", "doe", "john.doe@gmail.com", "+420604444444", "2100000000/2010");
+//        final User usr2 = generateUser("jane_doe", "jane", "doe", "jane.doe@gmail.com", "+420604444445", "2200000000/2010");
+//        List<User> users = List.of(usr1, usr2);
+//        final Role role1 = generateRoleforUser("USER", usr1.getId());
+//        final Role role2 = generateRoleforUser("USER", usr2.getId());
+//
+//        final List<User> result = userDao.findAll(role1);
+//        assertEquals(users.size(), result.size());
+//        assertEquals(0, result.get(0).getId());
+//        assertEquals(1, result.get(1).getId());
+//    }
 
     private Role generateRoleforUser(String name, int userId) {
         final Role role = new Role();

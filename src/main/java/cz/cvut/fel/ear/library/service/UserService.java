@@ -1,9 +1,10 @@
 package cz.cvut.fel.ear.library.service;
 
-import cz.cvut.fel.ear.library.dao.RoleDao;
-import cz.cvut.fel.ear.library.dao.UserDao;
-import cz.cvut.fel.ear.library.model.Role;
-import cz.cvut.fel.ear.library.model.User;
+import cz.cvut.fel.ear.library.dao.*;
+import cz.cvut.fel.ear.library.exceptions.BookIsAlreadyLoanedException;
+import cz.cvut.fel.ear.library.exceptions.BookIsNotReturnedException;
+import cz.cvut.fel.ear.library.model.*;
+import cz.cvut.fel.ear.library.model.enums.BookState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +18,17 @@ public class UserService {
     private final UserDao dao;
 
     private final RoleDao roleDao;
+    private final BookDao bookDao;
+    private final BookLoanDao bookLoanDao;
+    private final ReservationDao reservationDao;
 
     @Autowired
-    public UserService(UserDao dao, RoleDao roleDao) {
+    public UserService(UserDao dao, RoleDao roleDao, BookDao bookDao, BookLoanDao bookLoanDao, ReservationDao reservationDao) {
         this.dao = dao;
         this.roleDao = roleDao;
+        this.bookDao = bookDao;
+        this.bookLoanDao = bookLoanDao;
+        this.reservationDao = reservationDao;
     }
 
     @Transactional(readOnly = true)
@@ -40,52 +47,38 @@ public class UserService {
         dao.persist(user);
     }
 
-//    @Transactional
-//    public void addRoleToUser(User user, Role role) {
-//        Objects.requireNonNull(user);
-//        Objects.requireNonNull(role);
-//        List<Role> roles = user.getRoles();
-//        roles.add(role);
-//        user.setRoles(roles);
-//        dao.update(user);
-//    }
-
-    @Transactional
-    public void addRoleToUser(User user, String role) {
-        Objects.requireNonNull(user);
-        Objects.requireNonNull(role);
-        List<Role> roles = user.getRoles();
-        Role userRole = new Role();
-        userRole.setRole(role);
-        userRole.setIdUser(user.getId());
-        roles.add(userRole);
-        user.setRoles(roles);
-        dao.update(user);
-        // TODO: also persist the role and update roles?
-    }
-
-    /**
-     * Removes role from user
-     *
-     * @return {@code true} if the role was removed, {@code false} otherwise
-     */
-    @Transactional
-    public boolean removeRoleFromUser(User user, Role role) {
-        Objects.requireNonNull(user);
-        Objects.requireNonNull(role);
-        List<Role> roles = user.getRoles();
-        boolean roleRemoved = roles.remove(role);
-        if (roleRemoved) {
-            user.setRoles(roles);
-            dao.update(user);
-        }
-        return roleRemoved;
-    }
-
     @Transactional
     public void removeUser(User user) {
-        // TODO: Implement remove logic
+        validateUserRemove(user);
         Objects.requireNonNull(user);
+
+        for (Reservation reservation : reservationDao.getAllUserReservations(user)) {
+            reservationDao.remove(reservation);
+        }
+        for (Book book : bookDao.findAllFromUser(user)) {
+            for (Reservation reservation : reservationDao.getReservationsOfBook(book)) {
+                reservationDao.remove(reservation);
+            }
+            bookDao.remove(book);
+        }
+        for (Role role : roleDao.findRolesOfUser(user)) {
+            roleDao.remove(role);
+        }
         dao.remove(user);
+    }
+
+    private void validateUserRemove(User user) {
+        List<Book> userBooks = bookDao.findAllFromUser(user);
+        for (Book book : userBooks) {
+            if (book.getState() == BookState.VYPUJCENA) {
+                throw new BookIsNotReturnedException("Remove user failed! Book " + book.getName() + " is still lent.");
+            }
+        }
+        List<BookLoan> userLoans = bookLoanDao.getUserLoans(user);
+        for (BookLoan bookLoan : userLoans) {
+            if (!bookLoan.isReturned()) {
+                throw new BookIsNotReturnedException("Remove user failed! Book " + bookLoan.getBook().getName() + " is not returned.");
+            }
+        }
     }
 }

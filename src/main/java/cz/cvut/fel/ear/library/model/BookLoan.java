@@ -47,6 +47,8 @@ public class BookLoan {
         this.book = book;
     }
 
+    public BookLoan() {}
+
     public int getId() {
         return id;
     }
