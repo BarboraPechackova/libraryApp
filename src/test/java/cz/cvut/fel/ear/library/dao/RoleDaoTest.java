@@ -54,9 +54,9 @@ public class RoleDaoTest {
         generateUserWithRole("john_doe", "USER");
         generateUserWithRole("jane_doe", "ADMIN");
 
-        List<User> userList = roleDao.findAllUsersByRoleName("ADMIN");
+        List<User> userList = roleDao.findAllUsersByRoleName("USER");
         assertEquals(1, userList.size());
-        assertEquals("jane_doe", userList.get(0).getUsername());
+        assertEquals("john_doe", userList.get(0).getUsername());
     }
 
     private void generateUserWithRole(String username, String roleName) {

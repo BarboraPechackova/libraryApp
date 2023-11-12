@@ -32,7 +32,7 @@ class RoleServiceTest {
 
     @Test
     public void addRoleToUserAddsRoleToUser() {
-        final User usr1 = generateUser("john_doe", "john", "doe", "john.doe@gmail.com", "+420604444444", "2100000000/2010");
+        final User usr1 = generateUser("john_doe");
         roleService.addRoleToUser(usr1, "USER");
         assertEquals(1, usr1.getRoles().size());
         assertEquals("USER", usr1.getRoles().get(0).getRole());
@@ -44,14 +44,9 @@ class RoleServiceTest {
 
     }
 
-    private User generateUser(String username, String firstName, String surname, String email, String phone, String bankAccount) {
+    private User generateUser(String username) {
         final User user = new User();
         user.setUsername(username);
-        user.setFirstName(firstName);
-        user.setSurname(surname);
-        user.setEmail(email);
-        user.setPhone(phone);
-        user.setBankAccount(bankAccount);
         em.persist(user);
         return user;
     }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,17 +61,22 @@ public class RoleService {
         }
     }
 
+    /**
+     * Adds role to user.
+     */
     @Transactional
     public void addRoleToUser(User user, String role) {
         Objects.requireNonNull(user);
         Objects.requireNonNull(role);
 
         // gets all roles of the user
+        if (user.getRoles() == null) {
+            user.setRoles(new ArrayList<>());
+        }
         List<Role> userRoles = user.getRoles();
         // creates new role
         Role newRole = new Role();
         newRole.setRole(role);
-        newRole.setIdUser(user.getId());
         // adds new role to the list of roles
         userRoles.add(newRole);
         // sets the list of roles to the user
