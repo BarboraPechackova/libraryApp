@@ -1,10 +1,12 @@
 package cz.cvut.fel.ear.library.service;
 
+import cz.cvut.fel.ear.library.dao.BookDao;
 import cz.cvut.fel.ear.library.dao.ReservationDao;
 import cz.cvut.fel.ear.library.exceptions.InvalidArgumentException;
 import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.Reservation;
 import cz.cvut.fel.ear.library.model.User;
+import cz.cvut.fel.ear.library.model.enums.BookState;
 import cz.cvut.fel.ear.library.model.enums.ReservationState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,12 @@ import java.util.Objects;
 public class ReservationService {
 
     private final ReservationDao dao;
+    private final BookDao bookDao;
 
     @Autowired
-    public ReservationService(ReservationDao dao) {
+    public ReservationService(ReservationDao dao, BookDao bookDao) {
         this.dao = dao;
+        this.bookDao = bookDao;
     }
 
     @Transactional(readOnly = true)
@@ -48,6 +52,14 @@ public class ReservationService {
     @Transactional
     public void persist(Reservation reservation) throws InvalidArgumentException {
         Objects.requireNonNull(reservation);
+        Book book = reservation.getBook();
+        Objects.requireNonNull(book);
+        // When the book is free (VOLNA) then set it's state to reserved (REZERVOVANA)
+        if (book.getState() == BookState.VOLNA) {
+            book.setState(BookState.REZERVOVANA);
+            bookDao.update(book);
+        }
+
         dao.persist(reservation);
     }
 
@@ -77,7 +89,7 @@ public class ReservationService {
     @Transactional
     public void deleteUserReservations(User user) {
         Objects.requireNonNull(user);
-        for (Reservation reservation : getAllUserReservation(user)) {
+        for (Reservation reservation : getAllUserReservation(user)) { //TODO: should this be all of the reservations or just the active ones?
             delete(reservation);
         }
     }

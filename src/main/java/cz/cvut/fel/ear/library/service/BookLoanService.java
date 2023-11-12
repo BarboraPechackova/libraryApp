@@ -86,7 +86,11 @@ public class BookLoanService {
 
     @Transactional(readOnly = true)
     public BookLoan getCurrentBookLoan(Book book) {
-        return dao.getCurrentLoanOfBook(book);
+        BookLoan loan = dao.getCurrentLoanOfBook(book);
+        if (loan == null)
+            throw new BookNotLoanedException("Book is not currently loaned!");
+
+        return loan;
     }
 
     @Transactional
@@ -113,7 +117,7 @@ public class BookLoanService {
      * @return a new BookLoan
      */
     @Transactional
-    public BookLoan makeBookLoanFromReservation(Reservation reservation) {
+    public BookLoan makeStandardLengthBookLoanFromReservation(Reservation reservation) {
         return makeBookLoanFromReservation(reservation, LocalDate.now(), LocalDate.now().plusMonths(STANDARD_LOAN_LENGTH_IN_MONTHS));
     }
 
@@ -131,7 +135,7 @@ public class BookLoanService {
         Objects.requireNonNull(date_from);
         Objects.requireNonNull(date_to);
 
-        BookLoan loan = new BookLoan((Date) getDateFromLocalDate(date_from), (Date) getDateFromLocalDate(date_to), reservation.getUser(), reservation.getBook());
+        BookLoan loan = new BookLoan(getDateFromLocalDate(date_from), getDateFromLocalDate(date_to), reservation.getUser(), reservation.getBook());
         persist(loan); // Validation is done internally in method persist
 
         reservationService.setReservationStatusToLoaned(reservation);
@@ -143,10 +147,10 @@ public class BookLoanService {
         if (temp.getYear() > dateTo.getYear())
             throw new BookLoanDatesException("The starting year of the BookLoan is greater than the ending year!");
 
-        if (temp.getMonthValue() < dateTo.getMonthValue() && !(temp.getYear() < dateTo.getYear()))
+        if (temp.getMonthValue() > dateTo.getMonthValue() && !(temp.getYear() < dateTo.getYear()))
             throw new BookLoanDatesException("The starting month of the BookLoan is greater than the ending month!");
 
-        if (temp.getDayOfMonth() < dateTo.getDayOfMonth() && !(temp.getMonthValue() < dateTo.getMonthValue()))
+        if (temp.getDayOfMonth() > dateTo.getDayOfMonth() && !(temp.getMonthValue() < dateTo.getMonthValue()) && !(temp.getYear() < dateTo.getYear()))
             throw new BookLoanDatesException("The starting month of the BookLoan is greater than the ending month!");
     }
 
