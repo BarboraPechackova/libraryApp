@@ -49,12 +49,12 @@ public class Rating {
         this.note = note;
     }
 
-    public int getIdUser() {
-        return user.getId();
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(int idUser) {
-        user.setId(idUser);
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getIdBook() {

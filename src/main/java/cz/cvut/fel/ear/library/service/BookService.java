@@ -125,27 +125,12 @@ public class BookService {
     }
 
     public void removeBooksFromUser (User user) {
-        validateUserRemove(user);
+
     }
 
     private void validate(Book book) {
         if (book.getPrice() < 0) {
             throw new InvalidArgumentException("Price must not be negative");
-        }
-    }
-
-    private void validateUserRemove(User user) {
-        List<Book> userBooks = findAllFromUser(user);
-        for (Book book : userBooks) {
-            if (book.getState() == BookState.VYPUJCENA) {
-                throw new BookIsAlreadyLoanedException("Remove user failed! Book " + book.getName() + " is lent.");
-            }
-        }
-        List<BookLoan> userLoans = bookLoanDao.getUserLoans(user);
-        for (BookLoan bookLoan : userLoans) {
-            if (!bookLoan.isReturned()) {
-                throw new BookIsNotReturnedException("Remove user failed! Book " + bookLoan.getBook().getName() + " is not returned.");
-            }
         }
     }
 }
