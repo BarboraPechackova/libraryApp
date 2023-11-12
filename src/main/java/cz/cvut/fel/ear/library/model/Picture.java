@@ -16,7 +16,7 @@ public class Picture {
     @Basic
     @Column(name = "upload_ts")
     private Timestamp uploadTs;
-    @Basic
+    @Lob
     @Column(name = "picture")
     private byte[] picture;
     @Basic

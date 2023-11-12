@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @NamedQueries({
@@ -29,6 +30,7 @@ public class Reservation {
     @Basic
     @Column(name = "reservation_ts")
     private Timestamp reservationTs;
+
     @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "state")
@@ -39,6 +41,26 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "id_book")
     private Book book;
+
+    /**
+     * Sets default values pre persist.
+     */
+    @PrePersist
+    public void prePersist() {
+        if (reservationTs == null) {
+            reservationTs = Timestamp.valueOf(LocalDateTime.now());
+        }
+        if (state == null) {
+            state = ReservationState.AKTIVNI;
+        }
+    }
+
+    public Reservation(User user, Book book) {
+        this.user = user;
+        this.book = book;
+    }
+
+    public Reservation() {}
 
     public int getId() {
         return id;
