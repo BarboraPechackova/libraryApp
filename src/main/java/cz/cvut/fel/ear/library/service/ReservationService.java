@@ -1,12 +1,8 @@
 package cz.cvut.fel.ear.library.service;
 
-import cz.cvut.fel.ear.library.dao.BookLoanDao;
 import cz.cvut.fel.ear.library.dao.ReservationDao;
-import cz.cvut.fel.ear.library.exceptions.BookIsAlreadyLoanedException;
-import cz.cvut.fel.ear.library.exceptions.BookIsNotReturnedException;
 import cz.cvut.fel.ear.library.exceptions.InvalidArgumentException;
 import cz.cvut.fel.ear.library.model.Book;
-import cz.cvut.fel.ear.library.model.BookLoan;
 import cz.cvut.fel.ear.library.model.Reservation;
 import cz.cvut.fel.ear.library.model.User;
 import cz.cvut.fel.ear.library.model.enums.ReservationState;
@@ -38,6 +34,12 @@ public class ReservationService {
     }
 
     @Transactional(readOnly = true)
+    public boolean bookHasActiveReservations(Book book) {
+        Objects.requireNonNull(book);
+        return dao.getActiveReservationsOfBook(book).size() != 0;
+    }
+
+    @Transactional(readOnly = true)
     public List<Reservation> getReservationsOfBook(Book book) {
         Objects.requireNonNull(book);
         return dao.getAllReservationsOfBook(book);
@@ -64,6 +66,12 @@ public class ReservationService {
     public List<Reservation> getAllUserReservation(User user) {
         Objects.requireNonNull(user);
         return dao.getAllUserReservations(user);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Reservation> getAllActiveUserReservation(User user) {
+        Objects.requireNonNull(user);
+        return dao.getActiveUserReservations(user);
     }
 
     @Transactional

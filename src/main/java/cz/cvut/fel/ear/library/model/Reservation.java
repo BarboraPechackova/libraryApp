@@ -12,6 +12,7 @@ import java.sql.Timestamp;
         @NamedQuery(name = "Reservation.reservationsOfBook",    query = "SELECT r FROM Reservation r WHERE book = :book"),
         @NamedQuery(name = "Reservation.userBookReservations",  query = "SELECT r FROM Reservation r WHERE book = :book AND user = :user"),
         @NamedQuery(name = "Reservation.activeBookReservations", query = "SELECT r FROM Reservation r WHERE book = :book AND state = 'AKTIVNI'"),
+        @NamedQuery(name = "Reservation.activeUserReservations", query = "SELECT r FROM Reservation r WHERE book = :book AND state = 'AKTIVNI'"),
         @NamedQuery(name = "Reservation.allUserReservations", query = "SELECT r FROM Reservation r WHERE user = :user")
 //        @NamedQuery(name = "Reservation.actualBookReservations", query = "SELECT r FROM Reservation r WHERE book = :book AND CURRENT_DATE BETWEEN dateFrom AND dateTo ")
 })
