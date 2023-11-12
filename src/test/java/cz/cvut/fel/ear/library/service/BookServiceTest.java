@@ -123,19 +123,4 @@ public class BookServiceTest {
         assertEquals(4,service.findAll().size());
         assertEquals(1,service.findVisibleByName("name").size());
     }
-
-
-
-//    @Test
-//    public void addBook() {
-//        final Product p = Generator.generateProduct();
-//        final Category category = new Category();
-//        category.setName("test");
-//        em.persist(p);
-//        sut.persist(category);
-//        sut.addProduct(category, p);
-//
-//        final Product result = em.find(Product.class, p.getId());
-//        assertTrue(result.getCategories().stream().anyMatch(c -> c.getId().equals(category.getId())));
-//    }
 }
