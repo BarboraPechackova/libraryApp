@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Role.findAllAdmins", query = "SELECT r from Role r WHERE role = 'ADMIN'"),
-        @NamedQuery(name = "Role.findAllBasicUsers", query = "SELECT r from Role r WHERE role = 'USER'"),
-        @NamedQuery(name = "Role.findAllUsersByRoleName", query = "SELECT r from Role r WHERE role = :name"),
+        @NamedQuery(name = "Role.findAllAdmins", query = "SELECT r.user FROM Role r WHERE r.role = 'ADMIN'"),
+        @NamedQuery(name = "Role.findAllBasicUsers", query = "SELECT r.user FROM Role r WHERE r.role = 'USER'"),
+        @NamedQuery(name = "Role.findAllUsersByRoleName", query = "SELECT r.user FROM Role r WHERE r.role = :name"),
 })
 public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

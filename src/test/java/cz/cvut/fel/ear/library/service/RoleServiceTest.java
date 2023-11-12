@@ -56,14 +56,6 @@ class RoleServiceTest {
         return user;
     }
 
-    private Role generateRole(String name, int idUser) {
-        final Role role = new Role();
-        role.setRole(name);
-        role.setIdUser(idUser);
-        em.persist(role);
-        return role;
-    }
-
 
 
 }

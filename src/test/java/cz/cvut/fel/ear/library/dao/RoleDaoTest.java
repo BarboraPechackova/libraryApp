@@ -12,6 +12,9 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @DataJpaTest
 @ComponentScan(basePackageClasses = DemoApplication.class)
 @ActiveProfiles("test")
@@ -26,35 +29,47 @@ public class RoleDaoTest {
 
     @Test
     public void findAllBasicUsersFindsAllUsers() {
-        User usr1 = generateUser( "john_doe", "john", "doe", "john.doe@gmail.com", "+420604444444", "2100000000/2010");
-        User usr2 = generateUser("jane_doe", "jane", "doe", "jane.doe@gmail.com", "+420604444445", "2200000000/2010");
-        Role role1 = generateRoleforUser("USER", 0);
-        Role role2 = generateRoleforUser("USER", 1);
+        generateUserWithRole("john_doe", "USER");
+        generateUserWithRole("jane_doe", "USER");
 
         List<User> users = roleDao.findAllUsers();
-        assert(users.size() == 2);
-
+        assertEquals(2, users.size());
+        assertEquals("john_doe", users.get(0).getUsername());
+        assertEquals("jane_doe", users.get(1).getUsername());
     }
 
-    private Role generateRoleforUser(String name, int userid) {
-        final Role role = new Role();
-        role.setRole(name);
-        role.setIdUser(userid);
-        em.persist(role);
-        return role;
+    @Test
+    public void findAllAdminsFindsAllAdmins() {
+        generateUserWithRole("john_doe", "ADMIN");
+        generateUserWithRole("jane_doe", "ADMIN");
+
+        List<User> users = roleDao.findAllAdmins();
+        assertEquals(2, users.size());
+        assertEquals("john_doe", users.get(0).getUsername());
+        assertEquals("jane_doe", users.get(1).getUsername());
     }
 
-    private User generateUser(String username, String firstName, String surname, String email, String phone, String bankAccount) {
+    @Test
+    public void findAllUsersByRoleNameFindsAllUsersWithRole() {
+        generateUserWithRole("john_doe", "USER");
+        generateUserWithRole("jane_doe", "ADMIN");
+
+        List<User> userList = roleDao.findAllUsersByRoleName("ADMIN");
+        assertEquals(1, userList.size());
+        assertEquals("jane_doe", userList.get(0).getUsername());
+    }
+
+    private void generateUserWithRole(String username, String roleName) {
         final User user = new User();
         user.setUsername(username);
-        user.setFirstName(firstName);
-        user.setSurname(surname);
-        user.setEmail(email);
-        user.setPhone(phone);
-        user.setBankAccount(bankAccount);
+
+        Role role = new Role();
+        role.setRole(roleName);
+
+        user.setRoles(List.of(role));
 
         em.persist(user);
-        return user;
+        em.persist(role);
     }
 
 }
