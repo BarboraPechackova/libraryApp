@@ -1,5 +1,7 @@
 package cz.cvut.fel.ear.library.model;
 
+import cz.cvut.fel.ear.library.model.enums.BookState;
+import cz.cvut.fel.ear.library.model.enums.ReservationState;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -9,11 +11,16 @@ import java.sql.Timestamp;
 @NamedQueries({
         @NamedQuery(name = "Reservation.reservationsOfBook",    query = "SELECT r FROM Reservation r WHERE book = :book"),
         @NamedQuery(name = "Reservation.userBookReservations",  query = "SELECT r FROM Reservation r WHERE book = :book AND user = :user"),
-//        @NamedQuery(name = "Reservation.actualBookReservations", query = "SELECT r FROM Reservation r WHERE book = :book AND status = :status"),
+        @NamedQuery(name = "Reservation.activeBookReservations", query = "SELECT r FROM Reservation r WHERE book = :book AND state = 'AKTIVNI'"),
         @NamedQuery(name = "Reservation.allUserReservations", query = "SELECT r FROM Reservation r WHERE user = :user")
 //        @NamedQuery(name = "Reservation.actualBookReservations", query = "SELECT r FROM Reservation r WHERE book = :book AND CURRENT_DATE BETWEEN dateFrom AND dateTo ")
 })
 public class Reservation {
+
+    /**
+     * Udelat enum se stavem rezervace (rezervovana, stornovana(majitelem knihy), uspokojena)
+     * zruseni ts_from a ts_to
+     */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -22,11 +29,9 @@ public class Reservation {
     @Column(name = "reservation_ts")
     private Timestamp reservationTs;
     @Basic
-    @Column(name = "date_from")
-    private Date dateFrom;
-    @Basic
-    @Column(name = "date_to")
-    private Date dateTo;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state")
+    private ReservationState state;
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
@@ -50,20 +55,12 @@ public class Reservation {
         this.reservationTs = reservationTs;
     }
 
-    public Date getDateFrom() {
-        return dateFrom;
+    public ReservationState getState() {
+        return state;
     }
 
-    public void setDateFrom(Date dateFrom) {
-        this.dateFrom = dateFrom;
-    }
-
-    public Date getDateTo() {
-        return dateTo;
-    }
-
-    public void setDateTo(Date dateTo) {
-        this.dateTo = dateTo;
+    public void setState(ReservationState state) {
+        this.state = state;
     }
 
     public User getUser() {
@@ -92,10 +89,9 @@ public class Reservation {
         if (id != that.id) return false;
         if (user != that.user) return false;
         if (book != that.book) return false;
+        if (state != that.state) return false;
         if (reservationTs != null ? !reservationTs.equals(that.reservationTs) : that.reservationTs != null)
             return false;
-        if (dateFrom != null ? !dateFrom.equals(that.dateFrom) : that.dateFrom != null) return false;
-        if (dateTo != null ? !dateTo.equals(that.dateTo) : that.dateTo != null) return false;
 
         return true;
     }
@@ -104,10 +100,9 @@ public class Reservation {
     public int hashCode() {
         int result = id;
         result = 31 * result + (reservationTs != null ? reservationTs.hashCode() : 0);
-        result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
-        result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
         result = 31 * result + user.getId();
         result = 31 * result + book.getId();
+        result = 31 * result + state.hashCode();
         return result;
     }
 }

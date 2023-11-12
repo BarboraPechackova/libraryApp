@@ -34,7 +34,7 @@ public class ReservationDao extends BaseDao<Reservation> {
     }
 
     public List<Reservation> getReservationsOfBook(Book book) {
-        TypedQuery<Reservation> q = em.createNamedQuery("Reservation.reservationsOfBook", Reservation.class);
+        TypedQuery<Reservation> q = em.createNamedQuery("Reservation.activeBookReservations", Reservation.class);
         q.setParameter("book", book);
         return q.getResultList();
     }
