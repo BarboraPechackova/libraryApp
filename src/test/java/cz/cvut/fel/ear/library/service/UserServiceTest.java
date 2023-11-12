@@ -4,10 +4,14 @@ import cz.cvut.fel.ear.library.dao.ReservationDao;
 import cz.cvut.fel.ear.library.exceptions.BookNotReturnedException;
 import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.BookLoan;
+import cz.cvut.fel.ear.library.model.Reservation;
 import cz.cvut.fel.ear.library.model.User;
 import cz.cvut.fel.ear.library.model.enums.BookState;
+import cz.cvut.fel.ear.library.model.enums.ReservationState;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import lombok.Lombok;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +30,9 @@ class UserServiceTest {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ReservationService reservationService;
 
     @Test
     public void addRoleToUserAddsRoleToUser() {}
@@ -77,5 +84,24 @@ class UserServiceTest {
 
 
         assertThrows(BookNotReturnedException.class, () -> userService.removeUser(user));
+    }
+
+    @Test
+    public void removeUserRemovesAllTheirReservation() {
+        final User user = new User();
+        final Reservation reservation = new Reservation();
+        final Book book = new Book();
+        reservation.setUser(user);
+        reservation.setBook(book);
+
+        em.persist(user);
+        em.persist(book);
+        em.persist(reservation);
+
+        assertEquals(1,reservationService.findAll().size());
+
+        userService.removeUser(user);
+
+        assertEquals(0,reservationService.findAll().size());
     }
 }

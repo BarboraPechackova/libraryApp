@@ -29,7 +29,7 @@ public class BookServiceTest {
     @Test
     public void persistPersistsBook() {
         final Book book = new Book();
-        em.persist(book);
+        service.persist(book);
 
         assertEquals(1,service.findAll().size());
     }

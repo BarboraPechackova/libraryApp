@@ -1,7 +1,6 @@
 package cz.cvut.fel.ear.library.service;
 
 import cz.cvut.fel.ear.library.dao.*;
-import cz.cvut.fel.ear.library.exceptions.BookAlreadyLoanedException;
 import cz.cvut.fel.ear.library.exceptions.BookNotReturnedException;
 import cz.cvut.fel.ear.library.model.*;
 import cz.cvut.fel.ear.library.model.enums.BookState;
@@ -51,20 +50,17 @@ public class UserService {
     public void removeUser(User user) {
         validateUserRemove(user);
         Objects.requireNonNull(user);
-
         for (Reservation reservation : reservationDao.getAllUserReservations(user)) {
             reservationDao.remove(reservation);
         }
         for (Book book : bookDao.findAllFromUser(user)) {
-//            for (Reservation reservation : reservationDao.getReservationsOfBook(book)) {
-            for (Reservation reservation : reservationDao.getUserReservationsOfBook(user,book)) {
+            for (Reservation reservation : reservationDao.getAllReservationsOfBook(book)) {
                 reservationDao.remove(reservation);
             }
             bookDao.remove(book);
         }
         if (user.getRoles()!=null) {
             for (Role role : user.getRoles()) {
-                // TODO: this can raise exception if user is the only admin
                 roleService.removeRoleFromUser(user, role.getRole());
             }
         }
