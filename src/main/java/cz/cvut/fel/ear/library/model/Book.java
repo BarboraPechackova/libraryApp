@@ -1,12 +1,17 @@
 package cz.cvut.fel.ear.library.model;
 
+import cz.cvut.fel.ear.library.model.enums.BookState;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Book.findByUser", query = "SELECT b from Book b WHERE idUser = :idUser")
+        @NamedQuery(name = "Book.findVisibleOnly", query = "SELECT b from Book b WHERE b.visible = TRUE"),
+        @NamedQuery(name = "Book.findByUser", query = "SELECT b from Book b WHERE user.id = :idUser"),
+        @NamedQuery(name = "Book.findVisibleByUser", query = "SELECT b from Book b WHERE user.id = :idUser and visible = TRUE"),
+        @NamedQuery(name = "Book.findByName", query = "SELECT b from Book b WHERE LOWER(b.name) LIKE LOWER(:name)"),
+        @NamedQuery(name = "Book.findVisibleByName", query = "SELECT b from Book b WHERE LOWER(b.name) LIKE LOWER(:name) and visible=TRUE")
 })
 public class Book {
 
@@ -36,23 +41,37 @@ public class Book {
     @Basic
     @Column(name = "visible")
     private boolean visible;
-    @Basic
-    @Column(name = "id_user")
-    private int idUser;
+    @ManyToOne
+    @JoinColumn(name = "id_user")
+    private User user;
 
     @OneToMany
+    @JoinColumn(name = "id_book")
     private List<BookLoan> bookLoans;
 
     @OneToMany
+    @JoinColumn(name = "id_book")
     private List<Reservation> reservations;
 
     @OneToMany
+    @JoinColumn(name = "id_book")
     private List<BookCover> bookCovers;
 
     @OneToMany
+    @JoinColumn(name = "id_book")
     private List<Rating> ratings;
 
-    public int getId() {
+    /**
+     * Sets default values pre persist.
+     */
+    @PrePersist
+    public void prePersist() {
+        if (state == null) {
+            state = BookState.VOLNA;
+        }
+    }
+
+        public int getId() {
         return id;
     }
 
@@ -116,12 +135,12 @@ public class Book {
         this.visible = visible;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -134,7 +153,7 @@ public class Book {
         if (id != book.id) return false;
         if (price != book.price) return false;
         if (visible != book.visible) return false;
-        if (idUser != book.idUser) return false;
+        if (user.getId() != book.user.getId()) return false;
         if (name != null ? !name.equals(book.name) : book.name != null) return false;
         if (author != null ? !author.equals(book.author) : book.author != null) return false;
         if (description != null ? !description.equals(book.description) : book.description != null) return false;
@@ -154,7 +173,7 @@ public class Book {
         result = 31 * result + (isbn != null ? isbn.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
         result = 31 * result + (visible ? 1 : 0);
-        result = 31 * result + idUser;
+        result = 31 * result + user.getId();
         return result;
     }
 }

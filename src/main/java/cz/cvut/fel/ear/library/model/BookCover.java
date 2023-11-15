@@ -3,21 +3,21 @@ package cz.cvut.fel.ear.library.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "book_cover", schema = "public", catalog = "ear2023zs_2")
+@Table(name = "book_cover")
 @NamedQueries({
-        @NamedQuery(name = "Cover.findByBook", query = "SELECT bc from BookCover bc WHERE idBook = :idBook")
+        @NamedQuery(name = "Cover.findByBook", query = "SELECT bc from BookCover bc WHERE book.id = :idBook")
 })
 public class BookCover extends Picture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
-    @Basic
-    @Column(name = "id_picture")
-    private int idPicture;
-    @Basic
-    @Column(name = "id_book")
-    private int idBook;
+    @ManyToOne
+    @JoinColumn(name = "id_book")
+    private Book book;
+//    @OneToOne
+//    @JoinColumn(name = "id_picture")
+//    private Picture picture;
 
     public int getId() {
         return id;
@@ -27,20 +27,12 @@ public class BookCover extends Picture {
         this.id = id;
     }
 
-    public int getIdPicture() {
-        return idPicture;
-    }
-
-    public void setIdPicture(int idPicture) {
-        this.idPicture = idPicture;
-    }
-
     public int getIdBook() {
-        return idBook;
+        return book.getId();
     }
 
     public void setIdBook(int idBook) {
-        this.idBook = idBook;
+        book.setId(idBook);
     }
 
     @Override
@@ -51,8 +43,7 @@ public class BookCover extends Picture {
         BookCover bookCover = (BookCover) o;
 
         if (id != bookCover.id) return false;
-        if (idPicture != bookCover.idPicture) return false;
-        if (idBook != bookCover.idBook) return false;
+        if (book.getId() != bookCover.book.getId()) return false;
 
         return true;
     }
@@ -60,8 +51,7 @@ public class BookCover extends Picture {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + idPicture;
-        result = 31 * result + idBook;
+        result = 31 * result + book.getId();
         return result;
     }
 }

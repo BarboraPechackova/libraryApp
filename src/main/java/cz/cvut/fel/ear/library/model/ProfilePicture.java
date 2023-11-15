@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "profile_picture", schema = "public", catalog = "ear2023zs_2")
+@Table(name = "profile_picture")
 public class ProfilePicture extends Picture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -17,12 +17,13 @@ public class ProfilePicture extends Picture {
     @Basic
     @Column(name = "ts_to")
     private Timestamp tsTo;
-    @Basic
-    @Column(name = "id_picture")
-    private int idPicture;
-    @Basic
-    @Column(name = "id_user")
-    private int idUser;
+    @ManyToOne
+    @JoinColumn(name = "id_user")
+    private User user;
+
+//    @OneToOne
+//    @JoinColumn(name = "id_picture")
+//    private Picture picture;
 
     public int getId() {
         return id;
@@ -48,20 +49,13 @@ public class ProfilePicture extends Picture {
         this.tsTo = tsTo;
     }
 
-    public int getIdPicture() {
-        return idPicture;
-    }
-
-    public void setIdPicture(int idPicture) {
-        this.idPicture = idPicture;
-    }
 
     public int getIdUser() {
-        return idUser;
+        return user.getId();
     }
 
     public void setIdUser(int idUser) {
-        this.idUser = idUser;
+        user.setId(idUser);
     }
 
     @Override
@@ -72,8 +66,7 @@ public class ProfilePicture extends Picture {
         ProfilePicture that = (ProfilePicture) o;
 
         if (id != that.id) return false;
-        if (idPicture != that.idPicture) return false;
-        if (idUser != that.idUser) return false;
+        if (user.getId() != that.user.getId()) return false;
         if (tsFrom != null ? !tsFrom.equals(that.tsFrom) : that.tsFrom != null) return false;
         if (tsTo != null ? !tsTo.equals(that.tsTo) : that.tsTo != null) return false;
 
@@ -85,8 +78,7 @@ public class ProfilePicture extends Picture {
         int result = id;
         result = 31 * result + (tsFrom != null ? tsFrom.hashCode() : 0);
         result = 31 * result + (tsTo != null ? tsTo.hashCode() : 0);
-        result = 31 * result + idPicture;
-        result = 31 * result + idUser;
+        result = 31 * result + user.getId();
         return result;
     }
 }

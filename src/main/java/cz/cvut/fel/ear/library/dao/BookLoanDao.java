@@ -3,8 +3,12 @@ package cz.cvut.fel.ear.library.dao;
 import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.BookLoan;
 
-import jakarta.persistence.Query;
+import cz.cvut.fel.ear.library.model.User;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class BookLoanDao extends BaseDao<BookLoan>{
@@ -12,10 +16,44 @@ public class BookLoanDao extends BaseDao<BookLoan>{
         super(BookLoan.class);
     }
 
-
     public boolean isBookLoaned(Book book) {
-        Query q = em.createNamedQuery("BookLoan.actualBookLoan", BookLoan.class);
+        TypedQuery<BookLoan> q = em.createNamedQuery("BookLoan.currentBookLoan", BookLoan.class);
         q.setParameter("book", book);
-        return q.getSingleResult() == null;
+
+        try {
+            BookLoan loan = q.getSingleResult();
+            return true;
+        } catch (NoResultException e) {
+            return false; // If there is no result we throw an exception
+        }
+    }
+
+    public BookLoan getCurrentLoanOfBook(Book book) {
+        TypedQuery<BookLoan> q = em.createNamedQuery("BookLoan.currentBookLoan", BookLoan.class);
+        q.setParameter("book", book);
+        try {
+            return q.getSingleResult();
+        } catch (NoResultException e) {
+            return null; // If there is no result we throw an exception
+        }
+    }
+
+    public List<BookLoan> getBookLoans(Book book) {
+        TypedQuery<BookLoan> q = em.createNamedQuery("BookLoan.loansOfBook", BookLoan.class);
+        q.setParameter("book", book);
+        return q.getResultList();
+    }
+
+    public List<BookLoan> getUserLoans(User user) {
+        TypedQuery<BookLoan> q = em.createNamedQuery("BookLoan.userBookLoans", BookLoan.class);
+        q.setParameter("user", user);
+        return q.getResultList();
+    }
+
+    public List<BookLoan> getUserLoansOfBook(User user, Book book) {
+        TypedQuery<BookLoan> q = em.createNamedQuery("BookLoan.userBookLoans", BookLoan.class);
+        q.setParameter("user", user);
+        q.setParameter("book", book);
+        return q.getResultList();
     }
 }

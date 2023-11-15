@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Picture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -14,7 +15,7 @@ public class Picture {
     @Basic
     @Column(name = "upload_ts")
     private Timestamp uploadTs;
-    @Basic
+    @Lob
     @Column(name = "picture")
     private byte[] picture;
     @Basic

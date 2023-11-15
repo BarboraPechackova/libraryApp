@@ -6,12 +6,12 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "book_loan", schema = "public", catalog = "ear2023zs_2")
+@Table(name = "book_loan")
 @NamedQueries({
         @NamedQuery(name = "BookLoan.loansOfBook",    query = "SELECT l FROM BookLoan l WHERE book = :book"),
         @NamedQuery(name = "BookLoan.userBookLoans",  query = "SELECT l FROM BookLoan l WHERE user = :user"),
-        @NamedQuery(name = "BookLoan.actualBookLoan", query = "SELECT l FROM BookLoan l WHERE book = :book AND CURRENT_DATE BETWEEN dateFrom AND dateTo ")
-//        @NamedQuery(name = "BookLoan.loanWithBookIdExists", query = "SELECT l FROM BookLoan l WHERE id_book = :idBook")
+        @NamedQuery(name = "BookLoan.currentBookLoan", query = "SELECT l FROM BookLoan l WHERE book = :book AND CURRENT_DATE BETWEEN dateFrom AND dateTo "),
+        @NamedQuery(name = "BookLoan.getAllUserBookLoans", query = "SELECT l FROM BookLoan l WHERE book = :book AND user = :user")
 //        @NamedQuery(name = "BookLoan.loanWithBookIdExists", query = "SELECT l FROM BookLoan l WHERE id_book = :idBook"),
 })
 public class BookLoan {
@@ -31,11 +31,23 @@ public class BookLoan {
     @Basic
     @Column(name = "returned")
     private boolean returned;
-
     @ManyToOne
+    @JoinColumn(name = "id_user")
     private User user;
     @ManyToOne
+    @JoinColumn(name = "id_book")
     private Book book;
+
+    public BookLoan(Date dateFrom, Date dateTo, User user, Book book) {
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.price = book.getPrice();
+        this.returned = false;
+        this.user = user;
+        this.book = book;
+    }
+
+    public BookLoan() {}
 
     public int getId() {
         return id;

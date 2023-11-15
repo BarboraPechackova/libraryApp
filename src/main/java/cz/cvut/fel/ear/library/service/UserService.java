@@ -1,9 +1,9 @@
 package cz.cvut.fel.ear.library.service;
 
-import cz.cvut.fel.ear.library.dao.RoleDao;
-import cz.cvut.fel.ear.library.dao.UserDao;
-import cz.cvut.fel.ear.library.model.Role;
-import cz.cvut.fel.ear.library.model.User;
+import cz.cvut.fel.ear.library.dao.*;
+import cz.cvut.fel.ear.library.exceptions.BookNotReturnedException;
+import cz.cvut.fel.ear.library.model.*;
+import cz.cvut.fel.ear.library.model.enums.BookState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,16 +13,21 @@ import java.util.Objects;
 
 @Service
 public class UserService {
-    // TODO: implement add and delete user methods
 
     private final UserDao dao;
 
-    private final RoleDao roleDao;
+    private final RoleService roleService;
+    private final BookDao bookDao;
+    private final BookLoanDao bookLoanDao;
+    private final ReservationDao reservationDao;
 
     @Autowired
-    public UserService(UserDao dao, RoleDao roleDao) {
+    public UserService(UserDao dao, RoleService roleService, BookDao bookDao, BookLoanDao bookLoanDao, ReservationDao reservationDao) {
         this.dao = dao;
-        this.roleDao = roleDao;
+        this.roleService = roleService;
+        this.bookDao = bookDao;
+        this.bookLoanDao = bookLoanDao;
+        this.reservationDao = reservationDao;
     }
 
     @Transactional(readOnly = true)
@@ -42,39 +47,38 @@ public class UserService {
     }
 
     @Transactional
-    public void addRoleToUser(User user, Role role) {
-        Objects.requireNonNull(user);
-        Objects.requireNonNull(role);
-        List<Role> roles = user.getRoles();
-        roles.add(role);
-        user.setRoles(roles);
-        dao.update(user);
-    }
-
-    /**
-     * Removes role from user
-     *
-     * @return {@code true} if the role was removed, {@code false} otherwise
-     */
-    @Transactional
-    public boolean removeRoleFromUser(User user, Role role) {
-        Objects.requireNonNull(user);
-        Objects.requireNonNull(role);
-        List<Role> roles = user.getRoles();
-        boolean roleRemoved = roles.remove(role);
-        if (roleRemoved) {
-            user.setRoles(roles);
-            dao.update(user);
-        }
-        return roleRemoved;
-    }
-
-    @Transactional
     public void removeUser(User user) {
-        // TODO: Implement remove logic
+        validateUserRemove(user);
         Objects.requireNonNull(user);
+        for (Reservation reservation : reservationDao.getAllUserReservations(user)) {
+            reservationDao.remove(reservation);
+        }
+        for (Book book : bookDao.findAllFromUser(user)) {
+            for (Reservation reservation : reservationDao.getAllReservationsOfBook(book)) {
+                reservationDao.remove(reservation);
+            }
+            bookDao.remove(book);
+        }
+        if (user.getRoles()!=null) {
+            for (Role role : user.getRoles()) {
+                roleService.removeRoleFromUser(user, role.getRole());
+            }
+        }
         dao.remove(user);
     }
 
-    // TODO: implement tests for last 3 methods
+    private void validateUserRemove(User user) {
+        List<Book> userBooks = bookDao.findAllFromUser(user);
+        for (Book book : userBooks) {
+            if (book.getState() == BookState.VYPUJCENA) {
+                throw new BookNotReturnedException("Remove user failed! Book " + book.getName() + " is still lent.");
+            }
+        }
+        List<BookLoan> userLoans = bookLoanDao.getUserLoans(user);
+        for (BookLoan bookLoan : userLoans) {
+            if (!bookLoan.isReturned()) {
+                throw new BookNotReturnedException("Remove user failed! Book " + bookLoan.getBook().getName() + " is not returned.");
+            }
+        }
+    }
 }

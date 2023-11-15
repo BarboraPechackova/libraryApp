@@ -6,10 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
-@NamedQueries({
-        @NamedQuery(name = "User.findByRole", query = "SELECT u from User u WHERE :role MEMBER OF u.roles"),
-})
+@Table(name = "library_user")
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -35,21 +32,27 @@ public class User {
     private String bankAccount;
 
     @OneToMany
+    @JoinColumn(name = "id_user")
     private List<Role> roles;
 
     @OneToMany
+    @JoinColumn(name = "id_user")
     private List<Rating> ratings;
 
     @OneToMany
+    @JoinColumn(name = "id_user")
     private List<ProfilePicture> profilePictures;
 
     @OneToMany
+    @JoinColumn(name = "id_user")
     private List<Reservation> reservations;
 
     @OneToMany
+    @JoinColumn(name = "id_user")
     private List<BookLoan> bookLoans;
 
     @OneToMany
+    @JoinColumn(name = "id_user")
     private List<Book> books;  // books that the user offers or loans
 
     public int getId() {

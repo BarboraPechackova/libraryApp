@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Rating.findByUser", query = "SELECT r from Rating r WHERE idUser = :idUser"),
-        @NamedQuery(name = "Rating.findByBook", query = "SELECT r from Rating r WHERE idBook = :idBook")
+        @NamedQuery(name = "Rating.findByUser", query = "SELECT r from Rating r WHERE user.id = :idUser"),
+        @NamedQuery(name = "Rating.findByBook", query = "SELECT r from Rating r WHERE book.id = :idBook")
 })
 public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,12 +18,12 @@ public class Rating {
     @Basic
     @Column(name = "note")
     private String note;
-    @Basic
-    @Column(name = "id_user")
-    private int idUser;
-    @Basic
-    @Column(name = "id_book")
-    private int idBook;
+    @ManyToOne
+    @JoinColumn(name = "id_user")
+    private User user;
+    @ManyToOne
+    @JoinColumn(name = "id_book")
+    private Book book;
 
     public int getId() {
         return id;
@@ -49,20 +49,20 @@ public class Rating {
         this.note = note;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getIdBook() {
-        return idBook;
+        return book.getId();
     }
 
     public void setIdBook(int idBook) {
-        this.idBook = idBook;
+        book.setId(idBook);
     }
 
     @Override
@@ -74,8 +74,8 @@ public class Rating {
 
         if (id != rating.id) return false;
         if (points != rating.points) return false;
-        if (idUser != rating.idUser) return false;
-        if (idBook != rating.idBook) return false;
+        if (user.getId() != rating.user.getId()) return false;
+        if (book.getId() != rating.book.getId()) return false;
         if (note != null ? !note.equals(rating.note) : rating.note != null) return false;
 
         return true;
@@ -86,8 +86,8 @@ public class Rating {
         int result = id;
         result = 31 * result + (int) points;
         result = 31 * result + (note != null ? note.hashCode() : 0);
-        result = 31 * result + idUser;
-        result = 31 * result + idBook;
+        result = 31 * result + user.getId();
+        result = 31 * result + book.getId();
         return result;
     }
 }
