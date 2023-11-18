@@ -12,8 +12,4 @@ public class NotFoundException extends AbstractException {
     public NotFoundException(Throwable cause) {
         super(cause);
     }
-
-    public static NotFoundException create(String resourceName, Object identifier) {
-        return new NotFoundException(resourceName + " identified by " + identifier + " not found.");
-    }
 }

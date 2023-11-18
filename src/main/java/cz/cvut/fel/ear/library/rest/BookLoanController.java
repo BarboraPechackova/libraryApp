@@ -3,6 +3,7 @@ package cz.cvut.fel.ear.library.rest;
 import cz.cvut.fel.ear.library.exceptions.NotFoundException;
 import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.BookLoan;
+import cz.cvut.fel.ear.library.rest.utils.RestUtils;
 import cz.cvut.fel.ear.library.service.BookLoanService;
 import cz.cvut.fel.ear.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class BookLoanController {
     public List<BookLoan> getBookLoans() {
         final List<BookLoan> bookLoans = service.findAll();
         if (bookLoans == null) {
-            throw NotFoundException.create("BookLoans", 0);
+            throw RestUtils.newNotFoundEx("BookLoans", 0);
         }
         return bookLoans;
     }
@@ -40,7 +41,7 @@ public class BookLoanController {
     public BookLoan getBookLoan(@PathVariable Integer id) {
         final BookLoan bookLoan = service.find(id);
         if (bookLoan == null) {
-            throw NotFoundException.create("BookLoan", id);
+            throw RestUtils.newNotFoundEx("BookLoans", id);
         }
         return bookLoan;
     }
