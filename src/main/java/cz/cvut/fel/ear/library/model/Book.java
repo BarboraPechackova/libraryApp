@@ -146,6 +146,22 @@ public class Book {
         this.user = user;
     }
 
+    public List<BookLoan> getBookLoans() {
+        return bookLoans;
+    }
+
+    public void setBookLoans(List<BookLoan> bookLoans) {
+        this.bookLoans = bookLoans;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
