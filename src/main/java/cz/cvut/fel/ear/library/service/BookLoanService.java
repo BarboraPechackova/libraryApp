@@ -107,6 +107,23 @@ public class BookLoanService {
         dao.update(loan);
     }
 
+    @Transactional
+    public void returnBookLoan(BookLoan bookLoan) {
+        Objects.requireNonNull(bookLoan);
+        if (bookLoan.isReturned())
+            throw new BookAlreadyReturnedException("The book loan you are trying to return was already returned! Therefore it cannot be returned again.");
+
+        bookLoan.setReturned(true);
+        Book book = bookLoan.getBook();
+        if (reservationService.bookHasActiveReservations(book))
+            book.setState(BookState.REZERVOVANA);
+        else
+            book.setState(BookState.VOLNA);
+
+        bookDao.update(book);
+        dao.update(bookLoan);
+    }
+
     /**
      * Makes a new standard length BookLoan from a reservation.
      *

@@ -40,7 +40,7 @@ public class Book {
     private BookState state;
     @Basic
     @Column(name = "visible")
-    private boolean visible;
+    private Boolean visible;
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
@@ -68,6 +68,9 @@ public class Book {
     public void prePersist() {
         if (state == null) {
             state = BookState.VOLNA;
+        }
+        if (visible == null) {
+            visible = true;
         }
     }
 
@@ -127,11 +130,11 @@ public class Book {
         this.state = state;
     }
 
-    public boolean isVisible() {
+    public Boolean isVisible() {
         return visible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(Boolean visible) {
         this.visible = visible;
     }
 
@@ -141,6 +144,22 @@ public class Book {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<BookLoan> getBookLoans() {
+        return bookLoans;
+    }
+
+    public void setBookLoans(List<BookLoan> bookLoans) {
+        this.bookLoans = bookLoans;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
     @Override

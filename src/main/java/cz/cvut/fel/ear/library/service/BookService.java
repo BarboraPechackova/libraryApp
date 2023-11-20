@@ -41,7 +41,7 @@ public class BookService {
     @Transactional
     public void persist(Book book) {
         Objects.requireNonNull(book);
-        validate(book);
+        validateUpdatePersist(book);
         dao.persist(book);
     }
 
@@ -55,7 +55,7 @@ public class BookService {
     @Transactional
     public void update(Book book) {
         Objects.requireNonNull(book);
-        validate(book);
+        validateUpdatePersist(book);
         dao.update(book);
     }
 
@@ -118,19 +118,21 @@ public class BookService {
         return dao.findByName(name,true);
     }
 
-    public void findBooksByState(BookState state) {}
+//    public void findBooksByState(BookState state) {}
 
     public List<Book> findAllVisible() {
         return dao.findAllVisible(true);
     }
 
-    public void removeBooksFromUser (User user) {
+    // todo remove book validation
 
-    }
-
-    private void validate(Book book) {
+    private void validateUpdatePersist(Book book) {
         if (book.getPrice() < 0) {
             throw new InvalidArgumentException("Price must not be negative");
         }
+    }
+
+    private void validateRemove(Book book) {
+
     }
 }

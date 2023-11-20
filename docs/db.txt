@@ -60,7 +60,7 @@ CREATE TABLE Profile_picture(
     "ts_to" TIMESTAMP(0) WITHOUT TIME ZONE,
     "id_picture" INT NOT NULL,
     "id_user" INT NOT NULL,
-    FOREIGN KEY (id_picture) REFERENCES Picture(id),
+    FOREIGN KEY (id) REFERENCES Picture(id),
     FOREIGN KEY (id_user) REFERENCES Library_user(id)
 );
 
@@ -68,7 +68,7 @@ CREATE TABLE Book_cover(
     "id" SERIAL PRIMARY KEY,
     "id_picture" INT NOT NULL,
     "id_book" INT NOT NULL,
-    FOREIGN KEY (id_picture) REFERENCES Picture(id),
+    FOREIGN KEY (id) REFERENCES Picture(id),
     FOREIGN KEY (id_book) REFERENCES Book(id)
 );
 
