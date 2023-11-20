@@ -1,0 +1,27 @@
+### Library REST API
+
+
+# Roles
+GET http://localhost:8080/library/rest/v1/roles/ADMIN
+###
+GET http://localhost:8080/library/rest/v1/roles/USER
+###
+POST http://localhost:8080/library/rest/v1/roles/1/USER
+###
+DELETE http://localhost:8080/library/rest/v1/roles/1/USER
+###
+
+
+# Books
+GET http://localhost:8080/library/rest/v1/books/1/loans
+###
+GET http://localhost:8080/library/rest/v1/books/1/reservations
+###
+
+# Loans
+GET http://localhost:8080/library/rest/v1/bookloans
+###
+
+# Reservations
+GET http://localhost:8080/library/rest/v1/reservations
+

@@ -1,5 +1,6 @@
 package cz.cvut.fel.ear.library.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class User {
 
     @OneToMany
     @JoinColumn(name = "id_user")
+//    @JsonManagedReference
     private List<Role> roles;
 
     @OneToMany

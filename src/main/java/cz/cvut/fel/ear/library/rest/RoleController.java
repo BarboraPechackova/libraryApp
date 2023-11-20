@@ -1,9 +1,7 @@
 package cz.cvut.fel.ear.library.rest;
 
 import cz.cvut.fel.ear.library.exceptions.NotFoundException;
-import cz.cvut.fel.ear.library.model.Role;
 import cz.cvut.fel.ear.library.model.User;
-import cz.cvut.fel.ear.library.service.BookService;
 import cz.cvut.fel.ear.library.service.RoleService;
 import cz.cvut.fel.ear.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +30,9 @@ public class RoleController {
     @GetMapping(value = "/{roleName}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getUsersWithRole(@PathVariable String roleName) {
         final List<User> users = service.findAllUsersByRoleName(roleName);
-        if (users == null) {
-            throw new NotFoundException("No users with this role found");
-        }
+//        if (users == null) {
+//            throw new NotFoundException("No users with this role found");
+//        }
         return users;
     }
 

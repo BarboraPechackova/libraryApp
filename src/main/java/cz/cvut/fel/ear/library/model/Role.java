@@ -1,5 +1,6 @@
 package cz.cvut.fel.ear.library.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,6 +19,7 @@ public class Role {
     private String role;
     @ManyToOne
     @JoinColumn(name = "id_user")
+//    @JsonBackReference
     private User user;
 
     public int getId() {
