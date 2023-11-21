@@ -162,6 +162,10 @@ public class Book {
         this.reservations = reservations;
     }
 
+    public List<BookCover> getBookCovers() {
+        return bookCovers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

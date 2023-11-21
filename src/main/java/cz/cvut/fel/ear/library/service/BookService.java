@@ -60,6 +60,12 @@ public class BookService {
     }
 
     @Transactional
+    public void remove(Book book) {
+        validateRemove(book);
+        dao.remove(book);
+    }
+
+    @Transactional
     public List<Book> findAllFromUser(User user) {
         Objects.requireNonNull(user);
         return dao.findAllFromUser(user);
@@ -133,6 +139,8 @@ public class BookService {
     }
 
     private void validateRemove(Book book) {
-
+        if (book.getState() == BookState.VYPUJCENA) {
+            throw new BookAlreadyLoanedException("Loaned book cannot be returned");
+        }
     }
 }
