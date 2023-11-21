@@ -166,6 +166,10 @@ public class Book {
         return bookCovers;
     }
 
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

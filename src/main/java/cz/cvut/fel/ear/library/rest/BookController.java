@@ -1,9 +1,6 @@
 package cz.cvut.fel.ear.library.rest;
 
-import cz.cvut.fel.ear.library.model.Book;
-import cz.cvut.fel.ear.library.model.BookCover;
-import cz.cvut.fel.ear.library.model.BookLoan;
-import cz.cvut.fel.ear.library.model.Reservation;
+import cz.cvut.fel.ear.library.model.*;
 import cz.cvut.fel.ear.library.rest.utils.RestUtils;
 import cz.cvut.fel.ear.library.service.BookCoverService;
 import cz.cvut.fel.ear.library.service.BookService;
@@ -87,5 +84,14 @@ public class BookController {
             throw RestUtils.newNotFoundEx("Book", id);
         }
         return book.getReservations(); // TODO: determine if this is OK
+    }
+
+    @GetMapping(value = "/{id}/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Rating> getRatingsOfBook(@PathVariable int id) {
+        final Book book = service.find(id);
+        if (book == null) {
+            throw RestUtils.newNotFoundEx("Book", id);
+        }
+        return book.getRatings(); // TODO: determine if this is OK
     }
 }

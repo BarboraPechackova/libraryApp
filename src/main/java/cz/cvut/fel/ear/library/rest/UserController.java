@@ -4,6 +4,7 @@ import cz.cvut.fel.ear.library.model.*;
 import cz.cvut.fel.ear.library.model.User;
 import cz.cvut.fel.ear.library.rest.utils.RestUtils;
 import cz.cvut.fel.ear.library.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import java.util.List;
 public class UserController {
     private final UserService service;
 
+    @Autowired
     public UserController(UserService service) {
         this.service = service;
     }
