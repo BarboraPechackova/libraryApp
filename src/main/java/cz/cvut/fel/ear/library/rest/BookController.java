@@ -86,7 +86,7 @@ public class BookController {
         return book.getReservations(); // TODO: determine if this is OK
     }
 
-    @GetMapping(value = "/{id}/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}/ratings", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Rating> getRatingsOfBook(@PathVariable int id) {
         final Book book = service.find(id);
         if (book == null) {

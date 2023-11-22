@@ -1,5 +1,6 @@
 package cz.cvut.fel.ear.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -30,31 +31,38 @@ public class User {
     private String phone;
     @Basic
     @Column(name = "bank_account")
+    @JsonIgnore
     private String bankAccount;
 
     @OneToMany
     @JoinColumn(name = "id_user")
+    @JsonIgnore
 //    @JsonManagedReference
     private List<Role> roles;
 
     @OneToMany
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private List<Rating> ratings;
 
     @OneToMany
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private List<ProfilePicture> profilePictures;
 
     @OneToMany
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private List<Reservation> reservations;
 
     @OneToMany
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private List<BookLoan> bookLoans;
 
     @OneToMany
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private List<Book> books;  // books that the user offers or loans
 
     public int getId() {

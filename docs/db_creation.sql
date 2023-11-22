@@ -30,7 +30,7 @@ CREATE TABLE Book (
     "author" VARCHAR(255) NOT NULL,
     "description" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
-    "ISBN" VARCHAR(255) NOT NULL,
+    "isbn" VARCHAR(255) NOT NULL,
     "state" BookState NOT NULL DEFAULT 'VOLNA',
     "visible" BOOLEAN NOT NULL,
     "id_user" INT NOT NULL,

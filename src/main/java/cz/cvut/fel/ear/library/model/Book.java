@@ -1,5 +1,6 @@
 package cz.cvut.fel.ear.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.cvut.fel.ear.library.model.enums.BookState;
 import jakarta.persistence.*;
 
@@ -32,7 +33,7 @@ public class Book {
     @Column(name = "price")
     private int price;
     @Basic
-    @Column(name = "ISBN")
+    @Column(name = "isbn")
     private String isbn;
     @Basic
     @Enumerated(EnumType.STRING)
@@ -47,18 +48,22 @@ public class Book {
 
     @OneToMany
     @JoinColumn(name = "id_book")
+    @JsonIgnore
     private List<BookLoan> bookLoans;
 
     @OneToMany
     @JoinColumn(name = "id_book")
+    @JsonIgnore
     private List<Reservation> reservations;
 
     @OneToMany
     @JoinColumn(name = "id_book")
+    @JsonIgnore
     private List<BookCover> bookCovers;
 
     @OneToMany
     @JoinColumn(name = "id_book")
+    @JsonIgnore
     private List<Rating> ratings;
 
     /**
