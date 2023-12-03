@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
-              version="2.2">
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                                  http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
+              version="2.3">
 
+    <!-- Application Configuration -->
     <application>
+        <!-- Specify the project stage (development, production, etc.) -->
+<!--        <project-stage>Development</project-stage>-->
+
+        <!-- Enable or disable the use of resource CDN -->
+<!--        <resource-handler>org.primefaces.application.resource.PrimeResourceHandler</resource-handler>-->
+
         <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver
         </el-resolver>
     </application>
+
+    <!-- Managed Beans Configuration -->
+<!--    <managed-bean>-->
+<!--        <managed-bean-name>exampleBean</managed-bean-name>-->
+<!--        <managed-bean-class>com.example.ExampleBean</managed-bean-class>-->
+<!--        <managed-bean-scope>request</managed-bean-scope>-->
+<!--    </managed-bean>-->
+
+    <!-- Navigation Rules -->
+<!--    <navigation-rule>-->
+<!--        <from-view-id>/library/public/index.xhtml</from-view-id>-->
+<!--        <navigation-case>-->
+<!--            <from-outcome>success</from-outcome>-->
+<!--            <to-view-id>/success.xhtml</to-view-id>-->
+<!--        </navigation-case>-->
+<!--    </navigation-rule>-->
 
 </faces-config>
