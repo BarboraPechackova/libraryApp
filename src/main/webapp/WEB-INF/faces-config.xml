@@ -13,8 +13,15 @@
         <!-- Enable or disable the use of resource CDN -->
 <!--        <resource-handler>org.primefaces.application.resource.PrimeResourceHandler</resource-handler>-->
 
-        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver
-        </el-resolver>
+<!--        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver-->
+<!--        </el-resolver>-->
+
+<!--        <message-bundle>com.sap.engine.examples.EDMAppMessages</message-bundle>-->
+<!--        <locale-config>-->
+<!--            <default-locale>en</default-locale>-->
+<!--            <supported-locale>en</supported-locale>-->
+<!--        </locale-config>-->
+
     </application>
 
     <!-- Managed Beans Configuration -->
