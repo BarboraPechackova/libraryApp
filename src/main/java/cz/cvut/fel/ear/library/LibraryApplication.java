@@ -1,6 +1,5 @@
 package cz.cvut.fel.ear.library;
 
-import cz.cvut.fel.ear.library.view.ViewScope;
 import jakarta.faces.webapp.FacesServlet;
 import jakarta.servlet.ServletContext;
 import org.springframework.beans.factory.config.CustomScopeConfigurer;
