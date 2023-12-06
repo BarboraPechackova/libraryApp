@@ -24,12 +24,12 @@
 
     </application>
 
-    <!-- Managed Beans Configuration -->
-<!--    <managed-bean>-->
-<!--        <managed-bean-name>exampleBean</managed-bean-name>-->
-<!--        <managed-bean-class>com.example.ExampleBean</managed-bean-class>-->
-<!--        <managed-bean-scope>request</managed-bean-scope>-->
-<!--    </managed-bean>-->
+<!--     Managed Beans Configuration -->
+    <managed-bean>
+        <managed-bean-name>viewBean</managed-bean-name>
+        <managed-bean-class>cz.cvut.fel.ear.library.view.ViewBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
 
     <!-- Navigation Rules -->
 <!--    <navigation-rule>-->
