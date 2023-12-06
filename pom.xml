@@ -13,9 +13,23 @@
 	<version>0.0.1</version>
 	<name>Library</name>
 	<description>EAR seminar work</description>
+
 	<properties>
 		<java.version>17</java.version>
+		<joinfaces.version>5.2.0</joinfaces.version>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.joinfaces</groupId>
+				<artifactId>joinfaces-bom</artifactId>
+				<version>${joinfaces.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
@@ -70,6 +84,31 @@
 			<version>3.3.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.joinfaces</groupId>
+			<artifactId>security-spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.joinfaces</groupId>
+					<artifactId>mojarra-spring-boot-starter</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.joinfaces</groupId>
+			<artifactId>primefaces-spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.joinfaces</groupId>
+					<artifactId>mojarra-spring-boot-starter</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.joinfaces</groupId>
+			<artifactId>myfaces-spring-boot-starter</artifactId>
+		</dependency>
+
 <!--		<dependency>-->
 <!--			<groupId>com.sun.faces</groupId>-->
 <!--			<artifactId>jsf-api</artifactId>-->
@@ -103,12 +142,12 @@
 <!--			<scope>provided</scope>-->
 <!--		</dependency>-->
 
-		<dependency>
-			<groupId>jakarta.platform</groupId>
-			<artifactId>jakarta.jakartaee-web-api</artifactId>
-			<version>9.0.0</version>
-			<scope>provided</scope>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>jakarta.platform</groupId>-->
+<!--			<artifactId>jakarta.jakartaee-web-api</artifactId>-->
+<!--			<version>10.0.0</version>-->
+<!--			<scope>provided</scope>-->
+<!--		</dependency>-->
 
 
 
