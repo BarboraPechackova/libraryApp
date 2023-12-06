@@ -7,28 +7,26 @@
 
 
 <h:head>
-    <h:outputStylesheet library="webjars" name="primeflex/3.3.1/primeflex.min.css" />
+
     <h:outputStylesheet library="webjars" name="primeflex/3.3.1/primeflex.css" />
 
+    <style>
+        body {
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"; /* Use Segoe UI if available, otherwise fallback to a generic sans-serif font */
+        }
+    </style>
 
-<!--    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>-->
-
-<!--<body>-->
 </h:head>
 
 <h:body>
-    <p:spinner />
 
     <div class="flex align-items-center justify-content-center">
         <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
             <div class="text-center mb-5">
-                <p:graphicImage name="images/blocks/logos/hyper.svg" library="primeblocks-app" alt="Image"
-                                height="50" styleClass="mb-3"/>
                 <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
                 <span class="text-600 font-medium line-height-3">Don't have an account?</span>
                 <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a>
             </div>
-
             <div>
                 <h:outputText value="#{viewBean.date}"></h:outputText>
                 <label for="email1" class="block text-900 font-medium mb-2">Email</label>
@@ -39,7 +37,7 @@
                 <div class="flex align-items-center justify-content-between mb-6">
                     <div class="flex align-items-center">
                         <p:selectBooleanCheckbox id="rememberme" styleClass="mr-2"/>
-                        <label for="rememberme">Remember me</label>
+                        <p:outputLabel for="rememberme" value="Remember me"/>
                     </div>
                     <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot your password?</a>
                 </div>
