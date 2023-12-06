@@ -71,29 +71,29 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- View -->
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>12.0.0</version>
-		</dependency>
+<!--		&lt;!&ndash; View &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.primefaces</groupId>-->
+<!--			<artifactId>primefaces</artifactId>-->
+<!--			<version>12.0.0</version>-->
+<!--		</dependency>-->
 
-		<dependency>
-			<groupId>org.webjars.npm</groupId>
-			<artifactId>primeflex</artifactId>
-			<version>3.3.1</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.webjars.npm</groupId>-->
+<!--			<artifactId>primeflex</artifactId>-->
+<!--			<version>3.3.1</version>-->
+<!--		</dependency>-->
 
-		<dependency>
-			<groupId>org.joinfaces</groupId>
-			<artifactId>security-spring-boot-starter</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.joinfaces</groupId>
-					<artifactId>mojarra-spring-boot-starter</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.joinfaces</groupId>-->
+<!--			<artifactId>security-spring-boot-starter</artifactId>-->
+<!--			<exclusions>-->
+<!--				<exclusion>-->
+<!--					<groupId>org.joinfaces</groupId>-->
+<!--					<artifactId>mojarra-spring-boot-starter</artifactId>-->
+<!--				</exclusion>-->
+<!--			</exclusions>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>org.joinfaces</groupId>
 			<artifactId>primefaces-spring-boot-starter</artifactId>
