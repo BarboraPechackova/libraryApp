@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class ViewBean {
 
     public ViewBean() {
-        System.out.println("Created!");
+//        System.out.println("Created!");
     }
 
     public String getFrom() {
