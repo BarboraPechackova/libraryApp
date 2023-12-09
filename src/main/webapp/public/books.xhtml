@@ -44,9 +44,9 @@
                         <div class="card-body d-flex flex-column overflow-hidden">
                             <h5 class="card-title">#{book.name}</h5>
                             <p class="card-text">#{book.author}</p>
-                            <p:button outcome="./bookDetail.xhtml" value="Detail knihy">
-                                <f:param name="bookId" value="#{book.id}"/>
-                            </p:button>
+                            <h:form>
+                                <p:commandButton action="#{bookBean.setBookTestAndRedirect(book.id)}" value="Detail knihy" />
+                            </h:form>
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">#{book.state}</small>

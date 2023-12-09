@@ -1,12 +1,11 @@
 package cz.cvut.fel.ear.library.view;
 
-import jakarta.faces.view.ViewScoped;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.Serializable;
-
 @Component
-@ViewScoped
+@SessionScope
 public class BookBean implements Serializable {
     private int selectedBookId;
 
@@ -16,12 +15,13 @@ public class BookBean implements Serializable {
         selectedBookId = bookId;
     }
 
-    public String setBookTest() {
-        return "book";
+    public String setBookTestAndRedirect(int bookId) {
+        selectedBookId = bookId;
+        System.out.println("Selected Book ID: " + selectedBookId);
+        return "/public/bookDetail.xhtml?faces-redirect=true";
     }
 
     public int getSelectedBookId() {
         return selectedBookId;
-
     }
 }
