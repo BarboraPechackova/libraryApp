@@ -43,10 +43,6 @@
                 <p:menuitem action="./login.xhtml?faces-redirect=true" value="Profil" icon="pi pi-fw pi-user" rendered="#{!userBean.logged}"/>
 
                 <f:facet name="options">
-                    <div class="ui-input-icon-left mr-3">
-                        <i class="pi pi-fw pi-search" />
-                        <p:inputText placeholder="Hledat"/>
-                    </div>
                     <p:commandButton icon="pi pi-fw pi-sign-in" action="./login.xhtml?faces-redirect=true" value="Přihlásit se" rendered="#{!userBean.logged}"/>
                     <p:commandButton icon="pi pi-fw pi-sign-out" action='#{userBean.logout("books")}' value="Odhlásit se" rendered="#{userBean.logged}"/>
                 </f:facet>
@@ -55,9 +51,16 @@
     </div>
     <h2 class="text-center mt-5">Knihy k vypůjčení</h2>
     <div class="container my-2 my-md-5">
+        <h:form>
+            <div class="ui-input-icon-left">
+                <i class="pi pi-fw pi-search" />
+                <p:inputText value="#{searchBean.searched}" placeholder="Hledat"/>
+                <p:commandButton action="./books.xhtml?faces-redirect=true" value="Hledat" />
+            </div>
+        </h:form>
         <div class="row row-cols-1 row-cols-md-4 g-4">
-            <ui:repeat value="#{bookController.books}" var="book">
-                <h:form rendered="#{book.visible}">
+            <ui:repeat value="#{searchBean.searchByName()}" var="book">
+                <h:form rendered="#{userBean.canRenderBook(book)}">
                     <div class="col px-4 book-card">
                         <div class="card h-100">
                             <img src="https://picsum.photos/200/300" class="card-img-top img-fluid" alt="Book cover" height="600"></img>

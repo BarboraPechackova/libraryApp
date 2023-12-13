@@ -37,6 +37,14 @@ public class UserBean {
         return (userId == book.getUser().getId() || userService.isUserAdmin(user));
     }
 
+    public boolean canRenderBook(Book book) {
+        if (book.getVisible()) return true;
+        else {
+            if (userId != 0) return userService.isUserAdmin(user);
+            else return false;
+        }
+    }
+
     public boolean isLogged() {
         return userId!=0;
     }
