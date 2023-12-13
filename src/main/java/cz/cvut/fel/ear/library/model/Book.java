@@ -12,6 +12,7 @@ import java.util.List;
         @NamedQuery(name = "Book.findByUser", query = "SELECT b from Book b WHERE user.id = :idUser"),
         @NamedQuery(name = "Book.findVisibleByUser", query = "SELECT b from Book b WHERE user.id = :idUser and visible = TRUE"),
         @NamedQuery(name = "Book.findByName", query = "SELECT b from Book b WHERE LOWER(b.name) LIKE LOWER(:name)"),
+        @NamedQuery(name = "Book.findByAuthor", query = "SELECT b from Book b WHERE LOWER(b.author) LIKE LOWER(:author)"),
         @NamedQuery(name = "Book.findVisibleByName", query = "SELECT b from Book b WHERE LOWER(b.name) LIKE LOWER(:name) and visible=TRUE")
 })
 public class Book {

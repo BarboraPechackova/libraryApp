@@ -52,10 +52,12 @@
     <h2 class="text-center mt-5">Knihy k vypůjčení</h2>
     <div class="container my-2 my-md-5">
         <h:form>
-            <div class="ui-input-icon-left">
-                <i class="pi pi-fw pi-search" />
-                <p:inputText value="#{searchBean.searched}" placeholder="Hledat"/>
-                <p:commandButton action="./books.xhtml?faces-redirect=true" value="Hledat" />
+            <div class="right mb-3 pr-3 flex justify-content-end">
+                <div class="ui-input-icon-left">
+                    <i class="pi pi-fw pi-search" />
+                    <p:inputText value="#{searchBean.searched}" placeholder=""/>
+                </div>
+                <p:commandButton action="./books.xhtml?faces-redirect=true" value="Hledat" styleClass="mx-2"/>
             </div>
         </h:form>
         <div class="row row-cols-1 row-cols-md-4 g-4">
