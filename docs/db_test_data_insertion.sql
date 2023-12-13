@@ -6,7 +6,7 @@ INSERT INTO Library_user (username, first_name, surname, email, phone, bank_acco
                                                                                          ('charlie_chaplin', 'Charlie', 'Chaplin', 'charlie.chaplin@example.com', '5678901234', '567-890-123'),
                                                                                          ('diana_prince', 'Diana', 'Prince', 'diana.prince@example.com', '6789012345', '678-901-234'),
                                                                                          ('edward_scissorhands', 'Edward', 'Scissorhands', 'edward.scissorhands@example.com', '7890123456', '789-012-345');
-INSERT INTO Book (name, author, description, price, "ISBN", state, visible, id_user) VALUES
+INSERT INTO Book (name, author, description, price, isbn, state, visible, id_user) VALUES
                                                                                        ('Book Title 1', 'Author Name', 'Description here', 100, 'ISBN001', 'VOLNA', TRUE, 1),
                                                                                        ('Book Title 2', 'Author Name', 'Description here', 150, 'ISBN002', 'VOLNA', TRUE, 2),
                                                                                        ('Mystery of the Moon', 'Luna Light', 'A fascinating lunar mystery.', 120, 'ISBN003', 'VOLNA', TRUE, 3),
