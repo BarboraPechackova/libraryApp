@@ -135,7 +135,7 @@ public class Book {
         this.state = state;
     }
 
-    public Boolean isVisible() {
+    public Boolean getVisible() {
         return visible;
     }
 
