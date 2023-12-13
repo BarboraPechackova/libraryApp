@@ -34,7 +34,26 @@
 
 </h:head>
 <h:body>
-    <h2 class="text-center mt-5">Books List</h2>
+    <div class="card">
+        <h:form>
+            <p:menubar styleClass="px-5">
+                <p:menuitem action="./books.xhtml?faces-redirect=true" value="Knihy" icon="pi pi-fw pi-book"/>
+                <p:menuitem action="./addBook.xhtml?faces-redirect=true" value="Přidat knihu" icon="pi pi-fw pi-plus"/>
+                <p:menuitem action="./user.xhtml?faces-redirect=true" value="Profil" icon="pi pi-fw pi-user" rendered="#{userBean.logged}"/>
+                <p:menuitem action="./login.xhtml?faces-redirect=true" value="Profil" icon="pi pi-fw pi-user" rendered="#{!userBean.logged}"/>
+
+                <f:facet name="options">
+                    <div class="ui-input-icon-left mr-3">
+                        <i class="pi pi-fw pi-search" />
+                        <p:inputText placeholder="Hledat"/>
+                    </div>
+                    <p:commandButton icon="pi pi-fw pi-sign-in" action="./login.xhtml?faces-redirect=true" value="Přihlásit se" rendered="#{!userBean.logged}"/>
+                    <p:commandButton icon="pi pi-fw pi-sign-out" action='#{userBean.logout("books")}' value="Odhlásit se" rendered="#{userBean.logged}"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+    </div>
+    <h2 class="text-center mt-5">Knihy k vypůjčení</h2>
     <div class="container my-2 my-md-5">
         <div class="row row-cols-1 row-cols-md-4 g-4">
             <ui:repeat value="#{bookController.books}" var="book">

@@ -22,6 +22,8 @@ public class UserBean {
     private final UserController userController;
     private final UserService userService;
 
+    // if userId is 0, then the user is not logged in
+
     @Autowired
     public UserBean(BookController bookController, UserController userController, UserService userService) {
         this.bookController = bookController;
@@ -34,6 +36,12 @@ public class UserBean {
         if (userId == 0) return false;
         return (userId == book.getUser().getId() || userService.isUserAdmin(user));
     }
+
+    public boolean isLogged() {
+        return userId!=0;
+    }
+
+    // TODO jak je to s hashovanim?
 
     public String login() {
         List<User> users = userController.getUsers();
@@ -50,6 +58,12 @@ public class UserBean {
         return "./";
     }
 
+    public String logout(String page) {
+        user = null;
+        userId = 0;
+        return "./" + page + "?faces-redirect=true";
+    }
+
     public String getUsername() {
         return username;
     }
@@ -63,7 +77,6 @@ public class UserBean {
     }
 
     public void setPassword(String password) {
-
         this.password = password;
     }
 }
