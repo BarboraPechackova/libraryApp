@@ -4,6 +4,7 @@ import cz.cvut.fel.ear.library.model.User;
 import cz.cvut.fel.ear.library.rest.BookController;
 import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.rest.UserController;
+import cz.cvut.fel.ear.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -19,17 +20,19 @@ public class UserBean {
     private User user;
     private final BookController bookController;
     private final UserController userController;
+    private final UserService userService;
 
     @Autowired
-    public UserBean(BookController bookController, UserController userController) {
+    public UserBean(BookController bookController, UserController userController, UserService userService) {
         this.bookController = bookController;
         this.userController = userController;
+        this.userService = userService;
     }
 
     public boolean canEditBook(int bookId) {
         Book book = bookController.getBook(bookId);
-        System.out.println(book.getUser().getUsername());
-        return false;
+        if (userId == 0) return false;
+        return (userId == book.getUser().getId() || userService.isUserAdmin(user));
     }
 
     public String login() {
@@ -38,13 +41,12 @@ public class UserBean {
             if (user.getUsername().equals(username)) {
                 if (user.getPassword().equals(password)) {
                     userId = user.getId();
-                    return "./books.xhtml";
+                    this.user = user;
+                    return "./books.xhtml?faces-redirect=true";
                 }
             }
         }
         System.out.println("Wrong username or password!");
-//        System.out.println(username);
-//        System.out.println(password);
         return "./";
     }
 
