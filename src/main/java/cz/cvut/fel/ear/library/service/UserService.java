@@ -69,6 +69,17 @@ public class UserService {
         dao.remove(user);
     }
 
+    @Transactional
+    public boolean isUserAdmin(User user) {
+        List<Role> roles = roleService.findAllRolesOfUser(user);
+        for (Role role : roles) {
+            if (role.getRole().equals("ADMIN")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void validateUserRemove(User user) {
         List<Book> userBooks = bookDao.findAllFromUser(user);
         for (Book book : userBooks) {

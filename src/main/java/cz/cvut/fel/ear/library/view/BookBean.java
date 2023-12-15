@@ -17,7 +17,6 @@ public class BookBean implements Serializable {
 
     public String setBookTestAndRedirect(int bookId) {
         selectedBookId = bookId;
-        System.out.println("Selected Book ID: " + selectedBookId);
         return "/public/bookDetail.xhtml?faces-redirect=true";
     }
 
