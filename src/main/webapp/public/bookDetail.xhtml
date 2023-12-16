@@ -34,13 +34,12 @@
         <div class="font-medium text-3xl text-900 mb-3">Informace o knize</div>
         <div class="text-500 mb-5">Zde najdete všechny důležité detaily o vaší oblíbené knize včetně názvu, autora, podrobného popisu a ISBN.<br/> Můžete také zjistit aktuální cenu a stav knihy v naší knihovně.</div>
 
-        <!--TODO: pridat obrazek knihy-->
 
         <div class="card">
-            <p:galleria value="#{bookController.getCoversOfBook(bookBean.selectedBookId)}" var="photo" numVisible="5" style="max-width: 640px">
-                <p:graphicImage name="#{photo.itemImageSrc}" alt="..." style="width: 100%" />
+            <p:galleria value="#{bookBean.getCoverImagesOfSelectedBook()}" var="photo" numVisible="5" style="width: 100%; border-color: inherit; ">
+                <p:graphicImage url="#{photo}" alt="..." style="width: 100%; align-self: center" />
                 <f:facet name="thumbnail">
-                    <p:graphicImage name="#{photo.thumbnailImageSrc}" alt="..." />
+                    <p:graphicImage url="#{photo}" alt="..." style="height: 100px; width: auto; max-width: 100%"/>
                 </f:facet>
             </p:galleria>
         </div>

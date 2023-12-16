@@ -5,13 +5,13 @@ import cz.cvut.fel.ear.library.model.User;
 import cz.cvut.fel.ear.library.model.BookCover;
 import cz.cvut.fel.ear.library.model.enums.BookState;
 import cz.cvut.fel.ear.library.rest.BookController;
-import jakarta.faces.context.FacesContext;
-import jakarta.servlet.http.HttpServletRequest;
+import cz.cvut.fel.ear.library.util.URLUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -170,14 +170,18 @@ public class BookBean implements Serializable {
     public String getBookCoverURL(Book book) {
         List<BookCover> covers = book.getBookCovers();
         if (covers.isEmpty())
-            return "https://picsum.photos/200/300";
+            return URLUtils.getBoodCoverImageUrl(null);
         else {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-            String baseUrl = request.getRequestURL().toString();
-            baseUrl = baseUrl.substring(0, baseUrl.length() - request.getRequestURI().length() + request.getContextPath().length()) + "/";
-            String s = baseUrl + "rest/v1/pictures/covers/" + covers.get(0).getId();
-            return s;
+            return URLUtils.getBoodCoverImageUrl(covers.get(0));
         }
-    }    
+    }
+
+    public List<String> getCoverImagesOfSelectedBook() {
+        Book book = bookController.getBook(selectedBookId);
+        List<String> result = new ArrayList<>();
+        for (BookCover cover: book.getBookCovers()) {
+            result.add(URLUtils.getBoodCoverImageUrl(cover));
+        }
+        return result;
+    }
 }

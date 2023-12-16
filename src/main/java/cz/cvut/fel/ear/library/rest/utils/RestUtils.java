@@ -4,7 +4,7 @@ import cz.cvut.fel.ear.library.exceptions.NotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-public class RestUtils {
+public final class RestUtils {
 
     /**
      * Creates a new NotFoundException for the resource name and specified identifier.
