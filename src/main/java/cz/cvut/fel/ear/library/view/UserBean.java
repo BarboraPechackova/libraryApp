@@ -60,6 +60,7 @@ public class UserBean {
                 if (user.getPassword().equals(password)) {
                     userId = user.getId();
                     this.user = user;
+                    username = password = "";
                     return "./books.xhtml?faces-redirect=true";
                 }
             }
