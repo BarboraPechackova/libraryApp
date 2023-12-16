@@ -37,10 +37,34 @@ public class BookBean implements Serializable {
         book.setVisible(visible);
         book.setState(BookState.VOLNA);
         book.setUser(user);
-//        System.out.println(book.getVisible());
         bookController.createBook(book);
         resetBookDetails();
         return "./user.xhtml?faces-redirect=true";
+    }
+
+    public String editBook(User user) {
+        Book book = bookController.getBook(bookId);
+        book.setName(name);
+        book.setAuthor(author);
+        book.setDescription(description);
+        book.setPrice(price);
+        book.setIsbn(isbn);
+        book.setVisible(visible);
+        book.setUser(user);
+        bookController.updateBook(book);
+        resetBookDetails();
+        return "./books.xhtml?faces-redirect=true";
+    }
+
+    public String redirectToEditBook(Book book) {
+        bookId = book.getId();
+        name = book.getName();
+        author = book.getAuthor();
+        description = book.getDescription();
+        price = book.getPrice();
+        isbn = book.getIsbn();
+        visible = book.getVisible();
+        return "./editBook.xhtml?faces-redirect=true";
     }
 
     public void resetBookDetails() {

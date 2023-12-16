@@ -117,7 +117,7 @@
                 <h:outputText value="#{bookBean.getBookVisible(book)}"/>
             </p:column>
             <p:column headerText="">
-                <p:commandButton type="button" value="Upravit" icon="pi pi-pencil" styleClass="ui-button-flat"/>
+                <p:commandButton action="#{bookBean.redirectToEditBook(book)}" value="Upravit" icon="pi pi-pencil" styleClass="ui-button-flat"/>
             </p:column>
         </p:dataTable>
     </div>
