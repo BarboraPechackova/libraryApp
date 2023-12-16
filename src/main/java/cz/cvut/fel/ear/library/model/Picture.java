@@ -1,8 +1,10 @@
 package cz.cvut.fel.ear.library.model;
 
+import cz.cvut.fel.ear.library.model.enums.ReservationState;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Entity
@@ -12,15 +14,19 @@ public class Picture {
     @Id
     @Column(name = "id")
     private int id;
-    @Basic
     @Column(name = "upload_ts")
     private Timestamp uploadTs;
-    @Basic
     @Column(name = "picture")
     private byte[] picture;
-    @Basic
     @Column(name = "type")
     private String type;
+
+    @PrePersist
+    public void prePersist() {
+        if (uploadTs == null) {
+            uploadTs = Timestamp.valueOf(LocalDateTime.now());
+        }
+    }
 
     public int getId() {
         return id;

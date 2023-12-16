@@ -11,6 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+//import java.io.IOException;
+//import java.nio.file.Files;
+//import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -18,10 +21,12 @@ import java.util.List;
 public class BookController {
 
     private final BookService service;
+    private final BookCoverService coverService;
 
     @Autowired
-    public BookController(BookService service) {
+    public BookController(BookService service, BookCoverService coverService) {
         this.service = service;
+        this.coverService = coverService;
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,13 +44,25 @@ public class BookController {
         if (book == null) {
             throw RestUtils.newNotFoundEx("Books", id);
         }
+//        try {
+//            BookCover bc = new BookCover();
+//
+//            byte[] imageInByte = Files.readAllBytes(Path.of("C:\\Java\\EAR_semestralka\\src\\main\\resources\\static\\test.png"));
+//
+//            bc.setPicture(imageInByte);
+//            bc.setBook(book);
+//            bc.setType("png");
+//            coverService.persist(bc);
+//        } catch (IOException ignored) {
+//
+//        }
         return book;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createBook(@RequestBody(required = false) Book book) {
         service.persist(book);
-        final HttpHeaders headers = RestUtils.createLocationHeaderFromUri("/{id}", book.getId());
+        HttpHeaders headers = RestUtils.createLocationHeaderFromUri("/{id}", book.getId());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 

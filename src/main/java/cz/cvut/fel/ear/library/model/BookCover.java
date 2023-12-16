@@ -28,7 +28,7 @@ public class BookCover extends Picture {
         return book;
     }
 
-    public void setIdBook(Book book) {
+    public void setBook(Book book) {
         this.book = book;
     }
 

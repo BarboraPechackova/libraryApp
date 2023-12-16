@@ -65,7 +65,7 @@
                 <h:form rendered="#{userBean.canRenderBook(book)}">
                     <div class="col px-4 book-card">
                         <div class="card h-100">
-                            <img src="https://picsum.photos/200/300" class="card-img-top img-fluid" alt="Book cover" height="600"></img>
+                            <img src="#{bookBean.getBookCoverURL(book)}" class="card-img-top img-fluid" alt="Book cover" height="600"></img>
                             <div class="card-body d-flex flex-column overflow-hidden">
                                 <h5 class="card-title">#{book.name}</h5>
                                 <p class="card-text">#{book.author}</p>
