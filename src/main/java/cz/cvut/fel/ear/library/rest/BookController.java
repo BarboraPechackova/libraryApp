@@ -66,6 +66,12 @@ public class BookController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateBook(@RequestBody Book book) {
+        service.update(book);
+    }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> removeBook(@PathVariable int id) {
         final Book book = service.find(id);

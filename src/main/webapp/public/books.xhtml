@@ -72,7 +72,7 @@
                                     <p:commandButton action="#{bookBean.setBookTestAndRedirect(book.id)}" value="Detail knihy"/>
                             </div>
                             <div class="card-footer">
-                                <small class="text-muted">#{book.state}</small>
+                                <small class="text-muted">#{bookBean.getBookState(book)}</small>
                             </div>
                         </div>
                     </div>

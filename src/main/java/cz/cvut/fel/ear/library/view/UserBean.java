@@ -1,5 +1,7 @@
 package cz.cvut.fel.ear.library.view;
 
+import cz.cvut.fel.ear.library.model.BookLoan;
+import cz.cvut.fel.ear.library.model.Role;
 import cz.cvut.fel.ear.library.model.User;
 import cz.cvut.fel.ear.library.rest.BookController;
 import cz.cvut.fel.ear.library.model.Book;
@@ -58,6 +60,7 @@ public class UserBean {
                 if (user.getPassword().equals(password)) {
                     userId = user.getId();
                     this.user = user;
+                    username = password = "";
                     return "./books.xhtml?faces-redirect=true";
                 }
             }
@@ -70,6 +73,27 @@ public class UserBean {
         user = null;
         userId = 0;
         return "./" + page + "?faces-redirect=true";
+    }
+
+    public String getColor(Role role) {
+        return switch (role.getRole()) {
+            case "USER" -> "default";
+            case "ADMIN" -> "lightgreen";
+            default -> "";
+        };
+    }
+
+    public String getRole(Role role) {
+        return switch (role.getRole()) {
+            case "USER" -> "Běžný uživatel";
+            case "ADMIN" -> "Administrátor";
+            default -> "";
+        };
+    }
+
+    public String bookLoanState(BookLoan bookLoan) {
+        if (bookLoan.isReturned()) return "Vrácena";
+        else return "Nevrácena";
     }
 
     public String getUsername() {
@@ -86,5 +110,13 @@ public class UserBean {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public User getUser() {
+        return user;
     }
 }
