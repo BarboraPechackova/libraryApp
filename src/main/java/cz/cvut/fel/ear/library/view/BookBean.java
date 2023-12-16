@@ -18,8 +18,6 @@ import java.util.List;
 @SessionScope
 public class BookBean implements Serializable {
 
-    @Autowired
-    private Environment environment;
     private int selectedBookId;
     private int bookId;
     private String name;
