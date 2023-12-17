@@ -37,6 +37,12 @@ public class BookCoverService {
     }
 
     @Transactional
+    public void delete(BookCover bookCover) throws InvalidArgumentException {
+        Objects.requireNonNull(bookCover);
+        dao.remove(bookCover);
+    }
+
+    @Transactional
     public void update(BookCover bookCover) throws InvalidArgumentException {
         Objects.requireNonNull(bookCover);
         dao.update(bookCover);

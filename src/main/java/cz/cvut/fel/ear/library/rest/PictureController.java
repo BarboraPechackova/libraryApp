@@ -52,6 +52,17 @@ public class PictureController {
         return cover.getPicture();
     }
 
+    @DeleteMapping(value = "/covers/{id}")
+    public void deleteBookCover(@PathVariable Integer id)  {
+        final BookCover cover = coverService.find(id);
+        if (cover == null) {
+            throw RestUtils.newNotFoundEx("BookCover", id);
+        }
+
+        coverService.delete(cover);
+
+    }
+
 //    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 //    public ResponseEntity<Void> createBook(@RequestBody(required = false) Book book) {
 //        service.persist(book);

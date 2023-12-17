@@ -167,21 +167,4 @@ public class BookBean implements Serializable {
         this.bookId = bookId;
     }
     
-    public String getBookCoverURL(Book book) {
-        List<BookCover> covers = book.getBookCovers();
-        if (covers.isEmpty())
-            return URLUtils.getBoodCoverImageUrl(null);
-        else {
-            return URLUtils.getBoodCoverImageUrl(covers.get(0));
-        }
-    }
-
-    public List<String> getCoverImagesOfSelectedBook() {
-        Book book = bookController.getBook(selectedBookId);
-        List<String> result = new ArrayList<>();
-        for (BookCover cover: book.getBookCovers()) {
-            result.add(URLUtils.getBoodCoverImageUrl(cover));
-        }
-        return result;
-    }
 }

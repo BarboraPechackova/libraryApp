@@ -37,6 +37,21 @@
             <div class="my-5">
                 <div class="ui-fluid formgrid grid">
                     <div class="field col-6 md:col-6">
+                        <p:galleria value="#{bookCoverBean.getCoverImagesOfBookById(bookBean.selectedBookId)}" var="photo" numVisible="5" style="width: 100%; border-color: inherit; ">
+                            <p:graphicImage url="#{photo}" alt="..." style="width: 100%; align-self: center" />
+                            <f:facet name="thumbnail">
+                                <p:graphicImage url="#{photo}" alt="..." style="height: 100px; width: auto; max-width: 100%"/>
+                                <p:commandButton value="Smazat fotku" ajax="false" partialSubmit="true" process="fileUpload" action="#{pictureController.deleteBookCover(bookBean.selectedBookId)}" styleClass="ui-button-outlined"/>
+                            </f:facet>
+                        </p:galleria>
+                    </div>
+                    <div class="field col-6 md:col-6">
+                        <p:outputLabel for="fileUpload" value="Fotky knihy"/>
+                        <p:message for="fileUpload" styleClass="m-0"/>
+                        <p:fileUpload id="fileUpload" value="#{bookCoverBean.files}" mode="simple" skinSimple="true" multiple="true"/>
+                        <p:commandButton value="Nahrát fotky" ajax="false" partialSubmit="true" process="fileUpload" action="#{bookCoverBean.uploadMultiple}" styleClass="ui-button-outlined"/>
+                    </div>
+                    <div class="field col-6 md:col-6">
                         <p:outputLabel for="name" value="Název knihy"/>
                         <p:inputText id="name" required="true" requiredMessage="Název je povinný" value="#{bookBean.name}"/>
                         <p:message for="name" styleClass="m-0"/>
