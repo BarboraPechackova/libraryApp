@@ -8,6 +8,8 @@ import cz.cvut.fel.ear.library.service.BookCoverService;
 import cz.cvut.fel.ear.library.util.URLUtils;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import lombok.Getter;
+import lombok.Setter;
 import org.primefaces.event.FilesUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 import org.primefaces.model.file.UploadedFiles;
@@ -25,6 +27,8 @@ public class BookCoverBean {
     private final PictureController pictureController;
     private final BookCoverService bookCoverService;
 
+    @Getter
+    @Setter
     private UploadedFiles files;
     private BookBean bookBean;
 
@@ -60,6 +64,14 @@ public class BookCoverBean {
         return result;
     }
 
+    public void deleteBookCover(BookCover cover) {
+        pictureController.deleteBookCover(cover.getId());
+    }
+
+    public void deleteBookCover(int coverId) {
+        pictureController.deleteBookCover(coverId);
+    }
+
 
     // File upload ---------------------------------------------------------------------------------------------------
 
@@ -83,11 +95,7 @@ public class BookCoverBean {
         }
     }
 
-    public UploadedFiles getFiles() {
-        return files;
-    }
+    // \File upload ---------------------------------------------------------------------------------------------------
 
-    public void setFiles(UploadedFiles files) {
-        this.files = files;
-    }
+
 }
