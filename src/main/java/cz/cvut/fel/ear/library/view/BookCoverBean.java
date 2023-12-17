@@ -32,8 +32,7 @@ public class BookCoverBean {
         this.pictureController = pictureController;
     }
 
-    public String getBookCoverURL(int bookID) {
-        Book book = bookController.getBook(bookID);
+    public String getBookCoverURL(Book book) {
         List<BookCover> covers = book.getBookCovers();
         if (covers.isEmpty())
             return URLUtils.getBoodCoverImageUrl(null);
