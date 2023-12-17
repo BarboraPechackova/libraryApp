@@ -69,7 +69,7 @@
                             <div class="card-body d-flex flex-column overflow-hidden">
                                 <h5 class="card-title">#{book.name}</h5>
                                 <p class="card-text">#{book.author}</p>
-                                    <p:commandButton action="#{bookBean.setBookTestAndRedirect(book.id)}" value="Detail knihy"/>
+                                    <p:commandButton action="#{bookBean.setBookAndRedirect(book.id)}" value="Detail knihy"/>
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted">#{bookBean.getBookState(book)}</small>

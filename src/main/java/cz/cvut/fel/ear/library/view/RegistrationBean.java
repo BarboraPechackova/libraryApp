@@ -66,21 +66,28 @@ public class RegistrationBean {
         List<User> users = userController.getUsers();
         for (User u : users) {
             if (u.getUsername().equals(username)) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Message Content."));
-                return false;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Not unique username error", "Uživatelské jméno už je používané."));
+                result = false;
             }
         }
 
         // e-mail contains @
-
+        if (!email.contains("@")) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Not unique username error", "E-mail musí obsahovat @."));
+            result = false;
+        }
 
         // passwords are the same
-
+        if (!password1.equals(password2)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Not unique username error", "Obě hesla musí být stejná."));
+            result = false;
+        }
 
         // password is at least 8 chars long
-
-
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Message Content."));
+        if (password1.length() < 8) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Not unique username error", "Heslo musí být aspoň 8 znaků dlouhé."));
+            result = false;
+        }
         return result;
     }
 }

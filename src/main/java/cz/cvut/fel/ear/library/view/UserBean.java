@@ -7,6 +7,8 @@ import cz.cvut.fel.ear.library.rest.BookController;
 import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.rest.UserController;
 import cz.cvut.fel.ear.library.service.UserService;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -54,6 +56,9 @@ public class UserBean {
     // TODO jak je to s hashovanim?
 
     public String login() {
+        if (username.equals("")) FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Uživatelské jméno musí být vyplněno!"));
+        if (password.equals("")) FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Heslo musí být vyplněno!"));
+        if (username.equals("") || password.equals("")) return "";
         List<User> users = userController.getUsers();
         for (User user : users) {
             if (user.getUsername().equals(username)) {
@@ -65,8 +70,8 @@ public class UserBean {
                 }
             }
         }
-        System.out.println("Wrong username or password!");
-        return "./";
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Špatné uživatelské jméno nebo heslo!"));
+        return "";
     }
 
     public String logout(String page) {

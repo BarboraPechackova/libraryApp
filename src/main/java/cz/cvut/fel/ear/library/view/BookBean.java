@@ -63,6 +63,7 @@ public class BookBean implements Serializable {
     }
 
     public String redirectToEditBook(Book book) {
+        selectedBookId = book.getId();
         bookId = book.getId();
         name = book.getName();
         author = book.getAuthor();
@@ -90,9 +91,9 @@ public class BookBean implements Serializable {
         selectedBookId = bookId;
     }
 
-    public String setBookTestAndRedirect(int bookId) {
+    public String setBookAndRedirect(int bookId) {
         selectedBookId = bookId;
-        return "/public/bookDetail.xhtml?faces-redirect=true";
+        return "./bookDetail.xhtml?faces-redirect=true";
     }
 
     public String getBookState(Book book) {
