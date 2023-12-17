@@ -69,6 +69,19 @@ public class User {
     @JsonIgnore
     private List<Book> books;  // books that the user offers or loans
 
+    public User() {
+    }
+
+    public User(String username, String password, String firstName, String surname, String email, String phone, String bankAccount) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.bankAccount = bankAccount;
+    }
+
     public int getId() {
         return id;
     }
