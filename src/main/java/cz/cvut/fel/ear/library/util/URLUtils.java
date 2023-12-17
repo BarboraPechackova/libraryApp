@@ -16,4 +16,18 @@ public final class URLUtils {
             return baseUrl + "/rest/v1/pictures/covers/" + bookCover.getId();
         }
     }
+
+//    public static String getBoodCoverImageUrlByID(int bookCoverId) {
+//
+//        if (bookCover == null)
+//            return "https://picsum.photos/200/300";  //default picture
+//        else {
+//            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//            String baseUrl = request.getRequestURL().toString();
+//            baseUrl = baseUrl.substring(0, baseUrl.length() - request.getRequestURI().length() + request.getContextPath().length());
+//            return baseUrl + "/rest/v1/pictures/covers/" + bookCover.getId();
+//        }
+//    }
+
+
 }

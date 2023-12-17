@@ -21,6 +21,14 @@ public class ProfilePicture extends Picture {
     @JoinColumn(name = "id_user")
     private User user;
 
+    public ProfilePicture(User user, byte[] picture) {
+        super(picture);
+    }
+
+    public ProfilePicture() {
+        super();
+    }
+
 //    @OneToOne
 //    @JoinColumn(name = "id_picture")
 //    private Picture picture;

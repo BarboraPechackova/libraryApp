@@ -4,6 +4,7 @@ import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.BookCover;
 import cz.cvut.fel.ear.library.rest.BookController;
 import cz.cvut.fel.ear.library.rest.PictureController;
+import cz.cvut.fel.ear.library.service.BookCoverService;
 import cz.cvut.fel.ear.library.util.URLUtils;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -22,14 +23,18 @@ import java.util.List;
 public class BookCoverBean {
     private final BookController bookController;
     private final PictureController pictureController;
+    private final BookCoverService bookCoverService;
 
     private UploadedFiles files;
+    private BookBean bookBean;
 
 
     @Autowired
-    public BookCoverBean(BookController bookController, PictureController pictureController) {
+    public BookCoverBean(BookController bookController, PictureController pictureController, BookCoverService bookCoverService, BookBean bookBean) {
         this.bookController = bookController;
         this.pictureController = pictureController;
+        this.bookCoverService = bookCoverService;
+        this.bookBean = bookBean;
     }
 
     public String getBookCoverURL(Book book) {
@@ -41,14 +46,20 @@ public class BookCoverBean {
         }
     }
 
-    public List<String> getCoverImagesOfBookById(int bookID) {
+    public String getBookCoverURL(int bookCoverId) {
+        BookCover cover = bookCoverService.find(bookCoverId);
+        return URLUtils.getBoodCoverImageUrl(cover);
+    }
+
+    public List<Integer> getCoverImagesIdOfBookById(int bookID) {
         Book book = bookController.getBook(bookID);
-        List<String> result = new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
         for (BookCover cover: book.getBookCovers()) {
-            result.add(URLUtils.getBoodCoverImageUrl(cover));
+            result.add(cover.getId());
         }
         return result;
     }
+
 
     // File upload ---------------------------------------------------------------------------------------------------
 
@@ -56,6 +67,10 @@ public class BookCoverBean {
         if (files != null) {
             for (UploadedFile f : files.getFiles()) {
                 FacesMessage message = new FacesMessage("Successful", f.getFileName() + " is uploaded.");
+                BookCover cover = new BookCover(bookController.getBook(bookBean.getBookId()), f.getContent());
+                String filename = f.getFileName();
+                cover.setType(filename.substring(filename.lastIndexOf('.')+1));
+                pictureController.newBookCover(cover);
                 FacesContext.getCurrentInstance().addMessage(null, message);
             }
         }

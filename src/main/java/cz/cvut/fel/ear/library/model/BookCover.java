@@ -32,6 +32,14 @@ public class BookCover extends Picture {
         this.book = book;
     }
 
+    public BookCover() {
+    }
+
+    public BookCover(Book book, byte[] image) {
+        super(image);
+        this.book = book;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

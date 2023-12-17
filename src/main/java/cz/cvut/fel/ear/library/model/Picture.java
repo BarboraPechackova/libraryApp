@@ -1,6 +1,5 @@
 package cz.cvut.fel.ear.library.model;
 
-import cz.cvut.fel.ear.library.model.enums.ReservationState;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -20,6 +19,13 @@ public class Picture {
     private byte[] picture;
     @Column(name = "type")
     private String type;
+
+    public Picture(byte[] picture) {
+        this.picture = picture;
+    }
+
+    public Picture() {
+    }
 
     @PrePersist
     public void prePersist() {

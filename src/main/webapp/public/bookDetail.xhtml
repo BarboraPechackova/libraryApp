@@ -36,10 +36,10 @@
 
 
         <div class="card">
-            <p:galleria value="#{bookCoverBean.getCoverImagesOfBookById(bookBean.selectedBookId)}" var="photo" numVisible="5" style="width: 100%; border-color: inherit; ">
-                <p:graphicImage url="#{photo}" alt="..." style="width: 100%; align-self: center" />
+            <p:galleria value="#{bookCoverBean.getCoverImagesIdOfBookById(bookBean.selectedBookId)}" var="photo" numVisible="5" style="width: 100%; border-color: inherit; ">
+                <p:graphicImage url="#{bookCoverBean.getBookCoverURL(photo)}" alt="..." style="width: 100%; align-self: center" />
                 <f:facet name="thumbnail">
-                    <p:graphicImage url="#{photo}" alt="..." style="height: 100px; width: auto; max-width: 100%"/>
+                    <p:graphicImage url="#{bookCoverBean.getBookCoverURL(photo)}" alt="..." style="height: 100px; width: auto; max-width: 100%"/>
                 </f:facet>
             </p:galleria>
         </div>

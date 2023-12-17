@@ -7,30 +7,20 @@ import cz.cvut.fel.ear.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
 
 @RestController
 @RequestMapping("/rest/v1/pictures")
 public class PictureController {
 
-//    private final BookService service;
-//    private final BookCoverService coverService;
+    private final BookService bookService;
     private final BookCoverService coverService;
 //    private final ProfilePictureService profileService;
 
     @Autowired
-    public PictureController(BookCoverService coverService) {
+    public PictureController(BookService bookService, BookCoverService coverService) {
+        this.bookService = bookService;
         this.coverService = coverService;
     }
 
@@ -50,6 +40,13 @@ public class PictureController {
             throw RestUtils.newNotFoundEx("BookCover", id);
         }
         return cover.getPicture();
+    }
+
+    @PostMapping(value = "/covers/")
+    public ResponseEntity<Void> newBookCover(@RequestBody BookCover cover)  {
+        coverService.persist(cover);
+        HttpHeaders headers = RestUtils.createLocationHeaderFromUri("/covers/{id}", cover.getId());
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/covers/{id}")
