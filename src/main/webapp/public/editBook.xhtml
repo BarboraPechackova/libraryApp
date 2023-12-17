@@ -40,9 +40,9 @@
                     <div class="field col-12">
                         <p:galleria value="#{bookCoverBean.getCoverImagesIdOfBookById(bookBean.selectedBookId)}" var="photo" numVisible="5" style="width: 100%; border-color: inherit; ">
                             <p:graphicImage url="#{bookCoverBean.getBookCoverURL(photo)}" alt="..." style="height: 100%; max-height: 500px; align-self: center" />
+                            <p:commandButton icon="pi pi-times" ajax="false" partialSubmit="true" process="foto" action="#{bookCoverBean.deleteBookCover(photo)}" styleClass="rounded-button ui-button-danger" />
                             <f:facet name="thumbnail">
                                 <p:graphicImage id="foto" url="#{bookCoverBean.getBookCoverURL(photo)}" alt="..." style="height: 100px; width: auto; max-width: 100%"/>
-<!--                                <p:commandButton icon="pi pi-times" ajax="false" partialSubmit="true" process="foto" actionListener="#{pictureController.deleteBookCover(photo)}" styleClass="rounded-button ui-button-danger" />-->
                             </f:facet>
                         </p:galleria>
                     </div>

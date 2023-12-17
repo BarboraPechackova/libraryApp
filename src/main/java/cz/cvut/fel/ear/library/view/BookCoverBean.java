@@ -68,8 +68,9 @@ public class BookCoverBean {
         pictureController.deleteBookCover(cover.getId());
     }
 
-    public void deleteBookCover(int coverId) {
+    public String deleteBookCover(int coverId) {
         pictureController.deleteBookCover(coverId);
+        return "./editBook.xhtml?faces-redirect=true";
     }
 
 

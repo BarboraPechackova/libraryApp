@@ -56,8 +56,7 @@ public class PictureController {
             throw RestUtils.newNotFoundEx("BookCover", id);
         }
 
-//        coverService.delete(cover);
-
+        coverService.delete(cover);
     }
 
 //    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
