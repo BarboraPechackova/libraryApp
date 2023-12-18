@@ -15,7 +15,6 @@ public class Role {
     @Id
     @Column(name = "id")
     private int id;
-    @Basic
     @Column(name = "role")
     private String role;
     @ManyToOne

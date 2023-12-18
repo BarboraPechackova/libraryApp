@@ -3,6 +3,7 @@ package cz.cvut.fel.ear.library.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,30 +11,26 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "library_user")
+@NamedQueries({
+        @NamedQuery(name = "User.getUserByUsername", query = "SELECT u FROM User u WHERE username = :username"),
+})
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
-    @Basic
     @Column(name = "username")
     private String username;
-    @Basic
     @Column(name = "password")
     private String password;
-    @Basic
     @Column(name = "first_name")
     private String firstName;
-    @Basic
     @Column(name = "surname")
     private String surname;
-    @Basic
     @Column(name = "email")
     private String email;
-    @Basic
     @Column(name = "phone")
     private String phone;
-    @Basic
     @Column(name = "bank_account")
     @JsonIgnore
     private String bankAccount;
@@ -104,6 +101,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void encodePassword(PasswordEncoder encoder) {
+        this.password = encoder.encode(password);
     }
 
     public String getFirstName() {

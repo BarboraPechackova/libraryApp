@@ -5,7 +5,6 @@ import cz.cvut.fel.ear.library.model.BookCover;
 import cz.cvut.fel.ear.library.rest.BookController;
 import cz.cvut.fel.ear.library.rest.PictureController;
 import cz.cvut.fel.ear.library.service.BookCoverService;
-import cz.cvut.fel.ear.library.util.URLUtils;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import lombok.Getter;
@@ -44,15 +43,15 @@ public class BookCoverBean {
     public String getBookCoverURL(Book book) {
         List<BookCover> covers = book.getBookCovers();
         if (covers.isEmpty())
-            return URLUtils.getBoodCoverImageUrl(null);
+            return ViewUtils.getBookCoverImageUrl(null);
         else {
-            return URLUtils.getBoodCoverImageUrl(covers.get(0));
+            return ViewUtils.getBookCoverImageUrl(covers.get(0));
         }
     }
 
     public String getBookCoverURL(int bookCoverId) {
         BookCover cover = bookCoverService.find(bookCoverId);
-        return URLUtils.getBoodCoverImageUrl(cover);
+        return ViewUtils.getBookCoverImageUrl(cover);
     }
 
     public List<Integer> getCoverImagesIdOfBookById(int bookID) {

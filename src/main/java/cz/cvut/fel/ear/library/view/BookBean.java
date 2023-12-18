@@ -2,17 +2,13 @@ package cz.cvut.fel.ear.library.view;
 
 import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.User;
-import cz.cvut.fel.ear.library.model.BookCover;
 import cz.cvut.fel.ear.library.model.enums.BookState;
 import cz.cvut.fel.ear.library.rest.BookController;
-import cz.cvut.fel.ear.library.util.URLUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @SessionScope

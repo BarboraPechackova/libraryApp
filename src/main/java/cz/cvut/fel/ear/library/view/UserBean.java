@@ -10,6 +10,7 @@ import cz.cvut.fel.ear.library.service.UserService;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -25,14 +26,16 @@ public class UserBean {
     private final BookController bookController;
     private final UserController userController;
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     // if userId is 0, then the user is not logged in
 
     @Autowired
-    public UserBean(BookController bookController, UserController userController, UserService userService) {
+    public UserBean(BookController bookController, UserController userController, UserService userService, PasswordEncoder passwordEncoder) {
         this.bookController = bookController;
         this.userController = userController;
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public boolean canEditBook(int bookId) {
@@ -59,16 +62,13 @@ public class UserBean {
         if (username.equals("")) FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Uživatelské jméno musí být vyplněno!"));
         if (password.equals("")) FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Heslo musí být vyplněno!"));
         if (username.equals("") || password.equals("")) return "";
-        List<User> users = userController.getUsers();
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                if (user.getPassword().equals(password)) {
-                    userId = user.getId();
-                    this.user = user;
-                    username = password = "";
-                    return "./books.xhtml?faces-redirect=true";
-                }
-            }
+//        List<User> users = userController.getUsers();
+        User user = userService.findByUsername(username);
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            userId = user.getId();
+            this.user = user;
+            username = password = "";
+            return "./books.xhtml?faces-redirect=true";
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Špatné uživatelské jméno nebo heslo!"));
         return "";

@@ -5,6 +5,7 @@ import cz.cvut.fel.ear.library.exceptions.BookNotReturnedException;
 import cz.cvut.fel.ear.library.model.*;
 import cz.cvut.fel.ear.library.model.enums.BookState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,14 +21,16 @@ public class UserService {
     private final BookDao bookDao;
     private final BookLoanDao bookLoanDao;
     private final ReservationService reservationService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserDao dao, RoleService roleService, BookDao bookDao, BookLoanDao bookLoanDao, ReservationService reservationService) {
+    public UserService(UserDao dao, RoleService roleService, BookDao bookDao, BookLoanDao bookLoanDao, ReservationService reservationService, PasswordEncoder passwordEncoder) {
         this.dao = dao;
         this.roleService = roleService;
         this.bookDao = bookDao;
         this.bookLoanDao = bookLoanDao;
         this.reservationService = reservationService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
@@ -40,9 +43,15 @@ public class UserService {
         return dao.find(id);
     }
 
+    @Transactional(readOnly = true)
+    public User findByUsername(String username) {
+        return dao.findByUsername(username);
+    }
+
     @Transactional
     public void persist(User user) {
         Objects.requireNonNull(user);
+        user.encodePassword(passwordEncoder); // sifrovani hesla
         dao.persist(user);
     }
 

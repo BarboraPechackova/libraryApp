@@ -25,17 +25,17 @@
     </application>
 
 <!--     Managed Beans Configuration -->
-    <managed-bean>
-        <managed-bean-name>viewBean</managed-bean-name>
-        <managed-bean-class>cz.cvut.fel.ear.library.view.ViewBean</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>
+<!--    <managed-bean>-->
+<!--        <managed-bean-name>viewBean</managed-bean-name>-->
+<!--        <managed-bean-class>cz.cvut.fel.ear.library.view.ViewBean</managed-bean-class>-->
+<!--        <managed-bean-scope>request</managed-bean-scope>-->
+<!--    </managed-bean>-->
 
-    <managed-bean>
-        <managed-bean-name>bookBean</managed-bean-name>
-        <managed-bean-class>cz.cvut.fel.ear.library.view.BookBean</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>
+<!--    <managed-bean>-->
+<!--        <managed-bean-name>bookBean</managed-bean-name>-->
+<!--        <managed-bean-class>cz.cvut.fel.ear.library.view.BookBean</managed-bean-class>-->
+<!--        <managed-bean-scope>session</managed-bean-scope>-->
+<!--    </managed-bean>-->
     <!-- Navigation Rules -->
 <!--    <navigation-rule>-->
 <!--        <from-view-id>/library/public/index.xhtml</from-view-id>-->
