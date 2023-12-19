@@ -80,6 +80,9 @@
                 </div>
             </li>
         </ul>
+        <div class="text-center d-flex justify-content-center">
+            <p:commandButton styleClass="mx-auto" action="#{bookBean.redirectToReservationOrLoan(bookController.getBook(bookBean.selectedBookId))}" value="#{bookBean.getReservationOrLoan(bookController.getBook(bookBean.selectedBookId))}"/>
+        </div>
         <h4 class="mt-5">Hodnocení knihy</h4>
         <p:dataTable id="ratings" value="#{bookController.getRatingsOfBook(bookBean.selectedBookId)}" var="rating">
             <p:column headerText="Uživatel">
