@@ -35,7 +35,5 @@ public class AuthenticationFailure implements AuthenticationFailureHandler {
         final LoginStatus status = new LoginStatus(false, false, null, e.getMessage());
         mapper.writeValue(httpServletResponse.getOutputStream(), status);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Špatné uživatelské jméno nebo heslo!"));
-        System.out.println("Sakra");
-        return;
     }
 }

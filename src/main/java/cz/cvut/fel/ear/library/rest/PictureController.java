@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/rest/v1/pictures")
+@PreAuthorize("permitAll()")
 public class PictureController {
 
     private final BookCoverService coverService;

@@ -19,12 +19,12 @@
     </application>
 
 
-<!--    <navigation-rule>-->
-<!--        <from-view-id>/public/login.xhtml</from-view-id>-->
-<!--        <navigation-case>-->
-<!--            <from-outcome>success</from-outcome>-->
-<!--            <to-view-id>/public/books.xhtml</to-view-id> -->
-<!--        </navigation-case>-->
-<!--    </navigation-rule>-->
+    <navigation-rule>
+        <from-view-id>/public/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/public/books.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 
 </faces-config>

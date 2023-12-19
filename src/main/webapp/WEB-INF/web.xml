@@ -32,6 +32,9 @@
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+<!--        <dispatcher>INCLUDE</dispatcher>-->
+        <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 
 

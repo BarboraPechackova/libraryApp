@@ -1,10 +1,8 @@
 package cz.cvut.fel.ear.library.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cz.cvut.fel.ear.library.dao.UserDao;
 import cz.cvut.fel.ear.library.security.AuthenticationFailure;
 import cz.cvut.fel.ear.library.security.AuthenticationSuccess;
-import cz.cvut.fel.ear.library.service.security.UserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -42,16 +40,15 @@ public class SecurityConfig {
             .exceptionHandling(ehc -> ehc.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
             .csrf(AbstractHttpConfigurer::disable)
             // Enable CORS
-            .cors(conf -> conf.configurationSource(corsConfigurationSource()))
+//            .cors(conf -> conf.configurationSource(corsConfigurationSource()))
             .headers(customizer -> customizer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
             // Use custom success and failure handlers
             .formLogin(fl -> fl
                     .loginPage("/public/login.xhtml")
-                    .usernameParameter("j_id_7:username") // nevim proc, ale takto to funguje; JSF :-)
-                    .passwordParameter("j_id_7:password") // nevim proc, ale takto to funguje; JSF :-)
+//                    .usernameParameter("j_id_7:username") // nevim proc, ale takto to funguje; JSF :-)
+//                    .passwordParameter("j_id_7:password") // nevim proc, ale takto to funguje; JSF :-)
                     .loginProcessingUrl("/public/login.xhtml")
                     .defaultSuccessUrl("/public/books.xhtml")
-                    .successForwardUrl("/public/books.xhtml")
                     .failureForwardUrl("/public/login.xhtml?error=true")
                     .successHandler(authSuccess)
                     .failureHandler(authenticationFailureHandler()))
