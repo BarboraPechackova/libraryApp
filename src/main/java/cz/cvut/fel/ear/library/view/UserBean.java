@@ -6,79 +6,100 @@ import cz.cvut.fel.ear.library.model.User;
 import cz.cvut.fel.ear.library.rest.BookController;
 import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.rest.UserController;
+import cz.cvut.fel.ear.library.security.model.UserDetails;
 import cz.cvut.fel.ear.library.service.UserService;
 import cz.cvut.fel.ear.library.service.security.UserDetailsService;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import static org.primefaces.component.keyboard.KeyboardBase.PropertyKeys.password;
+
 @Component
 @SessionScope
 public class UserBean {
-    private String username;
-    private String password;
-    private int userId;
-    private User user = null;
     private final BookController bookController;
     private final UserController userController;
     private final UserService userService;
-    private final UserDetailsService userDetailsService; // security
-    private final PasswordEncoder passwordEncoder;
+    private String username;
+    private String password;
 
     // if userId is 0, then the user is not logged in
 
     @Autowired
-    public UserBean(BookController bookController, UserController userController, UserService userService, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public UserBean(BookController bookController, UserController userController, UserService userService) {
         this.bookController = bookController;
         this.userController = userController;
         this.userService = userService;
-        this.userDetailsService = userDetailsService;
-        this.passwordEncoder = passwordEncoder;
+    }
+
+    public User getUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        assert auth.getPrincipal() instanceof UserDetails;
+        UserDetails details;
+        try {
+            details = (UserDetails) auth.getPrincipal();
+        } catch (Exception e) {
+            return new User("","","","","","","");
+        }
+        return details.getUser();
+    }
+
+    public String getUsername() {
+        return getUser().getUsername();
+    }
+
+    public int getUserId() {
+        return getUser().getId();
     }
 
     public boolean canEditBook(int bookId) {
         Book book = bookController.getBook(bookId);
-        if (userId == 0) return false;
-        return (userId == book.getUser().getId() || userService.isUserAdmin(user));
+        User user = getUser();
+        if (user.getId() == 0) return false;
+        return (user.getId() == book.getUser().getId() || userService.isUserAdmin(user));
     }
 
     public boolean canRenderBook(Book book) {
         if (book.getVisible()) return true;
         else {
-            if (userId != 0) return userService.isUserAdmin(user);
+            User user = getUser();
+            if (user.getId() != 0) return userService.isUserAdmin(user);
             else return false;
         }
     }
 
     public boolean isLogged() {
-        return userId!=0;
+        return getUser() != null;
     }
 
-    // TODO jak je to s hashovanim?
 
-    public String login() {
-        if (username.equals("")) FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Uživatelské jméno musí být vyplněno!"));
-        if (password.equals("")) FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Heslo musí být vyplněno!"));
-        if (username.equals("") || password.equals("")) return "";
+    // Hodne z toho bude tohoto bude delano pres sping security :-)
 
-        User user = userService.findByUsername(username);
-        userDetailsService.loadUserByUsername(username);
-        if (passwordEncoder.matches(password, user.getPassword())) {
-            userId = user.getId();
-            this.user = user;
-            username = password = "";
-            return "./books.xhtml?faces-redirect=true";
-        }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Špatné uživatelské jméno nebo heslo!"));
-        return "";
-    }
+//    public String login() {
+//        if (username.equals("")) FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Uživatelské jméno musí být vyplněno!"));
+//        if (password.equals("")) FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Heslo musí být vyplněno!"));
+//        if (username.equals("") || password.equals("")) return "";
+//
+//        User user = userService.findByUsername(username);
+////        userDetailsService.loadUserByUsername(username);
+//        if (passwordEncoder.matches(password, user.getPassword())) {
+//            userId = user.getId();
+//            this.user = user;
+//            username = password = "";
+//            return "./books.xhtml?faces-redirect=true";
+//        }
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Špatné uživatelské jméno nebo heslo!"));
+//        return "";
+//    }
 
     public String logout(String page) {
-        user = null;
-        userId = 0;
+        SecurityContextHolder.clearContext(); //logout ze spring security
         return "./" + page + "?faces-redirect=true";
     }
 
@@ -103,13 +124,6 @@ public class UserBean {
         else return "Nevrácena";
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getPassword() {
         return password;
@@ -117,13 +131,5 @@ public class UserBean {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public User getUser() {
-        return user;
     }
 }

@@ -37,6 +37,8 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler, Logo
         }
         final LoginStatus loginStatus = new LoginStatus(true, authentication.isAuthenticated(), username, null);
         mapper.writeValue(httpServletResponse.getOutputStream(), loginStatus);
+
+        httpServletResponse.sendRedirect("/public/books.xhtml");
     }
 
     private String getUsername(Authentication authentication) {

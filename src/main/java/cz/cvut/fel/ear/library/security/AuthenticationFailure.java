@@ -2,12 +2,12 @@ package cz.cvut.fel.ear.library.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.fel.ear.library.security.model.LoginStatus;
-import cz.cvut.fel.ear.library.view.UserBean;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
@@ -34,5 +34,8 @@ public class AuthenticationFailure implements AuthenticationFailureHandler {
         LOG.debug("Login failed for user {}.", httpServletRequest.getParameter("username"));
         final LoginStatus status = new LoginStatus(false, false, null, e.getMessage());
         mapper.writeValue(httpServletResponse.getOutputStream(), status);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Špatné uživatelské jméno nebo heslo!"));
+        System.out.println("Sakra");
+        return;
     }
 }
