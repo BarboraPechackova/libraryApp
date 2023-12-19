@@ -5,7 +5,6 @@ import cz.cvut.fel.ear.library.model.BookLoan;
 import cz.cvut.fel.ear.library.model.Reservation;
 import cz.cvut.fel.ear.library.model.User;
 import cz.cvut.fel.ear.library.rest.utils.RestUtils;
-import cz.cvut.fel.ear.library.security.model.UserDetails;
 import cz.cvut.fel.ear.library.service.BookLoanService;
 import cz.cvut.fel.ear.library.service.BookService;
 import cz.cvut.fel.ear.library.service.ReservationService;
@@ -15,12 +14,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/rest/v1/reservations")
@@ -38,7 +36,6 @@ public class ReservationController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
     public List<Reservation> getReservations() {
         final List<Reservation> reservations = service.findAll();
         if (reservations == null) {
@@ -48,7 +45,6 @@ public class ReservationController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public Reservation getReservation(@PathVariable Integer id) {
         final Reservation reservation = service.find(id);
         if (reservation == null) {
@@ -57,34 +53,39 @@ public class ReservationController {
         return reservation;
     }
 
+//    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<Void> createReservation(@RequestBody Reservation reservation) {
+//        assert reservation != null;
+//
+//        service.persist(reservation);
+//        final HttpHeaders headers = RestUtils.createLocationHeaderFromUri("/{id}", reservation.getId());
+//        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+//    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public ResponseEntity<Void> createReservation(@RequestBody Book book, @RequestBody User user) {
+    public ResponseEntity<Reservation> createReservation(@RequestBody Book book, @RequestBody User user) {
         assert book != null;
         assert user != null;
         Reservation reservation = new Reservation(user, book);
         service.persist(reservation);
-        final HttpHeaders headers = RestUtils.createLocationHeaderFromUri("/{id}", reservation.getId());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(reservation, HttpStatus.CREATED);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public void removeReservation(@PathVariable int id, Authentication auth) {
-        final Reservation reservation = service.find(id);
-        if (reservation == null) {
-            throw RestUtils.newNotFoundEx("Reservation", id);
-        }
+//    @DeleteMapping(value = "/{id}")
+//    public ResponseEntity<Void> removeReservation(@PathVariable int id) {
+//        final Reservation reservation = service.find(id);
+//        if (reservation == null) {
+//            throw RestUtils.newNotFoundEx("Category", id);
+//        }
+//
+//        final Product product = productService.find(idProdukty);
+//        if (product == null) {
+//            throw NotFoundException.create("Product", id);
+//        }
+//        service.removeProduct(category, product);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 
-
-        assert auth.getPrincipal() instanceof UserDetails;
-        final User user = ((UserDetails) auth.getPrincipal()).getUser();
-
-        if (!userService.isUserAdmin(user) && reservation.getUser().getId() != user.getId()) {
-            throw new AccessDeniedException("Cannot delete other users reservation!");
-        }
-
-
-    }
 
 
 }

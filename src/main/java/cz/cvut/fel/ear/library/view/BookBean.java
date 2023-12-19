@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Component
 @SessionScope
@@ -79,6 +80,18 @@ public class BookBean implements Serializable {
         name = author = description = isbn = "";
         price = 0;
         visible = true;
+    }
+
+    public String getReservationOrLoan(Book book) {
+        if (book.getState() == BookState.VOLNA) return "Vypůjčit";
+        if (book.getState() == BookState.REZERVOVANA) return "Rezervovat";
+        if (book.getState() == BookState.VYPUJCENA) return "Rezervovat";
+        return "";
+    }
+
+    public String redirectToReservationOrLoan(Book book) {
+        if (Objects.equals(getReservationOrLoan(book), "Vypůjčit")) return "./bookLoan.xhtml?faces-redirect=true";
+        else return "./bookReservation.xhtml?faces-redirect=true";
     }
 
     // Getter and setter for selectedBookId
