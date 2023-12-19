@@ -35,12 +35,22 @@ public class BookLoanBean {
     public void createBookLoan(Book book, User user) {
         ResponseEntity<Reservation> response = reservationController.createReservation(book, user);
         if (loanEndDate != null) {
-            if(response.getStatusCode() == HttpStatus.CREATED) {
-                Reservation reservation = response.getBody();
+            if (loanEndDate.isAfter(LocalDate.now())) {
+                if (!loanEndDate.isAfter(LocalDate.now().plusMonths(1))) {
+                    if (response.getStatusCode() == HttpStatus.CREATED) {
+                        Reservation reservation = response.getBody();
 
-                // From now, ending in the date specified
-                bookLoanController.createBookLoanWithDates(reservation, LocalDate.now(), loanEndDate);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Výpůjčka vytvořena"));
+                        // From now, ending in the date specified
+                        bookLoanController.createBookLoanWithDates(reservation, LocalDate.now(), loanEndDate);
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Výpůjčka vytvořena"));
+                    }
+                }
+                else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Výpůjčka nemůže trvat déle než měsíc"));
+                }
+            }
+            else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Datum nemůže být v minulosti"));
             }
         }
         else {
