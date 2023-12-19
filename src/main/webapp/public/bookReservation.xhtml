@@ -15,26 +15,35 @@
 </h:head>
 
 <h:body>
+    <div class="card">
+        <h:form styleClass="mb-0">
+            <p:menubar styleClass="px-5">
+                <p:menuitem action="./books.xhtml?faces-redirect=true" value="Knihy" icon="pi pi-fw pi-book"/>
+                <p:menuitem action="./addBook.xhtml?faces-redirect=true" value="Přidat knihu" icon="pi pi-fw pi-plus" rendered="#{userBean.logged}"/>
+                <p:menuitem action="./user.xhtml?faces-redirect=true" value="Profil" icon="pi pi-fw pi-user" rendered="#{userBean.logged}"/>
+                <p:menuitem action="./login.xhtml?faces-redirect=true" value="Profil" icon="pi pi-fw pi-user" rendered="#{!userBean.logged}"/>
+
+                <f:facet name="options">
+                    <p:commandButton icon="pi pi-fw pi-sign-in" action="./login.xhtml?faces-redirect=true" value="Přihlásit se" rendered="#{!userBean.logged}"/>
+                    <p:commandButton icon="pi pi-fw pi-sign-out" action='#{userBean.logout("books")}' value="Odhlásit se" rendered="#{userBean.logged}"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+    </div>
+
+
     <div class="flex align-items-center justify-content-center container px-4 px-lg-5 my-5">
         <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
             <div class="text-center mb-5">
-                <div class="text-900 text-3xl font-medium mb-3">Rezervace</div>
+                <div class="text-900 text-3xl font-medium mb-3">Rezervace knihy #{bookController.getBook(bookBean.selectedBookId).name}</div>
             </div>
 
             <h:form>
-
-                <label for="username1" class="block text-900 font-medium mb-2">Uživatelské jméno</label>
-                <p:inputText id="username1" value="#{userBean.username}" styleClass="w-full mb-3" />
-                <label for="password1" class="block text-900 font-medium mb-2">Heslo</label>
-                <p:inputText id="password1" value="#{userBean.password}" type="password" styleClass="w-full mb-3" />
-                <div class="flex align-items-center justify-content-between mb-6">
-                </div>
-                <p:messages id="messages" showDetail="true" showIcon="false" showSummary="false" closable="true">
-                    <p:autoUpdate/>
-                </p:messages>
-                <div class="flex">
-                    <p:commandButton action="#{userBean.login()}" value="Přihlásit se" icon="pi pi-user" styleClass="w-full mr-2" update="@form"/>
-                    <p:commandButton action="./registration.xhtml?faces-redirect=true" value="Registrovat se" icon="pi pi-user-plus" styleClass="w-full ml-2 ui-button-outlined"/>
+                <div class="text-900 font-medium">Vlastník knihy: #{bookController.getBook(bookBean.selectedBookId).user.username}</div>
+                <div class="text-900 font-medium">Cena: #{bookController.getBook(bookBean.selectedBookId).price} Kč</div>
+                <br/>
+                <div class="text-center d-flex justify-content-center">
+                    <p:commandButton styleClass="mx-auto" action="#{bookReservationBean.createBookReservation(bookController.getBook(bookBean.selectedBookId), userController.getUser(userBean.userId))}" value="Potvrdit"/>
                 </div>
             </h:form>
         </div>
