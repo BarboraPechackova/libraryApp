@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class RatingController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole(\"ADMIN\", \"USER\")")
     public ResponseEntity<Void> createRating(@RequestBody(required = false) Rating rating) {
         service.persist(rating);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromUri("/{id}", rating.getId());
@@ -49,6 +51,7 @@ public class RatingController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole(\"ADMIN\", \"USER\")")
     public ResponseEntity<Void> removeRating(@PathVariable int id) {
         final Rating rating = service.find(id);
         if (rating == null) {

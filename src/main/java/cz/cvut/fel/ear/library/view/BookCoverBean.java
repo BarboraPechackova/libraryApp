@@ -13,6 +13,7 @@ import org.primefaces.event.FilesUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 import org.primefaces.model.file.UploadedFiles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -25,11 +26,11 @@ public class BookCoverBean {
     private final BookController bookController;
     private final PictureController pictureController;
     private final BookCoverService bookCoverService;
+    private final BookBean bookBean;
 
     @Getter
     @Setter
     private UploadedFiles files;
-    private BookBean bookBean;
 
 
     @Autowired
@@ -63,9 +64,9 @@ public class BookCoverBean {
         return result;
     }
 
-    public void deleteBookCover(BookCover cover) {
-        pictureController.deleteBookCover(cover.getId());
-    }
+//    public void deleteBookCover(BookCover cover) {
+//        pictureController.deleteBookCover(cover.getId());
+//    }
 
     public String deleteBookCover(int coverId) {
         pictureController.deleteBookCover(coverId);

@@ -2,6 +2,7 @@ package cz.cvut.fel.ear.library.security.model;
 
 import cz.cvut.fel.ear.library.model.Role;
 import cz.cvut.fel.ear.library.model.User;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -33,7 +34,7 @@ public class UserDetails implements org.springframework.security.core.userdetail
         authorities.add(new SimpleGrantedAuthority(getHighestRoleOfUser(user)));
     }
 
-    private String getHighestRoleOfUser(User user) {
+    public String getHighestRoleOfUser(User user) {
         return user.getRoles().stream()
                 .map(Role::getRole)
                 .distinct()

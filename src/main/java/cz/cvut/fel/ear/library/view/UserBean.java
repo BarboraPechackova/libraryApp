@@ -7,6 +7,7 @@ import cz.cvut.fel.ear.library.rest.BookController;
 import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.rest.UserController;
 import cz.cvut.fel.ear.library.service.UserService;
+import cz.cvut.fel.ear.library.service.security.UserDetailsService;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,27 +15,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.util.List;
-
 @Component
 @SessionScope
 public class UserBean {
     private String username;
     private String password;
     private int userId;
-    private User user;
+    private User user = null;
     private final BookController bookController;
     private final UserController userController;
     private final UserService userService;
+    private final UserDetailsService userDetailsService; // security
     private final PasswordEncoder passwordEncoder;
 
     // if userId is 0, then the user is not logged in
 
     @Autowired
-    public UserBean(BookController bookController, UserController userController, UserService userService, PasswordEncoder passwordEncoder) {
+    public UserBean(BookController bookController, UserController userController, UserService userService, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         this.bookController = bookController;
         this.userController = userController;
         this.userService = userService;
+        this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -62,8 +63,9 @@ public class UserBean {
         if (username.equals("")) FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Uživatelské jméno musí být vyplněno!"));
         if (password.equals("")) FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Heslo musí být vyplněno!"));
         if (username.equals("") || password.equals("")) return "";
-//        List<User> users = userController.getUsers();
+
         User user = userService.findByUsername(username);
+        userDetailsService.loadUserByUsername(username);
         if (passwordEncoder.matches(password, user.getPassword())) {
             userId = user.getId();
             this.user = user;

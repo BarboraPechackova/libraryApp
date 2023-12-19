@@ -2,10 +2,12 @@ package cz.cvut.fel.ear.library.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.fel.ear.library.security.model.LoginStatus;
+import cz.cvut.fel.ear.library.view.UserBean;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 

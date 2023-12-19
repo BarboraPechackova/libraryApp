@@ -7,6 +7,7 @@ import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.Rating;
 import cz.cvut.fel.ear.library.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +48,7 @@ public class RatingService {
     }
 
     @Transactional
+    @PostFilter("hasRole('ADMIN') or (rating.user.username == principal.username)")
     public void remove(Rating rating) {
         Objects.requireNonNull(rating);
         dao.remove(rating);
