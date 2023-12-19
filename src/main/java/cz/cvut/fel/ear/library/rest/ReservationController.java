@@ -16,7 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/rest/v1/reservations")
@@ -61,13 +63,12 @@ public class ReservationController {
 //    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createReservation(@RequestBody Book book, @RequestBody User user) {
+    public ResponseEntity<Reservation> createReservation(@RequestBody Book book, @RequestBody User user) {
         assert book != null;
         assert user != null;
         Reservation reservation = new Reservation(user, book);
         service.persist(reservation);
-        final HttpHeaders headers = RestUtils.createLocationHeaderFromUri("/{id}", reservation.getId());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(reservation, HttpStatus.CREATED);
     }
 
 //    @DeleteMapping(value = "/{id}")
@@ -84,6 +85,7 @@ public class ReservationController {
 //        service.removeProduct(category, product);
 //        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 //    }
+
 
 
 }

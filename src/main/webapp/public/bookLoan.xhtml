@@ -39,12 +39,16 @@
             </div>
 
             <h:form>
-                <div class="text-900 font-medium">Vlastník knihy: #{bookController.getBook(bookBean.selectedBookId).user.username}</div>
-                <div class="text-900 font-medium">Cena: #{bookController.getBook(bookBean.selectedBookId).price} Kč</div>
+                <label for="loanEndDate" class="block text-900 font-medium mb-2">Datum vrácení výpůjčky</label>
+                <p:datePicker id="loanEndDate" value="#{bookLoanBean.loanEndDate}" styleClass="w-full mb-3" />
+                <div class="text-900 font-medium mb-2">Cena: #{bookController.getBook(bookBean.selectedBookId).price} Kč</div>
                 <br/>
                 <div class="text-center d-flex justify-content-center">
-                    <p:commandButton styleClass="mx-auto" action="#{bookBean.redirectToReservationOrLoan(bookController.getBook(bookBean.selectedBookId))}" value="Potvrdit"/>
+                    <p:commandButton styleClass="mx-auto" action="#{bookLoanBean.createBookLoan(bookController.getBook(bookBean.selectedBookId), userController.getUser(userBean.userId))}" value="Potvrdit"/>
                 </div>
+                <p:messages id="messages" showDetail="true" showIcon="false" showSummary="false" closable="true">
+                    <p:autoUpdate/>
+                </p:messages>
             </h:form>
         </div>
     </div>
