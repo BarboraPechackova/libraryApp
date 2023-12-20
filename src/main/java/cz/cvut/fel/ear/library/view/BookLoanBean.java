@@ -45,13 +45,10 @@ public class BookLoanBean {
         if (loanEndDate != null) {
             if (!loanEndDate.isBefore(LocalDate.now().plusWeeks(1))) {
                 if (!loanEndDate.isAfter(LocalDate.now().plusMonths(1))) {
-                    System.out.println("creating reservation");
                     ResponseEntity<Reservation> response = reservationController.createReservation(book, user);
                     if (response.getStatusCode() == HttpStatus.CREATED) {
-                        System.out.println("reservation  created and makes sense");
                         Reservation reservation = response.getBody();
                         // Create book loan, from today until the date specified by the user
-                        System.out.println("creating loan");
                         bookLoanController.createBookLoanWithDates(reservation, LocalDate.now(), loanEndDate);
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Výpůjčka vytvořena"));
                     }
