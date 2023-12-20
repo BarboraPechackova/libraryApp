@@ -45,7 +45,9 @@
                 <div class="text-700 font-medium mb-2 mt-2">Pozor, výpůjčka je závazná</div>
                 <br/>
                 <div class="text-center d-flex justify-content-center">
-                    <p:commandButton styleClass="mx-auto" action="#{bookLoanBean.createBookLoan(bookController.getBook(bookBean.selectedBookId), userController.getUser(userBean.userId))}" value="Potvrdit"/>
+                    <p:commandButton styleClass="mx-auto"
+                                     action="#{bookLoanBean.createBookLoan(bookController.getBook(bookBean.selectedBookId), userController.getUser(userBean.userId))}"
+                                     value="Potvrdit"/>
                 </div>
                 <p:messages id="messages" showDetail="true" showIcon="false" showSummary="false" closable="true">
                     <p:autoUpdate/>

@@ -4,6 +4,7 @@ import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.BookLoan;
 import cz.cvut.fel.ear.library.model.Reservation;
 import cz.cvut.fel.ear.library.model.User;
+import cz.cvut.fel.ear.library.model.enums.ReservationState;
 import cz.cvut.fel.ear.library.rest.utils.RestUtils;
 import cz.cvut.fel.ear.library.service.BookLoanService;
 import cz.cvut.fel.ear.library.service.BookService;
@@ -71,20 +72,22 @@ public class ReservationController {
         return new ResponseEntity<>(reservation, HttpStatus.CREATED);
     }
 
-//    @DeleteMapping(value = "/{id}")
-//    public ResponseEntity<Void> removeReservation(@PathVariable int id) {
-//        final Reservation reservation = service.find(id);
-//        if (reservation == null) {
-//            throw RestUtils.newNotFoundEx("Category", id);
-//        }
-//
-//        final Product product = productService.find(idProdukty);
-//        if (product == null) {
-//            throw NotFoundException.create("Product", id);
-//        }
-//        service.removeProduct(category, product);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteReservation(@PathVariable int id) {
+        final Reservation reservation = service.find(id);
+        if (reservation == null) {
+            throw RestUtils.newNotFoundEx("Reservation", id);
+        }
+
+        // Set the state of the reservation to ZRUSENA
+        reservation.setState(ReservationState.ZRUSENA);
+
+        // Update the reservation
+        service.update(reservation);
+
+        // Return an appropriate response
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 
 

@@ -44,7 +44,9 @@
                     <br/>
                 </div>
                 <div class="text-center d-flex justify-content-center">
-                    <p:commandButton styleClass="mx-auto" action="#{bookReservationBean.createBookReservation(bookController.getBook(bookBean.selectedBookId), userController.getUser(userBean.userId))}" value="Potvrdit"/>
+                    <p:commandButton styleClass="mx-auto"
+                                     action="#{bookReservationBean.createBookReservation(bookController.getBook(bookBean.selectedBookId), userController.getUser(userBean.userId))}"
+                                     value="Potvrdit"/>
                 </div>
                 <p:messages id="messages" showDetail="true" showIcon="false" showSummary="false" closable="true">
                     <p:autoUpdate/>

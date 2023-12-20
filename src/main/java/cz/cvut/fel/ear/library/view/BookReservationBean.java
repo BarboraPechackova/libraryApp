@@ -24,4 +24,9 @@ public class BookReservationBean {
         reservationController.createReservation(book, user);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Rezervace vytvořena"));
     }
+
+    public String removeBookReservationAndRedirect(int id){
+        reservationController.deleteReservation(id);
+        return "./user.xhtml?faces-redirect=true";
+    }
 }

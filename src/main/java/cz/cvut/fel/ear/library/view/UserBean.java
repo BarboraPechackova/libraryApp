@@ -1,10 +1,7 @@
 package cz.cvut.fel.ear.library.view;
 
-import cz.cvut.fel.ear.library.model.BookLoan;
-import cz.cvut.fel.ear.library.model.Role;
-import cz.cvut.fel.ear.library.model.User;
+import cz.cvut.fel.ear.library.model.*;
 import cz.cvut.fel.ear.library.rest.BookController;
-import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.rest.UserController;
 import cz.cvut.fel.ear.library.service.UserService;
 import jakarta.faces.application.FacesMessage;
@@ -99,6 +96,14 @@ public class UserBean {
     public String bookLoanState(BookLoan bookLoan) {
         if (bookLoan.isReturned()) return "Vrácena";
         else return "Nevrácena";
+    }
+
+    public String bookReservationState(Reservation reservation) {
+        return switch (reservation.getState()) {
+            case AKTIVNI -> "Aktivní";
+            case ZRUSENA -> "Zrušená";
+            case VYDANA -> "Vydaná";
+        };
     }
 
     public String getUsername() {

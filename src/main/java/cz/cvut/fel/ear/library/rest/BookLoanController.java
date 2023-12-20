@@ -90,29 +90,7 @@ public class BookLoanController {
         return new ResponseEntity<>(RestUtils.createHttpHeaders(), HttpStatus.NO_CONTENT);
     }
 
-//    @PostMapping(value = "/{id}/products", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<Void> addProductToCategory(@PathVariable int id, @RequestBody Product product) {
-//        final Category category = service.find(id);
-//        if (category == null) {
-//            throw NotFoundException.create("Category", id);
-//        }
-//        service.addProduct(category, product);
-//        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}/products/{idProducts}", category.getId(), product.getId());
-//        return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
-//    }
-
-//    @DeleteMapping(value = "/{id}/products/{idProdukty}")
-//    public ResponseEntity<Void> removeProductFromCategory(@PathVariable int id, @PathVariable int idProdukty) {
-//        final Category category = service.find(id);
-//        if (category == null) {
-//            throw NotFoundException.create("Category", id);
-//        }
-//        final Product product = productService.find(idProdukty);
-//        if (product == null) {
-//            throw NotFoundException.create("Product", id);
-//        }
-//        service.removeProduct(category, product);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
+//    @GetMapping(value = "/{id}/return", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<Boolean>
 
 }
