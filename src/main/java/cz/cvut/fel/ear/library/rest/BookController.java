@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rest/v1/books")
+@PreAuthorize("permitAll()")
 public class BookController {
 
     private final BookService service;
@@ -69,7 +70,7 @@ public class BookController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ROLE_ADMIN', 'USER', 'admin')")
     public void updateBook(@RequestBody Book book) {
         service.update(book);
     }
