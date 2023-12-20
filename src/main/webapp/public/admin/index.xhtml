@@ -1,0 +1,102 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+
+<h:head>
+    <!--  Bootstrap css link  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"/>
+
+    <h:outputStylesheet library="webjars" name="primeflex/3.3.1/primeflex.css" />
+
+</h:head>
+
+<h:body>
+
+    <div class="flex align-items-center justify-content-center container px-4 px-lg-5 my-5">
+        <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+            <div class="text-center mb-5">
+                <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+                <span class="text-600 font-medium line-height-3">Don't have an account?</span>
+                <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a>
+            </div>
+            <div>
+<!--                <h:outputText value="#{viewBean.date}"></h:outputText>-->
+                <label for="email1" class="block text-900 font-medium mb-2">Email</label>
+                <p:inputText id="email1" styleClass="w-full mb-3" placeholder="Email address"/>
+                <label for="password1" class="block text-900 font-medium mb-2">Password</label>
+                <p:inputText id="password1" type="password" styleClass="w-full mb-3" placeholder="Password"/>
+
+                <div class="flex align-items-center justify-content-between mb-6">
+                    <div class="flex align-items-center">
+                        <p:selectBooleanCheckbox id="rememberme" styleClass="mr-2"/>
+                        <p:outputLabel for="rememberme" value="Remember me"/>
+                    </div>
+                    <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot your password?</a>
+                </div>
+
+                <p:commandButton type="button" value="Sign In" icon="pi pi-user" styleClass="w-full"/>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="surface-section container px-4 px-lg-5 my-5">
+        <div class="font-medium text-3xl text-900 mb-3">Movie Information</div>
+        <div class="text-500 mb-5">Morbi tristique blandit turpis. In viverra ligula id nulla hendrerit rutrum.</div>
+        <ul class="list-none p-0 m-0">
+            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                <div class="text-500 w-6 md:w-2 font-medium">Title</div>
+                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">Heat</div>
+                <div class="w-6 md:w-2 flex justify-content-end">
+                    <p:commandButton type="button" value="Edit" icon="pi pi-pencil"
+                                     styleClass="ui-button-flat"/>
+                </div>
+            </li>
+            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                <div class="text-500 w-6 md:w-2 font-medium">Genre</div>
+                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                    <p:chip label="Crime" styleClass="mr-2"/>
+                    <p:chip label="Drama" styleClass="mr-2"/>
+                    <p:chip label="Thriller"/>
+                </div>
+                <div class="w-6 md:w-2 flex justify-content-end">
+                    <p:commandButton type="button" value="Edit" icon="pi pi-pencil"
+                                     styleClass="ui-button-flat"/>
+                </div>
+            </li>
+            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                <div class="text-500 w-6 md:w-2 font-medium">Director</div>
+                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">Michael Mann</div>
+                <div class="w-6 md:w-2 flex justify-content-end">
+                    <p:commandButton type="button" value="Edit" icon="pi pi-pencil"
+                                     styleClass="ui-button-flat"/>
+                </div>
+            </li>
+            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                <div class="text-500 w-6 md:w-2 font-medium">Actors</div>
+                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">Robert De Niro, Al Pacino</div>
+                <div class="w-6 md:w-2 flex justify-content-end">
+                    <p:commandButton type="button" value="Edit" icon="pi pi-pencil"
+                                     styleClass="ui-button-flat"/>
+                </div>
+            </li>
+            <li class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap">
+                <div class="text-500 w-6 md:w-2 font-medium">Plot</div>
+                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
+                    A group of professional bank robbers start to feel the heat from police
+                    when they unknowingly leave a clue at their latest heist.
+                </div>
+                <div class="w-6 md:w-2 flex justify-content-end">
+                    <p:commandButton type="button" value="Edit" icon="pi pi-pencil"
+                                     styleClass="ui-button-flat"/>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</h:body>
+</html>

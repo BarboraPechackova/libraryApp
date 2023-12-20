@@ -25,4 +25,8 @@ public class RoleDao extends BaseDao<Role>{
         Objects.requireNonNull(name);
         return em.createNamedQuery("Role.findAllUsersByRoleName", User.class).setParameter("name", name).getResultList();
     }
+
+    public List<Role> findAllRolesOfUser(User user) {
+        return em.createNamedQuery("Role.findAllRolesOfUser", Role.class).setParameter("user",user).getResultList();
+    }
 }

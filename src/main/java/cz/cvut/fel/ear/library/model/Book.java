@@ -1,5 +1,6 @@
 package cz.cvut.fel.ear.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.cvut.fel.ear.library.model.enums.BookState;
 import jakarta.persistence.*;
 
@@ -11,6 +12,7 @@ import java.util.List;
         @NamedQuery(name = "Book.findByUser", query = "SELECT b from Book b WHERE user.id = :idUser"),
         @NamedQuery(name = "Book.findVisibleByUser", query = "SELECT b from Book b WHERE user.id = :idUser and visible = TRUE"),
         @NamedQuery(name = "Book.findByName", query = "SELECT b from Book b WHERE LOWER(b.name) LIKE LOWER(:name)"),
+        @NamedQuery(name = "Book.findByAuthor", query = "SELECT b from Book b WHERE LOWER(b.author) LIKE LOWER(:author)"),
         @NamedQuery(name = "Book.findVisibleByName", query = "SELECT b from Book b WHERE LOWER(b.name) LIKE LOWER(:name) and visible=TRUE")
 })
 public class Book {
@@ -32,7 +34,7 @@ public class Book {
     @Column(name = "price")
     private int price;
     @Basic
-    @Column(name = "ISBN")
+    @Column(name = "isbn")
     private String isbn;
     @Basic
     @Enumerated(EnumType.STRING)
@@ -40,25 +42,29 @@ public class Book {
     private BookState state;
     @Basic
     @Column(name = "visible")
-    private boolean visible;
+    private Boolean visible;
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
 
     @OneToMany
     @JoinColumn(name = "id_book")
+    @JsonIgnore
     private List<BookLoan> bookLoans;
 
     @OneToMany
     @JoinColumn(name = "id_book")
+    @JsonIgnore
     private List<Reservation> reservations;
 
     @OneToMany
     @JoinColumn(name = "id_book")
+    @JsonIgnore
     private List<BookCover> bookCovers;
 
     @OneToMany
     @JoinColumn(name = "id_book")
+    @JsonIgnore
     private List<Rating> ratings;
 
     /**
@@ -69,9 +75,12 @@ public class Book {
         if (state == null) {
             state = BookState.VOLNA;
         }
+        if (visible == null) {
+            visible = true;
+        }
     }
 
-        public int getId() {
+    public int getId() {
         return id;
     }
 
@@ -127,11 +136,11 @@ public class Book {
         this.state = state;
     }
 
-    public boolean isVisible() {
+    public Boolean getVisible() {
         return visible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(Boolean visible) {
         this.visible = visible;
     }
 
@@ -141,6 +150,30 @@ public class Book {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<BookLoan> getBookLoans() {
+        return bookLoans;
+    }
+
+    public void setBookLoans(List<BookLoan> bookLoans) {
+        this.bookLoans = bookLoans;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public List<BookCover> getBookCovers() {
+        return bookCovers;
+    }
+
+    public List<Rating> getRatings() {
+        return ratings;
     }
 
     @Override

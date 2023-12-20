@@ -33,17 +33,23 @@ public class RatingService {
     }
 
     @Transactional
-    public void persist(Rating rating) throws InvalidArgumentException {
+    public void persist(Rating rating) {
         Objects.requireNonNull(rating);
         validate(rating);
         dao.persist(rating);
     }
 
     @Transactional
-    public void update(Rating rating) throws InvalidArgumentException {
+    public void update(Rating rating) {
         Objects.requireNonNull(rating);
         validate(rating);
         dao.update(rating);
+    }
+
+    @Transactional
+    public void remove(Rating rating) {
+        Objects.requireNonNull(rating);
+        dao.remove(rating);
     }
 
     @Transactional

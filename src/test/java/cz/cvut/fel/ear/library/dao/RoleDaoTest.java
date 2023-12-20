@@ -1,6 +1,6 @@
 package cz.cvut.fel.ear.library.dao;
 
-import cz.cvut.fel.ear.library.DemoApplication;
+import cz.cvut.fel.ear.library.LibraryApplication;
 import cz.cvut.fel.ear.library.model.Role;
 import cz.cvut.fel.ear.library.model.User;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
-@ComponentScan(basePackageClasses = DemoApplication.class)
+@ComponentScan(basePackageClasses = LibraryApplication.class)
 @ActiveProfiles("test")
 public class RoleDaoTest {
 

@@ -15,6 +15,7 @@ DROP TABLE IF EXISTS Library_user;
 CREATE TABLE Library_user(
     "id" SERIAL PRIMARY KEY,
     "username" VARCHAR(255) NOT NULL,
+    "password" VARCHAR(255) NOT NULL,
     "first_name" VARCHAR(255) NOT NULL,
     "surname" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255) NOT NULL,
@@ -30,7 +31,7 @@ CREATE TABLE Book (
     "author" VARCHAR(255) NOT NULL,
     "description" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
-    "ISBN" VARCHAR(255) NOT NULL,
+    "isbn" VARCHAR(255) NOT NULL,
     "state" BookState NOT NULL DEFAULT 'VOLNA',
     "visible" BOOLEAN NOT NULL,
     "id_user" INT NOT NULL,
@@ -60,7 +61,7 @@ CREATE TABLE Profile_picture(
     "ts_to" TIMESTAMP(0) WITHOUT TIME ZONE,
     "id_picture" INT NOT NULL,
     "id_user" INT NOT NULL,
-    FOREIGN KEY (id_picture) REFERENCES Picture(id),
+    FOREIGN KEY (id) REFERENCES Picture(id),
     FOREIGN KEY (id_user) REFERENCES Library_user(id)
 );
 
@@ -68,7 +69,7 @@ CREATE TABLE Book_cover(
     "id" SERIAL PRIMARY KEY,
     "id_picture" INT NOT NULL,
     "id_book" INT NOT NULL,
-    FOREIGN KEY (id_picture) REFERENCES Picture(id),
+    FOREIGN KEY (id) REFERENCES Picture(id),
     FOREIGN KEY (id_book) REFERENCES Book(id)
 );
 
@@ -102,3 +103,6 @@ CREATE TABLE Reservation(
     FOREIGN KEY (id_user) REFERENCES Library_user(id),
     FOREIGN KEY (id_book) REFERENCES Book(id)
 );
+
+ALTER TABLE Library_user
+    ADD COLUMN "password" VARCHAR(255) NOT NULL;

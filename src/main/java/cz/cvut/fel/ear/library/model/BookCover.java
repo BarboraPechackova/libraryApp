@@ -15,9 +15,6 @@ public class BookCover extends Picture {
     @ManyToOne
     @JoinColumn(name = "id_book")
     private Book book;
-//    @OneToOne
-//    @JoinColumn(name = "id_picture")
-//    private Picture picture;
 
     public int getId() {
         return id;
@@ -27,12 +24,20 @@ public class BookCover extends Picture {
         this.id = id;
     }
 
-    public int getIdBook() {
-        return book.getId();
+    public Book getBook() {
+        return book;
     }
 
-    public void setIdBook(int idBook) {
-        book.setId(idBook);
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public BookCover() {
+    }
+
+    public BookCover(Book book, byte[] image) {
+        super(image);
+        this.book = book;
     }
 
     @Override

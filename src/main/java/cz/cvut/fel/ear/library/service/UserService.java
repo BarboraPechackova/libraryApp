@@ -5,6 +5,7 @@ import cz.cvut.fel.ear.library.exceptions.BookNotReturnedException;
 import cz.cvut.fel.ear.library.model.*;
 import cz.cvut.fel.ear.library.model.enums.BookState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,15 +20,17 @@ public class UserService {
     private final RoleService roleService;
     private final BookDao bookDao;
     private final BookLoanDao bookLoanDao;
-    private final ReservationDao reservationDao;
+    private final ReservationService reservationService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserDao dao, RoleService roleService, BookDao bookDao, BookLoanDao bookLoanDao, ReservationDao reservationDao) {
+    public UserService(UserDao dao, RoleService roleService, BookDao bookDao, BookLoanDao bookLoanDao, ReservationService reservationService, PasswordEncoder passwordEncoder) {
         this.dao = dao;
         this.roleService = roleService;
         this.bookDao = bookDao;
         this.bookLoanDao = bookLoanDao;
-        this.reservationDao = reservationDao;
+        this.reservationService = reservationService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
@@ -40,9 +43,15 @@ public class UserService {
         return dao.find(id);
     }
 
+    @Transactional(readOnly = true)
+    public User findByUsername(String username) {
+        return dao.findByUsername(username);
+    }
+
     @Transactional
     public void persist(User user) {
         Objects.requireNonNull(user);
+        user.encodePassword(passwordEncoder); // sifrovani hesla
         dao.persist(user);
     }
 
@@ -50,13 +59,15 @@ public class UserService {
     public void removeUser(User user) {
         validateUserRemove(user);
         Objects.requireNonNull(user);
-        for (Reservation reservation : reservationDao.getAllUserReservations(user)) {
-            reservationDao.remove(reservation);
-        }
+        reservationService.deleteActiveUserReservations(user);
+//        for (Reservation reservation : reservationService.getAllUserReservations(user)) {
+//            reservationService.remove(reservation);
+//        }
         for (Book book : bookDao.findAllFromUser(user)) {
-            for (Reservation reservation : reservationDao.getAllReservationsOfBook(book)) {
-                reservationDao.remove(reservation);
-            }
+            reservationService.deleteActiveBookReservations(book);
+//            for (Reservation reservation : reservationService.getAllReservationsOfBook(book)) {
+//                reservationService.remove(reservation);
+//            }
             bookDao.remove(book);
         }
         if (user.getRoles()!=null) {
@@ -65,6 +76,17 @@ public class UserService {
             }
         }
         dao.remove(user);
+    }
+
+    @Transactional
+    public boolean isUserAdmin(User user) {
+        List<Role> roles = roleService.findAllRolesOfUser(user);
+        for (Role role : roles) {
+            if (role.getRole().equals("ADMIN")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void validateUserRemove(User user) {

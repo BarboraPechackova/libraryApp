@@ -134,4 +134,9 @@ public class RoleService {
         Objects.requireNonNull(name);
         return roleDao.findAllUsersByRoleName(name);
     }
+
+    public List<Role> findAllRolesOfUser(User user) {
+        Objects.requireNonNull(user);
+        return roleDao.findAllRolesOfUser(user);
+    }
 }

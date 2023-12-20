@@ -1,59 +1,83 @@
 package cz.cvut.fel.ear.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "library_user")
+@NamedQueries({
+        @NamedQuery(name = "User.getUserByUsername", query = "SELECT u FROM User u WHERE username = :username"),
+})
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
-    @Basic
     @Column(name = "username")
     private String username;
-    @Basic
+    @Column(name = "password")
+    private String password;
     @Column(name = "first_name")
     private String firstName;
-    @Basic
     @Column(name = "surname")
     private String surname;
-    @Basic
     @Column(name = "email")
     private String email;
-    @Basic
     @Column(name = "phone")
     private String phone;
-    @Basic
     @Column(name = "bank_account")
+    @JsonIgnore
     private String bankAccount;
 
     @OneToMany
     @JoinColumn(name = "id_user")
+    @JsonIgnore
+//    @JsonManagedReference
     private List<Role> roles;
 
     @OneToMany
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private List<Rating> ratings;
 
     @OneToMany
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private List<ProfilePicture> profilePictures;
 
     @OneToMany
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private List<Reservation> reservations;
 
     @OneToMany
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private List<BookLoan> bookLoans;
 
     @OneToMany
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     private List<Book> books;  // books that the user offers or loans
+
+    public User() {
+    }
+
+    public User(String username, String password, String firstName, String surname, String email, String phone, String bankAccount) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.bankAccount = bankAccount;
+    }
 
     public int getId() {
         return id;
@@ -69,6 +93,18 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void encodePassword(PasswordEncoder encoder) {
+        this.password = encoder.encode(password);
     }
 
     public String getFirstName() {
@@ -159,6 +195,8 @@ public class User {
         this.books = books;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -168,6 +206,7 @@ public class User {
 
         if (id != user.id) return false;
         if (username != null ? !username.equals(user.username) : user.username != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
         if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
         if (surname != null ? !surname.equals(user.surname) : user.surname != null) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
@@ -181,6 +220,7 @@ public class User {
     public int hashCode() {
         int result = id;
         result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);

@@ -40,7 +40,7 @@ public class ReservationService {
     @Transactional(readOnly = true)
     public boolean bookHasActiveReservations(Book book) {
         Objects.requireNonNull(book);
-        return dao.getActiveReservationsOfBook(book).size() != 0;
+        return !dao.getActiveReservationsOfBook(book).isEmpty();
     }
 
     @Transactional(readOnly = true)
@@ -86,10 +86,29 @@ public class ReservationService {
         return dao.getActiveUserReservations(user);
     }
 
+    /**
+     * This method should not be needed, because we want to keep a history of the reservations, but it is here just in case we want to wreak havoc.
+     */
     @Transactional
-    public void deleteUserReservations(User user) {
+    public void deleteAllUserReservations(User user) {
         Objects.requireNonNull(user);
-        for (Reservation reservation : getAllUserReservation(user)) { //TODO: should this be all of the reservations or just the active ones?
+        for (Reservation reservation : getAllUserReservation(user)) {
+            delete(reservation);
+        }
+    }
+
+    @Transactional
+    public void deleteActiveUserReservations(User user) {
+        Objects.requireNonNull(user);
+        for (Reservation reservation : getAllUserReservation(user)) {
+            delete(reservation);
+        }
+    }
+
+    @Transactional
+    public void deleteActiveBookReservations(Book book) {
+        Objects.requireNonNull(book);
+        for (Reservation reservation : dao.getActiveReservationsOfBook(book)) {
             delete(reservation);
         }
     }

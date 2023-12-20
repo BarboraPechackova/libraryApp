@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <context:component-scan base-package="cz.cvut.fel.ear.library" />
+
+
+    <sec:http auto-config="true" >
+        <sec:form-login login-page="/public/login.xhtml" />
+        <sec:intercept-url pattern="/public/admin/**" access="ADMIN" />
+    </sec:http>
+
+    <!--
+    business logic (method) security
+    -->
+
+    <sec:global-method-security
+            secured-annotations="enabled" jsr250-annotations="enabled" >
+    </sec:global-method-security>
+
+    <!--
+    manager responsible for loading user account with assigned roles
+    -->
+    <sec:authentication-manager alias="authenticationManager">
+        <sec:authentication-provider
+                user-service-ref="userDetailsService" />
+    </sec:authentication-manager>
+
+</beans>

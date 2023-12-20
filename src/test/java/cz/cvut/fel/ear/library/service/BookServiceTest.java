@@ -105,8 +105,11 @@ public class BookServiceTest {
         b1.setName("name");
         b1.setVisible(true);
         b2.setName("name bla bla");
+        b2.setVisible(false);
         b3.setName("bla bla name");
+        b3.setVisible(false);
         b4.setName("nothing");
+        b4.setVisible(false);
 
         em.persist(b1);
         em.persist(b2);

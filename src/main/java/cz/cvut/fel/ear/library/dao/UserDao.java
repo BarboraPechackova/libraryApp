@@ -1,5 +1,6 @@
 package cz.cvut.fel.ear.library.dao;
 
+import cz.cvut.fel.ear.library.model.BookCover;
 import cz.cvut.fel.ear.library.model.Role;
 import cz.cvut.fel.ear.library.model.User;
 import org.springframework.stereotype.Repository;
@@ -13,4 +14,7 @@ public class UserDao extends BaseDao<User>{
         super(User.class);
     }
 
+    public User findByUsername(String username) {
+        return em.createNamedQuery("User.getUserByUsername", User.class).setParameter("username",username).getSingleResult();
+    }
 }
