@@ -10,7 +10,7 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "BookLoan.loansOfBook",    query = "SELECT l FROM BookLoan l WHERE book = :book"),
         @NamedQuery(name = "BookLoan.userBookLoans",  query = "SELECT l FROM BookLoan l WHERE user = :user"),
-        @NamedQuery(name = "BookLoan.currentBookLoan", query = "SELECT l FROM BookLoan l WHERE book = :book AND CURRENT_DATE BETWEEN dateFrom AND dateTo "),
+        @NamedQuery(name = "BookLoan.currentBookLoan", query = "SELECT l FROM BookLoan l WHERE book = :book AND returned = FALSE "),
         @NamedQuery(name = "BookLoan.getAllUserBookLoans", query = "SELECT l FROM BookLoan l WHERE book = :book AND user = :user")
 //        @NamedQuery(name = "BookLoan.loanWithBookIdExists", query = "SELECT l FROM BookLoan l WHERE id_book = :idBook"),
 })

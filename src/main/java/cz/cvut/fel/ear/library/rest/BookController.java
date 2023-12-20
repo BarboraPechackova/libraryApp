@@ -46,6 +46,7 @@ public class BookController {
         if (book == null) {
             throw RestUtils.newNotFoundEx("Books", id);
         }
+
 //        try {
 //            BookCover bc = new BookCover();
 //

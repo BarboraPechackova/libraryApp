@@ -22,7 +22,7 @@ public class BookLoanDao extends BaseDao<BookLoan>{
         try {
             return q.getSingleResult();
         } catch (NoResultException e) {
-            return null; // If there is no result we throw an exception
+            return null;
         }
     }
 
