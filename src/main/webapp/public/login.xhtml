@@ -21,9 +21,7 @@
                 <div class="text-900 text-3xl font-medium mb-3">Knihovna</div>
             </div>
 
-            <f:param value="#{userBean.handleLogIn}"></f:param>
-
-            <h:form action="#{request.contextPath}/login.xhtml" method="post" prependId="false">
+            <h:form action="#{request.contextPath}/login.xhtml" method="post" prependId="false" rendered="#{userBean.handleLogIn() || true}">
 
                 <label for="username" class="block text-900 font-medium mb-2">Uživatelské jméno</label>
                 <p:inputText id="username" name="username" value="#{userBean.username}" styleClass="w-full mb-3" />
@@ -35,7 +33,7 @@
                     <p:autoUpdate/>
                 </p:messages>
                 <div class="flex">
-                    <p:commandButton action="submit" value="Přihlásit se" icon="pi pi-user" styleClass="w-full mr-2" update="@form"/>
+                    <p:commandButton action="#{userBean.saveData()}" value="Přihlásit se" icon="pi pi-user" styleClass="w-full mr-2" update="@form" />
                     <p:commandButton action="./registration.xhtml?faces-redirect=true" value="Registrovat se" icon="pi pi-user-plus" styleClass="w-full ml-2 ui-button-outlined"/>
                 </div>
             </h:form>

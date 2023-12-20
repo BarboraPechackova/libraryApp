@@ -52,7 +52,7 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler, Logo
         if (LOG.isTraceEnabled()) {
             LOG.trace("Successfully logged out user {}", getUsername(authentication));
         }
-        final LoginStatus loginStatus = new LoginStatus(false, true, null, null);
-        mapper.writeValue(httpServletResponse.getOutputStream(), loginStatus);
+//        final LoginStatus loginStatus = new LoginStatus(false, true, null, null);
+//        mapper.writeValue(httpServletResponse.getOutputStream(), loginStatus);
     }
 }

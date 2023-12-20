@@ -51,7 +51,8 @@ public class SecurityConfig {
                     .defaultSuccessUrl("/public/books.xhtml")
                     .failureForwardUrl("/public/login.xhtml?error=true")
                     .successHandler(authSuccess)
-                    .failureHandler(authenticationFailureHandler()))
+                    .failureHandler(authenticationFailureHandler())
+                    .permitAll())
             .logout(lgt -> lgt.logoutSuccessHandler(authSuccess));
 //            .userDetailsService(new UserDetailsService(new UserDao()));
 
