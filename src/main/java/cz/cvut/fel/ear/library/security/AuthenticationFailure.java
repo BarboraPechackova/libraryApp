@@ -2,6 +2,7 @@ package cz.cvut.fel.ear.library.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.fel.ear.library.security.model.LoginStatus;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -30,10 +31,12 @@ public class AuthenticationFailure implements AuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-                                        AuthenticationException e) throws IOException {
+                                        AuthenticationException e) throws IOException, ServletException {
         LOG.debug("Login failed for user {}.", httpServletRequest.getParameter("username"));
         final LoginStatus status = new LoginStatus(false, false, null, e.getMessage());
         mapper.writeValue(httpServletResponse.getOutputStream(), status);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Špatné uživatelské jméno nebo heslo!"));
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Špatné uživatelské jméno nebo heslo!"));
+//        httpServletRequest.getRequestDispatcher("/jakarta.faces.resource" + httpServletRequest.getServletPath())
+//                .forward(httpServletRequest, httpServletResponse);
     }
 }

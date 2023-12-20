@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <div class="text-center d-flex justify-content-center">
-                    <p:commandButton styleClass="mx-auto" action="#{bookBean.editBook(userBean.user)}" value="Upravit knihu" update="@form"/>
+                    <p:commandButton styleClass="mx-auto" action="#{bookBean.editBook(userBean.getCurrentUser())}" value="Upravit knihu" update="@form"/>
                 </div>
             </div>
         </h:form>

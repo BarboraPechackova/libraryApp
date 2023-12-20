@@ -45,15 +45,15 @@ public class SecurityConfig {
             // Use custom success and failure handlers
             .formLogin(fl -> fl
                     .loginPage("/public/login.xhtml")
-//                    .usernameParameter("j_id_7:username") // nevim proc, ale takto to funguje; JSF :-)
-//                    .passwordParameter("j_id_7:password") // nevim proc, ale takto to funguje; JSF :-)
+                    .usernameParameter("j_username") // nevim proc, ale takto to funguje; JSF :-)
+                    .passwordParameter("j_password") // nevim proc, ale takto to funguje; JSF :-)
                     .loginProcessingUrl("/public/login.xhtml")
                     .defaultSuccessUrl("/public/books.xhtml")
                     .failureForwardUrl("/public/login.xhtml?error=true")
-                    .successHandler(authSuccess)
-                    .failureHandler(authenticationFailureHandler())
-                    .permitAll())
-            .logout(lgt -> lgt.logoutSuccessHandler(authSuccess));
+//                    .successHandler(authSuccess)
+//                    .failureHandler(authenticationFailureHandler())
+                    .permitAll());
+//            .logout(lgt -> lgt.logoutSuccessHandler(authSuccess));
 //            .userDetailsService(new UserDetailsService(new UserDao()));
 
 
