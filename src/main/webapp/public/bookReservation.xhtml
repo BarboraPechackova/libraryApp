@@ -39,8 +39,10 @@
             </div>
 
             <h:form>
-                <div class="text-900 font-medium">Cena: #{bookController.getBook(bookBean.selectedBookId).price} Kč</div>
-                <br/>
+                <div class="text-center mb-5">
+                    <div class="text-700 font-medium">Kniha je momentálně vypůjčena a proto je možná pouze její rezervace.<br/> Po uvolnění knihy budete informováni o možnosti její výpůjčky.</div>
+                    <br/>
+                </div>
                 <div class="text-center d-flex justify-content-center">
                     <p:commandButton styleClass="mx-auto" action="#{bookReservationBean.createBookReservation(bookController.getBook(bookBean.selectedBookId), userController.getUser(userBean.userId))}" value="Potvrdit"/>
                 </div>

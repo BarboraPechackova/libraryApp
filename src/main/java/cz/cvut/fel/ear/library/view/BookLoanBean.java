@@ -39,6 +39,7 @@ public class BookLoanBean {
                 if (!loanEndDate.isAfter(LocalDate.now().plusMonths(1))) {
                     if (response.getStatusCode() == HttpStatus.CREATED) {
                         Reservation reservation = response.getBody();
+                        System.out.println("there was reservation " + reservation);
 
                         // From now, ending in the date specified
                         bookLoanController.createBookLoanWithDates(reservation, LocalDate.now(), loanEndDate);
