@@ -53,19 +53,21 @@ public class UserBean {
         return userId!=0;
     }
 
-    // TODO jak je to s hashovanim?
-
     public String login() {
         if (username.equals("")) FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Uživatelské jméno musí být vyplněno!"));
         if (password.equals("")) FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Heslo musí být vyplněno!"));
-        if (username.equals("") || password.equals("")) return "";
+        if (username.equals("") || password.equals("")) {
+            return "";
+        }
 //        List<User> users = userController.getUsers();
         User user = userService.findByUsername(username);
-        if (passwordEncoder.matches(password, user.getPassword())) {
-            userId = user.getId();
-            this.user = user;
-            username = password = "";
-            return "./books.xhtml?faces-redirect=true";
+        if (user != null) {
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                userId = user.getId();
+                this.user = user;
+                username = password = "";
+                return "./books.xhtml?faces-redirect=true";
+            }
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Špatné uživatelské jméno nebo heslo!"));
         return "";
@@ -74,6 +76,8 @@ public class UserBean {
     public String logout(String page) {
         user = null;
         userId = 0;
+        username = "";
+        password = "";
         return "./" + page + "?faces-redirect=true";
     }
 
