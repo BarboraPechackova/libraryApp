@@ -6,6 +6,7 @@ import cz.cvut.fel.ear.library.model.User;
 import cz.cvut.fel.ear.library.rest.BookController;
 import cz.cvut.fel.ear.library.rest.BookLoanController;
 import cz.cvut.fel.ear.library.rest.ReservationController;
+import cz.cvut.fel.ear.library.rest.UserController;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,23 +25,33 @@ public class BookLoanBean {
 
     private final ReservationController reservationController;
 
+    private final UserController userController;
+
     private LocalDate loanEndDate;
 
     @Autowired
-    public BookLoanBean(BookLoanController bookLoanController, ReservationController reservationController) {
+    public BookLoanBean(BookLoanController bookLoanController, ReservationController reservationController, UserController userController) {
         this.bookLoanController = bookLoanController;
         this.reservationController = reservationController;
+        this.userController = userController;
     }
 
     public void createBookLoan(Book book, User user) {
-        // TODO: add check that this user didnt already borrow this book
+
+        if (userController.hasUnreturnedLoansOfUserBook(user.getId(), book.getId())) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Uživatel má již tuto knihu vypůjčenou, nelze udělat rezervace"));
+            return;
+        }
         if (loanEndDate != null) {
             if (!loanEndDate.isBefore(LocalDate.now().plusWeeks(1))) {
                 if (!loanEndDate.isAfter(LocalDate.now().plusMonths(1))) {
+                    System.out.println("creating reservation");
                     ResponseEntity<Reservation> response = reservationController.createReservation(book, user);
                     if (response.getStatusCode() == HttpStatus.CREATED) {
+                        System.out.println("reservation  created and makes sense");
                         Reservation reservation = response.getBody();
                         // Create book loan, from today until the date specified by the user
+                        System.out.println("creating loan");
                         bookLoanController.createBookLoanWithDates(reservation, LocalDate.now(), loanEndDate);
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Výpůjčka vytvořena"));
                     }

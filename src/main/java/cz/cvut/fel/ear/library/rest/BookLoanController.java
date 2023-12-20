@@ -21,12 +21,10 @@ import java.util.List;
 public class BookLoanController {
 
     private final BookLoanService service;
-    private final BookService bookService;
 
     @Autowired
-    public BookLoanController(BookLoanService service, BookService bookService) {
+    public BookLoanController(BookLoanService service) {
         this.service = service;
-        this.bookService = bookService;
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -46,24 +44,6 @@ public class BookLoanController {
         }
         return bookLoan;
     }
-
-//    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<Void> createBookLoan(@RequestBody BookLoan bookLoan) {
-//        assert bookLoan != null;
-//
-//        service.persist(bookLoan);
-//        final HttpHeaders headers = RestUtils.createLocationHeaderFromUri("/{id}", bookLoan.getId());
-//        return new ResponseEntity<>(headers, HttpStatus.CREATED);
-//    }
-
-//    @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<Void> createBookLoan(@RequestBody Reservation reservation) {
-//        assert reservation != null;
-//
-//        BookLoan bookLoan = service.makeStandardLengthBookLoanFromReservation(reservation);
-//        final HttpHeaders headers = RestUtils.createLocationHeaderFromUri("/{id}", bookLoan.getId());
-//        return new ResponseEntity<>(headers, HttpStatus.CREATED);
-//    }
 
     @PostMapping(value = "/",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createBookLoanWithDates(@RequestBody Reservation reservation, @RequestBody LocalDate dateFrom, @RequestBody LocalDate dateTo) {
@@ -89,8 +69,5 @@ public class BookLoanController {
 
         return new ResponseEntity<>(RestUtils.createHttpHeaders(), HttpStatus.NO_CONTENT);
     }
-
-//    @GetMapping(value = "/{id}/return", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<Boolean>
 
 }

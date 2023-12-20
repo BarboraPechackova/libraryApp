@@ -27,13 +27,15 @@ public class ReservationController {
 
     private final ReservationService service;
     private final BookService bookService;
-    private final UserService userService;
+
+    private final BookLoanService bookLoanService;
+
 
     @Autowired
-    public ReservationController(ReservationService service, BookService bookService, UserService userService) {
+    public ReservationController(ReservationService service, BookService bookService, BookLoanService bookLoanService) {
         this.service = service;
         this.bookService = bookService;
-        this.userService = userService;
+        this.bookLoanService = bookLoanService;
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -85,10 +87,10 @@ public class ReservationController {
         // Update the reservation
         service.update(reservation);
 
-        // If there are no active reservations, set the book to free
+        // If there are no active reservations or book loans, set the book to free
         Book book = reservation.getBook();
         if (book != null) {
-            if (!service.bookHasActiveReservations(book)) {
+            if (!service.bookHasActiveReservations(book) && !bookLoanService.bookHasActiveLoan(book)) {
                 bookService.setFree(book);
             }
         }
