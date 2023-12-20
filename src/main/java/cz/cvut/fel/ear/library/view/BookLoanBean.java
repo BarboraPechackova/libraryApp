@@ -43,7 +43,7 @@ public class BookLoanBean {
             return;
         }
         if (loanEndDate != null) {
-            if (!loanEndDate.isBefore(LocalDate.now().plusWeeks(1))) {
+            if (!loanEndDate.isBefore(LocalDate.now().plusDays(1))) {
                 if (!loanEndDate.isAfter(LocalDate.now().plusMonths(1))) {
                     ResponseEntity<Reservation> response = reservationController.createReservation(book, user);
                     if (response.getStatusCode() == HttpStatus.CREATED) {
@@ -58,7 +58,7 @@ public class BookLoanBean {
                 }
             }
             else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Výpůjčka nemůže trvat méně než týden"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Výpůjčka nemůže trvat méně než jeden den"));
             }
         }
         else {

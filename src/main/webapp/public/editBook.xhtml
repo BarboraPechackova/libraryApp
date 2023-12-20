@@ -48,9 +48,11 @@
                     </div>
 
                     <div class="field col-12">
-                        <p:outputLabel for="fileUpload" value="Fotky knihy"/>
-                        <p:message for="fileUpload" styleClass="m-0"/>
-                        <p:fileUpload id="fileUpload" value="#{bookCoverBean.files}" mode="simple" skinSimple="true" multiple="true"/>
+                        <div class="mb-2">
+                            <p:outputLabel for="fileUpload" value="Fotky knihy"/>
+                            <p:message for="fileUpload" styleClass="m-0"/>
+                            <p:fileUpload id="fileUpload" value="#{bookCoverBean.files}" mode="simple" skinSimple="true" multiple="true"/>
+                        </div>
                         <p:commandButton value="Nahrát fotky" ajax="false" partialSubmit="true" process="fileUpload" action="#{bookCoverBean.uploadMultiple}" styleClass="ui-button-outlined"/>
                     </div>
 
