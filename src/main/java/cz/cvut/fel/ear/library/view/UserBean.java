@@ -5,12 +5,14 @@ import cz.cvut.fel.ear.library.rest.BookController;
 import cz.cvut.fel.ear.library.rest.UserController;
 import cz.cvut.fel.ear.library.service.UserService;
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -33,6 +35,18 @@ public class UserBean {
         this.userController = userController;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    public void checkUserLogged() {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        if (!isLogged()) {
+            try {
+                externalContext.redirect(externalContext.getRequestContextPath()+"/login.xhtml");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
     }
 
     public boolean canEditBook(int bookId) {
