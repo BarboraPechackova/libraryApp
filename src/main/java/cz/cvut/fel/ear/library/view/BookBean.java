@@ -56,7 +56,7 @@ public class BookBean implements Serializable {
         book.setUser(user);
         bookController.updateBook(book);
         resetBookDetails();
-        return "./books.xhtml?faces-redirect=true";
+        return "./bookDetail.xhtml?faces-redirect=true";
     }
 
     public String redirectToEditBook(Book book) {

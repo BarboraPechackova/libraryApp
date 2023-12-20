@@ -32,6 +32,15 @@ public class UserController {
         this.bookLoanService = bookLoanService;
     }
 
+//    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public List<User> logout() {
+//        final List<User> users = service.findAll();
+//        if (users == null) {
+//            throw RestUtils.newNotFoundEx("Users",0);
+//        }
+//        return users;
+//    }
+
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getUsers() {
         final List<User> users = service.findAll();

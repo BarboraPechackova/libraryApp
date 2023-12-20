@@ -52,8 +52,13 @@ public class SecurityConfig {
                     .failureForwardUrl("/public/login.xhtml?error=true")
 //                    .successHandler(authSuccess)
 //                    .failureHandler(authenticationFailureHandler())
-                    .permitAll());
-//            .logout(lgt -> lgt.logoutSuccessHandler(authSuccess));
+                    .permitAll())
+//            .logout(lgt -> lgt.logoutUrl("/rest/v1/users/logout").logoutSuccessHandler(authSuccess));
+            .logout(lgt -> lgt
+                .logoutUrl("/public/logout") // Define your custom logout URL
+                .logoutSuccessUrl("/public/login.xhtml?logout=true") // Redirect URL after successful logout
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID"));
 //            .userDetailsService(new UserDetailsService(new UserDao()));
 
 

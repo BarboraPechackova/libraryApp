@@ -12,6 +12,7 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,6 +109,16 @@ public class UserBean {
 
     public String logout(String page) {
         SecurityContextHolder.clearContext(); //logout ze spring security
+
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+
+        // Invalidate the HttpSession
+        HttpSession session = (HttpSession) externalContext.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
         return "./" + page + "?faces-redirect=true";
     }
 

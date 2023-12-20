@@ -38,9 +38,6 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler, Logo
         }
         final LoginStatus loginStatus = new LoginStatus(true, authentication.isAuthenticated(), username, null);
         mapper.writeValue(httpServletResponse.getOutputStream(), loginStatus);
-
-//        httpServletRequest.getRequestDispatcher("/jakarta.faces.resource" + httpServletRequest.getServletPath())
-//                .forward(httpServletRequest, httpServletResponse);
     }
 
     private String getUsername(Authentication authentication) {
@@ -52,13 +49,11 @@ public class AuthenticationSuccess implements AuthenticationSuccessHandler, Logo
 
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-                                Authentication authentication) throws IOException, ServletException {
+                                Authentication authentication) throws IOException {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Successfully logged out user {}", getUsername(authentication));
         }
-//        final LoginStatus loginStatus = new LoginStatus(false, true, null, null);
-//        mapper.writeValue(httpServletResponse.getOutputStream(), loginStatus);
-        httpServletRequest.getRequestDispatcher("/jakarta.faces.resource" + httpServletRequest.getServletPath())
-                .forward(httpServletRequest, httpServletResponse);
+        final LoginStatus loginStatus = new LoginStatus(false, true, null, null);
+        mapper.writeValue(httpServletResponse.getOutputStream(), loginStatus);
     }
 }
