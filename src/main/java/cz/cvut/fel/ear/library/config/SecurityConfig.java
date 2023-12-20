@@ -40,7 +40,7 @@ public class SecurityConfig {
             .exceptionHandling(ehc -> ehc.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
             .csrf(AbstractHttpConfigurer::disable)
             // Enable CORS
-//            .cors(conf -> conf.configurationSource(corsConfigurationSource()))
+            .cors(conf -> conf.configurationSource(corsConfigurationSource()))
             .headers(customizer -> customizer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
             // Use custom success and failure handlers
             .formLogin(fl -> fl
@@ -55,7 +55,7 @@ public class SecurityConfig {
                     .permitAll())
 //            .logout(lgt -> lgt.logoutUrl("/rest/v1/users/logout").logoutSuccessHandler(authSuccess));
             .logout(lgt -> lgt
-                .logoutUrl("/public/logout") // Define your custom logout URL
+//                .logoutUrl("/public/logout") // Define your custom logout URL
                 .logoutSuccessUrl("/public/login.xhtml?logout=true") // Redirect URL after successful logout
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID"));
