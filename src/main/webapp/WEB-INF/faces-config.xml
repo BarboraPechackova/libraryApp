@@ -5,44 +5,10 @@
                                   http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
               version="2.3">
 
-    <!-- Application Configuration -->
     <application>
-        <!-- Specify the project stage (development, production, etc.) -->
-<!--        <project-stage>Development</project-stage>-->
 
-        <!-- Enable or disable the use of resource CDN -->
-<!--        <resource-handler>org.primefaces.application.resource.PrimeResourceHandler</resource-handler>-->
 
-<!--        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver-->
-<!--        </el-resolver>-->
-
-<!--        <message-bundle>com.sap.engine.examples.EDMAppMessages</message-bundle>-->
-<!--        <locale-config>-->
-<!--            <default-locale>en</default-locale>-->
-<!--            <supported-locale>en</supported-locale>-->
-<!--        </locale-config>-->
 
     </application>
-
-<!--     Managed Beans Configuration -->
-<!--    <managed-bean>-->
-<!--        <managed-bean-name>viewBean</managed-bean-name>-->
-<!--        <managed-bean-class>cz.cvut.fel.ear.library.view.ViewBean</managed-bean-class>-->
-<!--        <managed-bean-scope>request</managed-bean-scope>-->
-<!--    </managed-bean>-->
-
-<!--    <managed-bean>-->
-<!--        <managed-bean-name>bookBean</managed-bean-name>-->
-<!--        <managed-bean-class>cz.cvut.fel.ear.library.view.BookBean</managed-bean-class>-->
-<!--        <managed-bean-scope>session</managed-bean-scope>-->
-<!--    </managed-bean>-->
-    <!-- Navigation Rules -->
-<!--    <navigation-rule>-->
-<!--        <from-view-id>/library/public/index.xhtml</from-view-id>-->
-<!--        <navigation-case>-->
-<!--            <from-outcome>success</from-outcome>-->
-<!--            <to-view-id>/success.xhtml</to-view-id>-->
-<!--        </navigation-case>-->
-<!--    </navigation-rule>-->
 
 </faces-config>

@@ -85,6 +85,14 @@ public class ReservationController {
         // Update the reservation
         service.update(reservation);
 
+        // If there are no active reservations, set the book to free
+        Book book = reservation.getBook();
+        if (book != null) {
+            if (!service.bookHasActiveReservations(book)) {
+                bookService.setFree(book);
+            }
+        }
+
         // Return an appropriate response
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

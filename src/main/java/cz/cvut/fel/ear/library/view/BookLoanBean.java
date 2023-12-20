@@ -33,11 +33,11 @@ public class BookLoanBean {
     }
 
     public void createBookLoan(Book book, User user) {
-        ResponseEntity<Reservation> response = reservationController.createReservation(book, user);
         // TODO: add check that this user didnt already borrow this book
         if (loanEndDate != null) {
             if (!loanEndDate.isBefore(LocalDate.now().plusWeeks(1))) {
                 if (!loanEndDate.isAfter(LocalDate.now().plusMonths(1))) {
+                    ResponseEntity<Reservation> response = reservationController.createReservation(book, user);
                     if (response.getStatusCode() == HttpStatus.CREATED) {
                         Reservation reservation = response.getBody();
                         // Create book loan, from today until the date specified by the user
