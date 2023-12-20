@@ -58,7 +58,6 @@ public class BookLoanService {
     @Transactional
     public void persist(BookLoan loan)  {
         Objects.requireNonNull(loan);
-        validateNewBookLoan(loan);
 
         Book temp = loan.getBook();
         temp.setState(BookState.VYPUJCENA);
@@ -111,8 +110,7 @@ public class BookLoanService {
     @Transactional
     public void returnBookLoan(BookLoan bookLoan) {
         Objects.requireNonNull(bookLoan);
-        if (bookLoan.isReturned())
-            throw new BookAlreadyReturnedException("The book loan you are trying to return was already returned! Therefore it cannot be returned again.");
+        if (bookLoan.isReturned()) throw new BookAlreadyReturnedException("The book loan you are trying to return was already returned! Therefore it cannot be returned again.");
 
         bookLoan.setReturned(true);
         Book book = bookLoan.getBook();
@@ -153,7 +151,7 @@ public class BookLoanService {
         Objects.requireNonNull(date_to);
 
         BookLoan loan = new BookLoan(getDateFromLocalDate(date_from), getDateFromLocalDate(date_to), reservation.getUser(), reservation.getBook());
-        persist(loan); // Validation is done internally in method persist
+        persist(loan);
 
         reservationService.setReservationStatusToLoaned(reservation);
         return loan;
@@ -175,21 +173,8 @@ public class BookLoanService {
         validateLoanDates(loan.getDateFrom().toLocalDate(), loan.getDateTo().toLocalDate());
     }
 
-    private void validateNewBookLoan(BookLoan loan) throws BookLoanDatesException, BookAlreadyLoanedException {
-        validateBookLoan(loan);
-        if (isBookLoaned(loan.getBook())) {
-            throw new BookAlreadyLoanedException("The book is already loaned!");
-        }
-//        if (loan.getDateTo().before(loan.getDateFrom())) {
-//            throw new InvalidArgumentException("Date to must be larger than date from!");
-//        }
+    public boolean bookHasActiveLoan(Book book) {
+        return dao.getCurrentLoanOfBook(book) != null;
     }
-
-    private boolean isBookLoaned(Book book) {
-        Objects.requireNonNull(book);
-        return dao.isBookLoaned(book);
-    }
-
-
 
 }

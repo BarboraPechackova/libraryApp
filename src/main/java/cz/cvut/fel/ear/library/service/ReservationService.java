@@ -40,7 +40,7 @@ public class ReservationService {
     @Transactional(readOnly = true)
     public boolean bookHasActiveReservations(Book book) {
         Objects.requireNonNull(book);
-        return dao.getActiveReservationsOfBook(book).size() != 0;
+        return !dao.getActiveReservationsOfBook(book).isEmpty();
     }
 
     @Transactional(readOnly = true)

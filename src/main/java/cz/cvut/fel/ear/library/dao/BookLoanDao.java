@@ -16,18 +16,6 @@ public class BookLoanDao extends BaseDao<BookLoan>{
         super(BookLoan.class);
     }
 
-    public boolean isBookLoaned(Book book) {
-        TypedQuery<BookLoan> q = em.createNamedQuery("BookLoan.currentBookLoan", BookLoan.class);
-        q.setParameter("book", book);
-
-        try {
-            BookLoan loan = q.getSingleResult();
-            return true;
-        } catch (NoResultException e) {
-            return false; // If there is no result we throw an exception
-        }
-    }
-
     public BookLoan getCurrentLoanOfBook(Book book) {
         TypedQuery<BookLoan> q = em.createNamedQuery("BookLoan.currentBookLoan", BookLoan.class);
         q.setParameter("book", book);

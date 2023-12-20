@@ -81,15 +81,16 @@
                 </div>
             </li>
         </ul>
+
         <h4 class="mt-5">Moje výpůjčky</h4>
         <p:dataTable value="#{userController.getLoansOfUser(userBean.userId)}" var="bookLoan">
             <p:column headerText="Kniha">
                 <h:outputText value="#{bookLoan.book.name}" />
             </p:column>
-            <p:column headerText="Datum začátku výpůjčky">
+            <p:column headerText="Datum začátku">
                 <h:outputText value="#{bookLoan.dateFrom}" />
             </p:column>
-            <p:column headerText="Datum konce výpůjčky">
+            <p:column headerText="Datum konce">
                 <h:outputText value="#{bookLoan.dateTo}" />
             </p:column>
             <p:column headerText="Cena">
@@ -98,7 +99,35 @@
             <p:column headerText="Stav">
                 <h:outputText value="#{userBean.bookLoanState(bookLoan)}" />
             </p:column>
+            <p:column headerText="">
+                <p:commandButton styleClass="mx-auto"
+                                 action="#{bookLoanBean.returnBookLoanAndRefresh(bookLoan.id)}"
+                                 value="Vrátit"
+                                 rendered="#{userBean.bookLoanState(bookLoan) == 'Nevrácena'}">
+                </p:commandButton>
+            </p:column>
         </p:dataTable>
+
+        <h4 class="mt-5">Moje rezervace</h4>
+        <p:dataTable value="#{userController.getReservationsOfUser(userBean.userId)}" var="reservation">
+            <p:column headerText="Kniha">
+                <h:outputText value="#{reservation.book.name}" />
+            </p:column>
+            <p:column headerText="Čas rezervace">
+                <h:outputText value="#{reservation.reservationTs}" />
+            </p:column>
+            <p:column headerText="Stav">
+                <h:outputText value="#{userBean.bookReservationState(reservation)}" />
+            </p:column>
+            <p:column headerText="">
+                <p:commandButton styleClass="mx-auto"
+                                 action="#{bookReservationBean.removeBookReservationAndRedirect(reservation.id)}"
+                                 value="Odstranit"
+                                 rendered="#{userBean.bookReservationState(reservation) == 'Aktivní'}">
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
+
         <h4 class="mt-5">Moje knihy</h4>
         <p:dataTable value="#{userController.getBooksOfUser(userBean.userId)}" var="book">
             <p:column headerText="Název">

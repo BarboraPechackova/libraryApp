@@ -2,7 +2,10 @@ package cz.cvut.fel.ear.library.rest;
 
 import cz.cvut.fel.ear.library.model.*;
 import cz.cvut.fel.ear.library.model.User;
+import cz.cvut.fel.ear.library.model.enums.ReservationState;
 import cz.cvut.fel.ear.library.rest.utils.RestUtils;
+import cz.cvut.fel.ear.library.service.BookLoanService;
+import cz.cvut.fel.ear.library.service.ReservationService;
 import cz.cvut.fel.ear.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -18,9 +21,15 @@ import java.util.List;
 public class UserController {
     private final UserService service;
 
+    private final ReservationService reservationService;
+
+    private final BookLoanService bookLoanService;
+
     @Autowired
-    public UserController(UserService service) {
+    public UserController(UserService service, ReservationService reservationService, BookLoanService bookLoanService) {
         this.service = service;
+        this.reservationService = reservationService;
+        this.bookLoanService = bookLoanService;
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -64,7 +73,7 @@ public class UserController {
         if (user == null) {
             throw RestUtils.newNotFoundEx("User", id);
         }
-        return user.getBooks(); // TODO: determine if this is OK
+        return user.getBooks();
     }
 
     @GetMapping(value = "/{id}/ratings", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -73,7 +82,7 @@ public class UserController {
         if (user == null) {
             throw RestUtils.newNotFoundEx("User", id);
         }
-        return user.getRatings(); // TODO: determine if this is OK
+        return user.getRatings();
     }
 
     @GetMapping(value = "/{id}/loans", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -82,7 +91,7 @@ public class UserController {
         if (user == null) {
             throw RestUtils.newNotFoundEx("User", id);
         }
-        return user.getBookLoans(); // TODO: determine if this is OK
+        return user.getBookLoans();
     }
 
     @GetMapping(value = "/{id}/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -91,6 +100,38 @@ public class UserController {
         if (user == null) {
             throw RestUtils.newNotFoundEx("User", id);
         }
-        return user.getReservations(); // TODO: determine if this is OK
+        return user.getReservations();
     }
+
+    @GetMapping(value = "/{userId}/reservations/active/{bookId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean hasActiveReservationsOfBook(@PathVariable int userId, int bookId) {
+        final User user = service.find(userId);
+        if (user == null) {
+            throw RestUtils.newNotFoundEx("User", userId);
+        }
+        List<Reservation> activeUserReservations = reservationService.getAllActiveUserReservation(user);
+        for (Reservation reservation : activeUserReservations) {
+            if (reservation.getBook().getId() == bookId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @GetMapping(value = "/{userId}/loans/active/{bookId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean hasUnreturnedLoansOfUserBook(@PathVariable int userId, int bookId) {
+        final User user = service.find(userId);
+        if (user == null) {
+            throw RestUtils.newNotFoundEx("User", userId);
+        }
+        List<BookLoan> activeUserLoans = bookLoanService.getLoansOfUser(user);
+        for (BookLoan loan : activeUserLoans) {
+            if (loan.getBook().getId() == bookId && !loan.isReturned()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }
