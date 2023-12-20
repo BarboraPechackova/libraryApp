@@ -4,10 +4,13 @@ import cz.cvut.fel.ear.library.model.Book;
 import cz.cvut.fel.ear.library.model.User;
 import cz.cvut.fel.ear.library.model.enums.BookState;
 import cz.cvut.fel.ear.library.rest.BookController;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -28,6 +31,17 @@ public class BookBean implements Serializable {
     @Autowired
     public BookBean(BookController bookController) {
         this.bookController = bookController;
+    }
+
+    public void checkBookSelected() {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        if (selectedBookId==0) {
+            try {
+                externalContext.redirect(externalContext.getRequestContextPath()+"/books.xhtml");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public String addBook(User user) {
