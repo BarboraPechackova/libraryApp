@@ -38,32 +38,38 @@ public class User {
     @OneToMany
     @JoinColumn(name = "id_user")
     @JsonIgnore
+    @OrderBy("role asc")
 //    @JsonManagedReference
     private List<Role> roles;
 
     @OneToMany
     @JoinColumn(name = "id_user")
     @JsonIgnore
+    @OrderBy("id desc")
     private List<Rating> ratings;
 
     @OneToMany
     @JoinColumn(name = "id_user")
     @JsonIgnore
+    @OrderBy("tsFrom desc")
     private List<ProfilePicture> profilePictures;
 
     @OneToMany
     @JoinColumn(name = "id_user")
     @JsonIgnore
+    @OrderBy("reservationTs asc")
     private List<Reservation> reservations;
 
     @OneToMany
     @JoinColumn(name = "id_user")
     @JsonIgnore
+    @OrderBy("dateTo desc")
     private List<BookLoan> bookLoans;
 
     @OneToMany
     @JoinColumn(name = "id_user")
     @JsonIgnore
+    @OrderBy("name asc")
     private List<Book> books;  // books that the user offers or loans
 
     public User() {

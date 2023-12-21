@@ -21,26 +21,19 @@ public class Book {
     @Id
     @Column(name = "id")
     private int id;
-    @Basic
     @Column(name = "name")
     private String name;
-    @Basic
     @Column(name = "author")
     private String author;
-    @Basic
     @Column(name = "description")
     private String description;
-    @Basic
     @Column(name = "price")
     private int price;
-    @Basic
     @Column(name = "isbn")
     private String isbn;
-    @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "state")
     private BookState state;
-    @Basic
     @Column(name = "visible")
     private Boolean visible;
     @ManyToOne
@@ -50,21 +43,25 @@ public class Book {
     @OneToMany
     @JoinColumn(name = "id_book")
     @JsonIgnore
+    @OrderBy("dateTo desc")
     private List<BookLoan> bookLoans;
 
     @OneToMany
     @JoinColumn(name = "id_book")
     @JsonIgnore
+    @OrderBy("reservationTs asc")
     private List<Reservation> reservations;
 
     @OneToMany
     @JoinColumn(name = "id_book")
     @JsonIgnore
+    @OrderBy("uploadTs asc")
     private List<BookCover> bookCovers;
 
     @OneToMany
     @JoinColumn(name = "id_book")
     @JsonIgnore
+    @OrderBy("id desc")
     private List<Rating> ratings;
 
     /**
