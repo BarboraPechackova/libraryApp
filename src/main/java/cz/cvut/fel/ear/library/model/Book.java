@@ -42,27 +42,27 @@ public class Book {
     @JoinColumn(name = "id_user")
     private User user;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany
     @JoinColumn(name = "id_book")
     @JsonIgnore
     @OrderBy("dateTo desc")
     private List<BookLoan> bookLoans;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany
     @JoinColumn(name = "id_book")
     @JsonIgnore
     @OrderBy("reservationTs asc")
     @Cascade(CascadeType.REMOVE)
     private List<Reservation> reservations;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany
     @JoinColumn(name = "id_book")
     @JsonIgnore
     @OrderBy("uploadTs asc")
     @Cascade(CascadeType.REMOVE)
     private List<BookCover> bookCovers;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany
     @JoinColumn(name = "id_book")
     @JsonIgnore
     @OrderBy("id desc")

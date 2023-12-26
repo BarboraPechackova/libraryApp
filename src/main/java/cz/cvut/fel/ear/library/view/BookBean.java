@@ -91,15 +91,15 @@ public class BookBean implements Serializable {
         return "./editBook.xhtml?faces-redirect=true";
     }
 
-//    public String deleteBook(Book book) {
-//        bookController.removeBook(book.getId());
-//        return "./user.xhtml?faces-redirect=true";
-//    }
-
-    public String deleteBook(int id) {
-        bookController.removeBook(id);
+    public String deleteBook(Book book) {
+        bookController.removeBook(book.getId());
         return "./user.xhtml?faces-redirect=true";
     }
+
+//    public String deleteBook(int id) {
+//        bookController.removeBook(id);
+//        return "./user.xhtml?faces-redirect=true";
+//    }
 
     public void resetBookDetails() {
         name = author = description = isbn = "";

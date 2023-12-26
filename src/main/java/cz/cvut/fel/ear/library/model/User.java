@@ -45,6 +45,7 @@ public class User {
     @JoinColumn(name = "id_user")
     @JsonIgnore
     @OrderBy("id desc")
+    @Cascade(CascadeType.REMOVE)
     private List<Rating> ratings;
 
     @OneToMany
@@ -54,7 +55,6 @@ public class User {
     @Cascade(CascadeType.REMOVE)
     private List<ProfilePicture> profilePictures;
 
-//    @OneToMany(cascade = CascadeType.REMOVE)
     @OneToMany
     @JoinColumn(name = "id_user")
     @JsonIgnore

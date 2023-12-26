@@ -150,7 +150,7 @@
             <p:column headerText="">
                 <div>
                     <p:commandButton action="#{bookBean.redirectToEditBook(book)}" value="Upravit" icon="pi pi-pencil" styleClass="ui-button-flat"/>
-                    <p:commandButton action="#{bookBean.deleteBook(book.id)}" style="color: red" value="Smazat" icon="pi pi-trash" styleClass="ui-button-flat"/>
+                    <p:commandButton action="#{bookBean.deleteBook(book)}" style="color: red" value="Smazat" icon="pi pi-trash" styleClass="ui-button-flat"/>
                 </div>
             </p:column>
         </p:dataTable>
