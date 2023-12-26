@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.cvut.fel.ear.library.model.enums.BookState;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import jakarta.persistence.CascadeType;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -42,31 +43,24 @@ public class Book {
     @JoinColumn(name = "id_user")
     private User user;
 
-    @OneToMany
-    @JoinColumn(name = "id_book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("dateTo desc")
     private List<BookLoan> bookLoans;
 
-    @OneToMany
-    @JoinColumn(name = "id_book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("reservationTs asc")
-    @Cascade(CascadeType.REMOVE)
     private List<Reservation> reservations;
 
-    @OneToMany
-    @JoinColumn(name = "id_book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("uploadTs asc")
-    @Cascade(CascadeType.REMOVE)
     private List<BookCover> bookCovers;
 
-    @OneToMany
-    @JoinColumn(name = "id_book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("id desc")
-    @Cascade(CascadeType.REMOVE)
     private List<Rating> ratings;
 
     /**
@@ -210,5 +204,16 @@ public class Book {
         result = 31 * result + (visible ? 1 : 0);
         result = 31 * result + user.getId();
         return result;
+    }
+
+    @OneToMany(mappedBy = "book")
+    private Collection<BookLoan> bookLoan;
+
+    public Collection<BookLoan> getBookLoan() {
+        return bookLoan;
+    }
+
+    public void setBookLoan(Collection<BookLoan> bookLoan) {
+        this.bookLoan = bookLoan;
     }
 }
