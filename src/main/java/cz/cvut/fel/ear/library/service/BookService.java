@@ -124,6 +124,11 @@ public class BookService {
         return dao.findByAuthor(author);
     }
 
+    public List<Book> findByNameOrAuthor(String searchedWord) {
+        Objects.requireNonNull(searchedWord);
+        return dao.findByNameOrAuthor(searchedWord);
+    }
+
     public List<Book> findVisibleByName(String name) {
         Objects.requireNonNull(name);
         return dao.findByName(name,true);
