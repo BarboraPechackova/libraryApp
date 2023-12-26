@@ -2,6 +2,8 @@ package cz.cvut.fel.ear.library.model;
 
 import cz.cvut.fel.ear.library.model.enums.ReservationState;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -15,6 +17,8 @@ import java.time.LocalDateTime;
         @NamedQuery(name = "Reservation.allUserReservations", query = "SELECT r FROM Reservation r WHERE user = :user"),
         @NamedQuery(name = "Reservation.activeReservationsByUserAndBook", query = "SELECT r FROM Reservation r WHERE r.user = :user AND r.book.id = :bookId AND r.state = 'AKTIVNI'")
 })
+@Getter
+@Setter
 public class Reservation {
 
     /**
@@ -25,6 +29,7 @@ public class Reservation {
     @Id
     @Column(name = "id")
     private int id;
+
     @Basic
     @Column(name = "reservation_ts")
     private Timestamp reservationTs;
@@ -33,9 +38,11 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     @Column(name = "state")
     private ReservationState state;
+
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
+
     @ManyToOne
     @JoinColumn(name = "id_book")
     private Book book;
@@ -59,46 +66,6 @@ public class Reservation {
     }
 
     public Reservation() {}
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Timestamp getReservationTs() {
-        return reservationTs;
-    }
-
-    public void setReservationTs(Timestamp reservationTs) {
-        this.reservationTs = reservationTs;
-    }
-
-    public ReservationState getState() {
-        return state;
-    }
-
-    public void setState(ReservationState state) {
-        this.state = state;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
 
     @Override
     public boolean equals(Object o) {

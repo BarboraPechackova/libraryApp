@@ -3,6 +3,8 @@ package cz.cvut.fel.ear.library.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.cvut.fel.ear.library.model.enums.BookState;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import jakarta.persistence.CascadeType;
 
@@ -19,27 +21,37 @@ import java.util.List;
         @NamedQuery(name = "Book.searchByNameOrAuthor", query = "SELECT b from Book b WHERE LOWER(b.name) LIKE LOWER(:searchedWord) OR LOWER(b.author) LIKE LOWER(:searchedWord)"),
         @NamedQuery(name = "Book.findVisibleByName", query = "SELECT b from Book b WHERE LOWER(b.name) LIKE LOWER(:name) and visible=TRUE")
 })
+@Getter
+@Setter
 public class Book {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "author")
     private String author;
+
     @Column(name = "description")
     private String description;
+
     @Column(name = "price")
     private int price;
+
     @Column(name = "isbn")
     private String isbn;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "state")
     private BookState state;
+
     @Column(name = "visible")
     private Boolean visible;
+
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
@@ -75,102 +87,6 @@ public class Book {
         if (visible == null) {
             visible = true;
         }
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public Object getState() {
-        return state;
-    }
-
-    public void setState(BookState state) {
-        this.state = state;
-    }
-
-    public Boolean getVisible() {
-        return visible;
-    }
-
-    public void setVisible(Boolean visible) {
-        this.visible = visible;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<BookLoan> getBookLoans() {
-        return bookLoans;
-    }
-
-    public void setBookLoans(List<BookLoan> bookLoans) {
-        this.bookLoans = bookLoans;
-    }
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
-    }
-
-    public List<BookCover> getBookCovers() {
-        return bookCovers;
-    }
-
-    public List<Rating> getRatings() {
-        return ratings;
     }
 
     @Override
@@ -209,12 +125,4 @@ public class Book {
 
     @OneToMany(mappedBy = "book")
     private Collection<BookLoan> bookLoan;
-
-    public Collection<BookLoan> getBookLoan() {
-        return bookLoan;
-    }
-
-    public void setBookLoan(Collection<BookLoan> bookLoan) {
-        this.bookLoan = bookLoan;
-    }
 }

@@ -1,69 +1,38 @@
 package cz.cvut.fel.ear.library.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Rating.findByUser", query = "SELECT r from Rating r WHERE user.id = :idUser"),
         @NamedQuery(name = "Rating.findByBook", query = "SELECT r from Rating r WHERE book.id = :idBook")
 })
+@Getter
+@Setter
 public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
+
     @Basic
     @Column(name = "points")
     private short points;
+
     @Basic
     @Column(name = "note")
     private String note;
+
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
+
     @ManyToOne
     @JoinColumn(name = "id_book")
     private Book book;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public short getPoints() {
-        return points;
-    }
-
-    public void setPoints(short points) {
-        this.points = points;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public int getIdBook() {
-        return book.getId();
-    }
-
-    public void setIdBook(int idBook) {
-        book.setId(idBook);
-    }
 
     @Override
     public boolean equals(Object o) {
