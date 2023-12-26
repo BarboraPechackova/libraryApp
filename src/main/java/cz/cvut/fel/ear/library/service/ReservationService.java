@@ -141,6 +141,12 @@ public class ReservationService {
         dao.update(reservation);
     }
 
+    @Transactional(readOnly = true)
+    public boolean hasActiveReservationsOfBook(User user, int bookId) {
+        List<Reservation> activeReservations = dao.findActiveReservationsByUserAndBook(user, bookId);
+        return !activeReservations.isEmpty();
+    }
+
 
 }
 

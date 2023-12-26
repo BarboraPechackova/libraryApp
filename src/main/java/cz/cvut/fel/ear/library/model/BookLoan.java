@@ -11,8 +11,8 @@ import java.util.Objects;
         @NamedQuery(name = "BookLoan.loansOfBook",    query = "SELECT l FROM BookLoan l WHERE book = :book"),
         @NamedQuery(name = "BookLoan.userBookLoans",  query = "SELECT l FROM BookLoan l WHERE user = :user"),
         @NamedQuery(name = "BookLoan.currentBookLoan", query = "SELECT l FROM BookLoan l WHERE book = :book AND returned = FALSE "),
-        @NamedQuery(name = "BookLoan.getAllUserBookLoans", query = "SELECT l FROM BookLoan l WHERE book = :book AND user = :user")
-//        @NamedQuery(name = "BookLoan.loanWithBookIdExists", query = "SELECT l FROM BookLoan l WHERE id_book = :idBook"),
+        @NamedQuery(name = "BookLoan.getAllUserBookLoans", query = "SELECT l FROM BookLoan l WHERE book = :book AND user = :user"),
+        @NamedQuery(name = "BookLoan.activeLoansByUserAndBook", query = "SELECT l FROM BookLoan l WHERE l.user = :user AND l.book.id = :bookId AND l.returned = false")
 })
 public class BookLoan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

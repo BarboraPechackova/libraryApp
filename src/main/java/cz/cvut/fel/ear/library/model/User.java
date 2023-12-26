@@ -1,13 +1,10 @@
 package cz.cvut.fel.ear.library.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "library_user")
@@ -35,39 +32,32 @@ public class User {
     @JsonIgnore
     private String bankAccount;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("role asc")
-//    @JsonManagedReference
     private List<Role> roles;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("id desc")
     private List<Rating> ratings;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("tsFrom desc")
     private List<ProfilePicture> profilePictures;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("reservationTs asc")
     private List<Reservation> reservations;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("dateTo desc")
     private List<BookLoan> bookLoans;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("name asc")
     private List<Book> books;  // books that the user offers or loans

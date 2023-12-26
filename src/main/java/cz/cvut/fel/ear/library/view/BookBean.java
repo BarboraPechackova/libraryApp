@@ -96,6 +96,11 @@ public class BookBean implements Serializable {
         return "./user.xhtml?faces-redirect=true";
     }
 
+//    public String deleteBook(int id) {
+//        bookController.removeBook(id);
+//        return "./user.xhtml?faces-redirect=true";
+//    }
+
     public void resetBookDetails() {
         name = author = description = isbn = "";
         price = 0;
