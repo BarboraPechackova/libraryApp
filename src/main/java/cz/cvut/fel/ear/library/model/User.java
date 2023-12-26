@@ -54,7 +54,7 @@ public class User {
     @Cascade(CascadeType.REMOVE)
     private List<ProfilePicture> profilePictures;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_user")
     @JsonIgnore
     @OrderBy("reservationTs asc")

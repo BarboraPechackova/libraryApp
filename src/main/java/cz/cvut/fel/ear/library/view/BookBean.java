@@ -44,6 +44,12 @@ public class BookBean implements Serializable {
         }
     }
 
+    public String addBookRedirect() {
+        name=author=description=isbn="";
+        price=bookId=0;
+        return "./addBook.xhtml?faces-redirect=true";
+    }
+
     public String addBook(User user) {
         Book book = new Book();
         book.setName(name);
