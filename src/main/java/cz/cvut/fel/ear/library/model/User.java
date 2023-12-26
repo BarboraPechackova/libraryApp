@@ -2,8 +2,6 @@ package cz.cvut.fel.ear.library.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -34,45 +32,34 @@ public class User {
     @JsonIgnore
     private String bankAccount;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("role asc")
-    @Cascade(CascadeType.ALL)
     private List<Role> roles;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("id desc")
-    @Cascade(CascadeType.REMOVE)
     private List<Rating> ratings;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("tsFrom desc")
-    @Cascade(CascadeType.REMOVE)
     private List<ProfilePicture> profilePictures;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("reservationTs asc")
-    @Cascade(CascadeType.REMOVE)
     private List<Reservation> reservations;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("dateTo desc")
     private List<BookLoan> bookLoans;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     @OrderBy("name asc")
-    @Cascade(CascadeType.REMOVE)
     private List<Book> books;  // books that the user offers or loans
 
     public User() {
