@@ -106,3 +106,25 @@ CREATE TABLE Reservation(
 
 ALTER TABLE Library_user
     ADD COLUMN "password" VARCHAR(255) NOT NULL;
+
+
+
+ALTER TABLE Book_loan
+    DROP CONSTRAINT book_loan_id_book_fkey,
+    ADD CONSTRAINT book_loan_id_book_fkey
+        FOREIGN KEY (id_book) REFERENCES Book(id) ON DELETE CASCADE;
+
+ALTER TABLE Reservation
+    DROP CONSTRAINT reservation_id_book_fkey,
+    ADD CONSTRAINT reservation_id_book_fkey
+        FOREIGN KEY (id_book) REFERENCES Book(id) ON DELETE CASCADE;
+
+ALTER TABLE Rating
+    DROP CONSTRAINT rating_id_book_fkey,
+    ADD CONSTRAINT rating_id_book_fkey
+        FOREIGN KEY (id_book) REFERENCES Book(id) ON DELETE CASCADE;
+
+ALTER TABLE Book_cover
+    DROP CONSTRAINT book_cover_id_book_fkey,
+    ADD CONSTRAINT book_cover_id_book_fkey
+        FOREIGN KEY (id_book) REFERENCES Book(id) ON DELETE CASCADE;
