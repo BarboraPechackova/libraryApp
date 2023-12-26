@@ -74,6 +74,7 @@ public abstract class BaseDao<T> implements GenericDao<T> {
             final T toRemove = em.merge(entity);
             if (toRemove != null) {
                 em.remove(toRemove);
+                em.flush();
             }
         } catch (RuntimeException e) {
             throw new PersistenceException(e);
