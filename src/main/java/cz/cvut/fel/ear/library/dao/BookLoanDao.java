@@ -8,6 +8,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -38,10 +39,14 @@ public class BookLoanDao extends BaseDao<BookLoan>{
         return q.getResultList();
     }
 
-    public List<BookLoan> getUserLoansOfBook(User user, Book book) {
-        TypedQuery<BookLoan> q = em.createNamedQuery("BookLoan.userBookLoans", BookLoan.class);
-        q.setParameter("user", user);
-        q.setParameter("book", book);
-        return q.getResultList();
+    public List<BookLoan> findActiveLoansByUserAndBook(User user, int bookId) {
+        TypedQuery<BookLoan> query = em.createNamedQuery("BookLoan.activeLoansByUserAndBook", BookLoan.class);
+        query.setParameter("user", user);
+        query.setParameter("bookId", bookId);
+        try {
+            return query.getResultList();
+        } catch (NoResultException e) {
+            return Collections.emptyList();
+        }
     }
 }

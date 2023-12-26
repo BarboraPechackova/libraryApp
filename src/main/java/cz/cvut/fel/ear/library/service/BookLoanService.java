@@ -178,4 +178,10 @@ public class BookLoanService {
         return dao.getCurrentLoanOfBook(book) != null;
     }
 
+    @Transactional(readOnly = true)
+    public boolean hasUnreturnedLoansOfUserBook(User user, int bookId) {
+        List<BookLoan> activeLoans = dao.findActiveLoansByUserAndBook(user, bookId);
+        return !activeLoans.isEmpty();
+    }
+
 }

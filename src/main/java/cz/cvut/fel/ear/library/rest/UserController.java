@@ -104,33 +104,21 @@ public class UserController {
     }
 
     @GetMapping(value = "/{userId}/reservations/active/{bookId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean hasActiveReservationsOfBook(@PathVariable int userId, int bookId) {
+    public boolean hasActiveReservationsOfBook(@PathVariable int userId, @PathVariable int bookId) {
         final User user = service.find(userId);
         if (user == null) {
             throw RestUtils.newNotFoundEx("User", userId);
         }
-        List<Reservation> activeUserReservations = reservationService.getAllActiveUserReservation(user);
-        for (Reservation reservation : activeUserReservations) {
-            if (reservation.getBook().getId() == bookId) {
-                return true;
-            }
-        }
-        return false;
+        return reservationService.hasActiveReservationsOfBook(user, bookId);
     }
 
     @GetMapping(value = "/{userId}/loans/active/{bookId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean hasUnreturnedLoansOfUserBook(@PathVariable int userId, int bookId) {
+    public boolean hasUnreturnedLoansOfUserBook(@PathVariable int userId, @PathVariable int bookId) {
         final User user = service.find(userId);
         if (user == null) {
             throw RestUtils.newNotFoundEx("User", userId);
         }
-        List<BookLoan> activeUserLoans = bookLoanService.getLoansOfUser(user);
-        for (BookLoan loan : activeUserLoans) {
-            if (loan.getBook().getId() == bookId && !loan.isReturned()) {
-                return true;
-            }
-        }
-        return false;
+        return bookLoanService.hasUnreturnedLoansOfUserBook(user, bookId);
     }
 
 
