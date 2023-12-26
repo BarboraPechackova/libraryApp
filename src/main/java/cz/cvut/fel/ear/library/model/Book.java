@@ -3,6 +3,8 @@ package cz.cvut.fel.ear.library.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.cvut.fel.ear.library.model.enums.BookState;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.util.List;
 
@@ -50,18 +52,21 @@ public class Book {
     @JoinColumn(name = "id_book")
     @JsonIgnore
     @OrderBy("reservationTs asc")
+    @Cascade(CascadeType.REMOVE)
     private List<Reservation> reservations;
 
     @OneToMany
     @JoinColumn(name = "id_book")
     @JsonIgnore
     @OrderBy("uploadTs asc")
+    @Cascade(CascadeType.REMOVE)
     private List<BookCover> bookCovers;
 
     @OneToMany
     @JoinColumn(name = "id_book")
     @JsonIgnore
     @OrderBy("id desc")
+    @Cascade(CascadeType.REMOVE)
     private List<Rating> ratings;
 
     /**

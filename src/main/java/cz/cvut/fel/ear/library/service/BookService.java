@@ -112,8 +112,6 @@ public class BookService {
         dao.update(book);
     }
 
-    // TODO dalsi metody, upravit ty co uz mam jestli ukazovat visible only
-
     public List<Book> findByName(String name) {
         Objects.requireNonNull(name);
         return dao.findByName(name);
@@ -129,13 +127,9 @@ public class BookService {
         return dao.findByName(name,true);
     }
 
-//    public void findBooksByState(BookState state) {}
-
     public List<Book> findAllVisible() {
         return dao.findAllVisible(true);
     }
-
-    // todo remove book validation
 
     private void validateUpdatePersist(Book book) {
         if (book.getPrice() < 0) {

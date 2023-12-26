@@ -59,22 +59,22 @@ public class UserService {
     public void removeUser(User user) {
         validateUserRemove(user);
         Objects.requireNonNull(user);
-        reservationService.deleteActiveUserReservations(user);
-//        for (Reservation reservation : reservationService.getAllUserReservations(user)) {
-//            reservationService.remove(reservation);
+//        reservationService.deleteActiveUserReservations(user);
+////        for (Reservation reservation : reservationService.getAllUserReservations(user)) {
+////            reservationService.remove(reservation);
+////        }
+//        for (Book book : bookDao.findAllFromUser(user)) {
+//            reservationService.deleteActiveBookReservations(book);
+////            for (Reservation reservation : reservationService.getAllReservationsOfBook(book)) {
+////                reservationService.remove(reservation);
+////            }
+//            bookDao.remove(book);
 //        }
-        for (Book book : bookDao.findAllFromUser(user)) {
-            reservationService.deleteActiveBookReservations(book);
-//            for (Reservation reservation : reservationService.getAllReservationsOfBook(book)) {
-//                reservationService.remove(reservation);
+//        if (user.getRoles()!=null) {
+//            for (Role role : user.getRoles()) {
+//                roleService.removeRoleFromUser(user, role.getRole());
 //            }
-            bookDao.remove(book);
-        }
-        if (user.getRoles()!=null) {
-            for (Role role : user.getRoles()) {
-                roleService.removeRoleFromUser(user, role.getRole());
-            }
-        }
+//        }
         dao.remove(user);
     }
 

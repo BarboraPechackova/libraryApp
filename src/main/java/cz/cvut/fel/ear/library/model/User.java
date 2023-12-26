@@ -1,13 +1,12 @@
 package cz.cvut.fel.ear.library.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "library_user")
@@ -39,7 +38,7 @@ public class User {
     @JoinColumn(name = "id_user")
     @JsonIgnore
     @OrderBy("role asc")
-//    @JsonManagedReference
+    @Cascade(CascadeType.ALL)
     private List<Role> roles;
 
     @OneToMany
@@ -52,12 +51,14 @@ public class User {
     @JoinColumn(name = "id_user")
     @JsonIgnore
     @OrderBy("tsFrom desc")
+    @Cascade(CascadeType.REMOVE)
     private List<ProfilePicture> profilePictures;
 
     @OneToMany
     @JoinColumn(name = "id_user")
     @JsonIgnore
     @OrderBy("reservationTs asc")
+    @Cascade(CascadeType.REMOVE)
     private List<Reservation> reservations;
 
     @OneToMany
@@ -70,6 +71,7 @@ public class User {
     @JoinColumn(name = "id_user")
     @JsonIgnore
     @OrderBy("name asc")
+    @Cascade(CascadeType.REMOVE)
     private List<Book> books;  // books that the user offers or loans
 
     public User() {
