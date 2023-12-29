@@ -49,4 +49,8 @@ public class BookDao extends BaseDao<Book>{
     public List<Book> findByAuthor(String author) {
         return em.createNamedQuery("Book.findByAuthor",Book.class).setParameter("author","%"+author+"%").getResultList();
     }
+
+    public List<Book> findByNameOrAuthor(String searchedWord) {
+        return em.createNamedQuery("Book.searchByNameOrAuthor", Book.class).setParameter("searchedWord","%"+searchedWord+"%").getResultList();
+    }
 }

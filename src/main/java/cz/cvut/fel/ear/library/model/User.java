@@ -1,69 +1,76 @@
 package cz.cvut.fel.ear.library.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "library_user")
 @NamedQueries({
         @NamedQuery(name = "User.getUserByUsername", query = "SELECT u FROM User u WHERE username = :username"),
 })
+@Getter
+@Setter
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
+
     @Column(name = "username")
     private String username;
+
     @Column(name = "password")
     private String password;
+
     @Column(name = "first_name")
     private String firstName;
+
     @Column(name = "surname")
     private String surname;
+
     @Column(name = "email")
     private String email;
+
     @Column(name = "phone")
     private String phone;
+
     @Column(name = "bank_account")
     @JsonIgnore
     private String bankAccount;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-//    @JsonManagedReference
+    @OrderBy("role asc")
     private List<Role> roles;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
+    @OrderBy("id desc")
     private List<Rating> ratings;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
+    @OrderBy("tsFrom desc")
     private List<ProfilePicture> profilePictures;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
+    @OrderBy("reservationTs asc")
     private List<Reservation> reservations;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
+    @OrderBy("dateTo desc")
     private List<BookLoan> bookLoans;
 
-    @OneToMany
-    @JoinColumn(name = "id_user")
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
+    @OrderBy("name asc")
     private List<Book> books;  // books that the user offers or loans
 
     public User() {
@@ -79,123 +86,9 @@ public class User {
         this.bankAccount = bankAccount;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public void encodePassword(PasswordEncoder encoder) {
         this.password = encoder.encode(password);
     }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getBankAccount() {
-        return bankAccount;
-    }
-
-    public void setBankAccount(String bankAccount) {
-        this.bankAccount = bankAccount;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    public List<Rating> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(List<Rating> ratings) {
-        this.ratings = ratings;
-    }
-
-    public List<ProfilePicture> getProfilePictures() {
-        return profilePictures;
-    }
-
-    public void setProfilePictures(List<ProfilePicture> profilePictures) {
-        this.profilePictures = profilePictures;
-    }
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
-    }
-
-    public List<BookLoan> getBookLoans() {
-        return bookLoans;
-    }
-
-    public void setBookLoans(List<BookLoan> bookLoans) {
-        this.bookLoans = bookLoans;
-    }
-
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
-
 
     @Override
     public boolean equals(Object o) {

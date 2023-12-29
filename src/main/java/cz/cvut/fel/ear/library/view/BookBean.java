@@ -44,6 +44,12 @@ public class BookBean implements Serializable {
         }
     }
 
+    public String addBookRedirect() {
+        name=author=description=isbn="";
+        price=bookId=0;
+        return "./addBook.xhtml?faces-redirect=true";
+    }
+
     public String addBook(User user) {
         Book book = new Book();
         book.setName(name);
@@ -89,6 +95,11 @@ public class BookBean implements Serializable {
         bookController.removeBook(book.getId());
         return "./user.xhtml?faces-redirect=true";
     }
+
+//    public String deleteBook(int id) {
+//        bookController.removeBook(id);
+//        return "./user.xhtml?faces-redirect=true";
+//    }
 
     public void resetBookDetails() {
         name = author = description = isbn = "";

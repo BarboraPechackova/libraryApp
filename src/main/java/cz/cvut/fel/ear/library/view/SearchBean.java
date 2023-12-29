@@ -25,22 +25,7 @@ public class SearchBean {
     }
 
     public List<Book> searchByName() {
-        if (searched.equals("")) {
-            return bookService.findAll();
-        }
-
-        List<Book> toAdd = new ArrayList<>();
-
-        books = bookService.findByName(searched);
-        for (Book book : bookService.findByAuthor(searched)) {
-            if (!contains(books, book)) {
-                toAdd.add(book);
-            }
-        }
-
-        books.addAll(toAdd);
-//        books.addAll(bookService.findByAuthor(searched));
-
+        books = bookService.findByNameOrAuthor(searched);
         searched = "";
         return books;
     }

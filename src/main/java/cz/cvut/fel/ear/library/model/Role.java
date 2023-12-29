@@ -2,6 +2,8 @@ package cz.cvut.fel.ear.library.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @NamedQueries({
@@ -10,41 +12,20 @@ import jakarta.persistence.*;
         @NamedQuery(name = "Role.findAllUsersByRoleName", query = "SELECT r.user FROM Role r WHERE r.role = :name"),
         @NamedQuery(name = "Role.findAllRolesOfUser", query = "SELECT r FROM Role r WHERE r.user = :user")
 })
+@Getter
+@Setter
 public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
+
     @Column(name = "role")
     private String role;
+
     @ManyToOne
     @JoinColumn(name = "id_user")
-//    @JsonBackReference
     private User user;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     @Override
     public boolean equals(Object o) {

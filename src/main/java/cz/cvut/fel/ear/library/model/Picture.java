@@ -1,6 +1,8 @@
 package cz.cvut.fel.ear.library.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -8,15 +10,20 @@ import java.util.Arrays;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@Getter
+@Setter
 public class Picture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
+
     @Column(name = "upload_ts")
     private Timestamp uploadTs;
+
     @Column(name = "picture")
     private byte[] picture;
+
     @Column(name = "type")
     private String type;
 
@@ -32,38 +39,6 @@ public class Picture {
         if (uploadTs == null) {
             uploadTs = Timestamp.valueOf(LocalDateTime.now());
         }
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Timestamp getUploadTs() {
-        return uploadTs;
-    }
-
-    public void setUploadTs(Timestamp uploadTs) {
-        this.uploadTs = uploadTs;
-    }
-
-    public byte[] getPicture() {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     @Override

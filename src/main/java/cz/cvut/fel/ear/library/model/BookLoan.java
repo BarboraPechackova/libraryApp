@@ -1,6 +1,8 @@
 package cz.cvut.fel.ear.library.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Date;
 import java.util.Objects;
@@ -11,29 +13,37 @@ import java.util.Objects;
         @NamedQuery(name = "BookLoan.loansOfBook",    query = "SELECT l FROM BookLoan l WHERE book = :book"),
         @NamedQuery(name = "BookLoan.userBookLoans",  query = "SELECT l FROM BookLoan l WHERE user = :user"),
         @NamedQuery(name = "BookLoan.currentBookLoan", query = "SELECT l FROM BookLoan l WHERE book = :book AND returned = FALSE "),
-        @NamedQuery(name = "BookLoan.getAllUserBookLoans", query = "SELECT l FROM BookLoan l WHERE book = :book AND user = :user")
-//        @NamedQuery(name = "BookLoan.loanWithBookIdExists", query = "SELECT l FROM BookLoan l WHERE id_book = :idBook"),
+        @NamedQuery(name = "BookLoan.getAllUserBookLoans", query = "SELECT l FROM BookLoan l WHERE book = :book AND user = :user"),
+        @NamedQuery(name = "BookLoan.activeLoansByUserAndBook", query = "SELECT l FROM BookLoan l WHERE l.user = :user AND l.book.id = :bookId AND l.returned = false")
 })
+@Getter
+@Setter
 public class BookLoan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
+
     @Basic
     @Column(name = "date_from")
     private Date dateFrom;
+
     @Basic
     @Column(name = "date_to")
     private Date dateTo;
+
     @Basic
     @Column(name = "price")
     private int price;
+
     @Basic
     @Column(name = "returned")
     private boolean returned;
+
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
+
     @ManyToOne
     @JoinColumn(name = "id_book")
     private Book book;
@@ -48,62 +58,6 @@ public class BookLoan {
     }
 
     public BookLoan() {}
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Date getDateFrom() {
-        return dateFrom;
-    }
-
-    public void setDateFrom(Date dateFrom) {
-        this.dateFrom = dateFrom;
-    }
-
-    public Date getDateTo() {
-        return dateTo;
-    }
-
-    public void setDateTo(Date dateTo) {
-        this.dateTo = dateTo;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public boolean isReturned() {
-        return returned;
-    }
-
-    public void setReturned(boolean returned) {
-        this.returned = returned;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
 
     @Override
     public boolean equals(Object o) {

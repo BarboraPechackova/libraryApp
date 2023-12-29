@@ -21,7 +21,7 @@
         <h:form styleClass="mb-0">
             <p:menubar styleClass="px-5">
                 <p:menuitem action="./books.xhtml?faces-redirect=true" value="Knihy" icon="pi pi-fw pi-book"/>
-                <p:menuitem action="./addBook.xhtml?faces-redirect=true" value="Přidat knihu" icon="pi pi-fw pi-plus" rendered="#{userBean.logged}"/>
+                <p:menuitem action="#{bookBean.addBookRedirect}" value="Přidat knihu" icon="pi pi-fw pi-plus" rendered="#{userBean.logged}"/>
                 <p:menuitem action="./user.xhtml?faces-redirect=true" value="Profil" icon="pi pi-fw pi-user" rendered="#{userBean.logged}"/>
                 <p:menuitem action="./login.xhtml?faces-redirect=true" value="Profil" icon="pi pi-fw pi-user" rendered="#{!userBean.logged}"/>
 

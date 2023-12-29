@@ -26,20 +26,39 @@ public class BookReservationBean {
     }
 
     public void createBookReservation(Book book, User user) {
-        if (userController.hasActiveReservationsOfBook(user.getId(), book.getId())) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Uživatel má již aktivní rezervaci na tuto knihu"));
+        if (!validateReservationConditions(user, book)) {
             return;
         }
-        if (userController.hasUnreturnedLoansOfUserBook(user.getId(), book.getId())) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Nelze vytvořit rezervace na již vypůjčenou knihu"));
-            return;
-        }
+
         reservationController.createReservation(book, user);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Rezervace vytvořena"));
+        addInfoMessage("Rezervace vytvořena");
     }
 
     public String removeBookReservationAndRedirect(int id){
         reservationController.deleteReservation(id);
         return "./user.xhtml?faces-redirect=true";
+    }
+
+
+    private boolean validateReservationConditions(User user, Book book) {
+        if (userController.hasActiveReservationsOfBook(user.getId(), book.getId())) {
+            addErrorMessage("Uživatel má již aktivní rezervaci na tuto knihu");
+            return false;
+        }
+
+        if (userController.hasUnreturnedLoansOfUserBook(user.getId(), book.getId())) {
+            addErrorMessage("Nelze vytvořit rezervace na již vypůjčenou knihu");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void addErrorMessage(String message) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", message));
+    }
+
+    private void addInfoMessage(String message) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", message));
     }
 }

@@ -1,22 +1,29 @@
 package cz.cvut.fel.ear.library.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "profile_picture")
+@Getter
+@Setter
 public class ProfilePicture extends Picture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
+
     @Basic
     @Column(name = "ts_from")
     private Timestamp tsFrom;
+
     @Basic
     @Column(name = "ts_to")
     private Timestamp tsTo;
+
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
@@ -27,43 +34,6 @@ public class ProfilePicture extends Picture {
 
     public ProfilePicture() {
         super();
-    }
-
-//    @OneToOne
-//    @JoinColumn(name = "id_picture")
-//    private Picture picture;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Timestamp getTsFrom() {
-        return tsFrom;
-    }
-
-    public void setTsFrom(Timestamp tsFrom) {
-        this.tsFrom = tsFrom;
-    }
-
-    public Timestamp getTsTo() {
-        return tsTo;
-    }
-
-    public void setTsTo(Timestamp tsTo) {
-        this.tsTo = tsTo;
-    }
-
-
-    public int getIdUser() {
-        return user.getId();
-    }
-
-    public void setIdUser(int idUser) {
-        user.setId(idUser);
     }
 
     @Override

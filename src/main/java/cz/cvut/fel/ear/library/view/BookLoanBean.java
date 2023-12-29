@@ -9,6 +9,8 @@ import cz.cvut.fel.ear.library.rest.ReservationController;
 import cz.cvut.fel.ear.library.rest.UserController;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,8 @@ public class BookLoanBean {
 
     private final UserController userController;
 
+    @Setter
+    @Getter
     private LocalDate loanEndDate;
 
     @Autowired
@@ -37,33 +41,20 @@ public class BookLoanBean {
     }
 
     public void createBookLoan(Book book, User user) {
-
-        if (userController.hasUnreturnedLoansOfUserBook(user.getId(), book.getId())) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Uživatel má již tuto knihu vypůjčenou, nelze udělat rezervace"));
+        if (!validateLoanConditions(user, book)) {
             return;
         }
-        if (loanEndDate != null) {
-            if (!loanEndDate.isBefore(LocalDate.now().plusDays(1))) {
-                if (!loanEndDate.isAfter(LocalDate.now().plusMonths(1))) {
-                    ResponseEntity<Reservation> response = reservationController.createReservation(book, user);
-                    if (response.getStatusCode() == HttpStatus.CREATED) {
-                        Reservation reservation = response.getBody();
-                        // Create book loan, from today until the date specified by the user
-                        bookLoanController.createBookLoanWithDates(reservation, LocalDate.now(), loanEndDate);
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Výpůjčka vytvořena"));
-                    }
-                }
-                else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Výpůjčka nemůže trvat déle než měsíc"));
-                }
-            }
-            else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Výpůjčka nemůže trvat méně než jeden den"));
-            }
+
+        if (loanEndDate == null) {
+            addErrorMessage("Musíte zadat datum vrácení");
+            return;
         }
-        else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Musíte zadat datum vrácení"));
+
+        if (!validateLoanDates(loanEndDate)) {
+            return;
         }
+
+        createLoanIfReservationExists(book, user);
     }
 
     public String returnBookLoanAndRefresh(int id) {
@@ -71,14 +62,42 @@ public class BookLoanBean {
         return "./user.xhtml?faces-redirect=true";
     }
 
-    public LocalDate getLoanEndDate() {
-        return loanEndDate;
+
+    private boolean validateLoanConditions(User user, Book book) {
+        if (userController.hasUnreturnedLoansOfUserBook(user.getId(), book.getId())) {
+            addErrorMessage("Uživatel má již tuto knihu vypůjčenou, nelze udělat rezervace");
+            return false;
+        }
+        return true;
     }
 
-    public void setLoanEndDate(LocalDate loanEndDate) {
-        this.loanEndDate = loanEndDate;
+    private boolean validateLoanDates(LocalDate endDate) {
+        if (endDate.isBefore(LocalDate.now().plusDays(1))) {
+            addErrorMessage("Výpůjčka nemůže trvat méně než jeden den");
+            return false;
+        }
+        if (endDate.isAfter(LocalDate.now().plusMonths(1))) {
+            addErrorMessage("Výpůjčka nemůže trvat déle než měsíc");
+            return false;
+        }
+        return true;
     }
 
+    private void createLoanIfReservationExists(Book book, User user) {
+        ResponseEntity<Reservation> response = reservationController.createReservation(book, user);
+        if (response.getStatusCode() == HttpStatus.CREATED) {
+            Reservation reservation = response.getBody();
+            bookLoanController.createBookLoanWithDates(reservation, LocalDate.now(), loanEndDate);
+            addInfoMessage("Výpůjčka vytvořena");
+        }
+    }
 
+    private void addErrorMessage(String message) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", message));
+    }
+
+    private void addInfoMessage(String message) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", message));
+    }
 
 }
