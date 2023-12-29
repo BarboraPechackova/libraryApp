@@ -24,8 +24,6 @@ public class PictureController {
     private final BookCoverService coverService;
     private final UserService userService;
 
-//    private final ProfilePicture profileService;
-
     @Autowired
     public PictureController(BookService bookService, BookCoverService coverService, UserService userService) {
         this.userService = userService;
@@ -42,7 +40,7 @@ public class PictureController {
     }
 
     @PostMapping(value = "/covers/")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Void> newBookCover(@RequestBody BookCover cover)  {
         coverService.persist(cover);
         HttpHeaders headers = RestUtils.createLocationHeaderFromUri("/covers/{id}", cover.getId());
@@ -50,7 +48,7 @@ public class PictureController {
     }
 
     @DeleteMapping(value = "/covers/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public void deleteBookCover(@PathVariable Integer id)  {
         final BookCover cover = coverService.find(id);
         if (cover == null) {

@@ -11,7 +11,7 @@
 
     <sec:http auto-config="true" >
         <sec:form-login login-page="/public/login.xhtml" />
-        <sec:intercept-url pattern="/public/admin/**" access="ADMIN" />
+        <sec:intercept-url pattern="/public/admin/**" access="ROLE_ADMIN" />
     </sec:http>
 
     <!--

@@ -45,21 +45,17 @@ public class SecurityConfig {
             // Use custom success and failure handlers
             .formLogin(fl -> fl
                     .loginPage("/public/login.xhtml")
-                    .usernameParameter("j_username") // nevim proc, ale takto to funguje; JSF :-)
-                    .passwordParameter("j_password") // nevim proc, ale takto to funguje; JSF :-)
+                    .usernameParameter("j_username")
+                    .passwordParameter("j_password")
                     .loginProcessingUrl("/public/login.xhtml")
                     .defaultSuccessUrl("/public/books.xhtml")
-                    .failureForwardUrl("/public/login.xhtml?error=true")
-//                    .successHandler(authSuccess)
-//                    .failureHandler(authenticationFailureHandler())
+                    .failureUrl("/public/login.xhtml?error=true")
+//                    .failureForwardUrl("/public/login.xhtml?error=true")
                     .permitAll())
-//            .logout(lgt -> lgt.logoutUrl("/rest/v1/users/logout").logoutSuccessHandler(authSuccess));
             .logout(lgt -> lgt
-//                .logoutUrl("/public/logout") // Define your custom logout URL
                 .logoutSuccessUrl("/public/login.xhtml?logout=true") // Redirect URL after successful logout
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID"));
-//            .userDetailsService(new UserDetailsService(new UserDao()));
 
 
         return http.build();

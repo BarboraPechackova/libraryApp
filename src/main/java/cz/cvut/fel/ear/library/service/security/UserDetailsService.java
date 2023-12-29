@@ -25,4 +25,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         }
         return new cz.cvut.fel.ear.library.security.model.UserDetails(user);
     }
+
+
+
 }

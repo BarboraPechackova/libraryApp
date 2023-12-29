@@ -48,7 +48,7 @@ public class RatingService {
     }
 
     @Transactional
-    @PostFilter("hasRole('ADMIN') or (rating.user.username == principal.username)")
+    @PostFilter("hasRole('ROLE_ADMIN') or (rating.user.username == principal.username)")
     public void remove(Rating rating) {
         Objects.requireNonNull(rating);
         dao.remove(rating);

@@ -2,7 +2,6 @@ package cz.cvut.fel.ear.library.rest;
 
 import cz.cvut.fel.ear.library.model.*;
 import cz.cvut.fel.ear.library.rest.utils.RestUtils;
-import cz.cvut.fel.ear.library.service.BookCoverService;
 import cz.cvut.fel.ear.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,9 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-//import java.io.IOException;
-//import java.nio.file.Files;
-//import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -23,12 +19,10 @@ import java.util.List;
 public class BookController {
 
     private final BookService service;
-    private final BookCoverService coverService;
 
     @Autowired
-    public BookController(BookService service, BookCoverService coverService) {
+    public BookController(BookService service) {
         this.service = service;
-        this.coverService = coverService;
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,18 +41,6 @@ public class BookController {
             throw RestUtils.newNotFoundEx("Books", id);
         }
 
-//        try {
-//            BookCover bc = new BookCover();
-//
-//            byte[] imageInByte = Files.readAllBytes(Path.of("C:\\Java\\EAR_semestralka\\src\\main\\resources\\static\\test.png"));
-//
-//            bc.setPicture(imageInByte);
-//            bc.setBook(book);
-//            bc.setType("png");
-//            coverService.persist(bc);
-//        } catch (IOException ignored) {
-//
-//        }
         return book;
     }
 
@@ -71,7 +53,7 @@ public class BookController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAnyRole('ADMIN', 'ROLE_ADMIN', 'USER', 'admin')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public void updateBook(@RequestBody Book book) {
         service.update(book);
     }
@@ -92,7 +74,7 @@ public class BookController {
         if (book == null) {
             throw RestUtils.newNotFoundEx("Book", id);
         }
-        return book.getBookCovers(); // TODO: determine if this is OK
+        return book.getBookCovers();
     }
 
     @GetMapping(value = "/{id}/loans", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -101,16 +83,17 @@ public class BookController {
         if (book == null) {
             throw RestUtils.newNotFoundEx("Book", id);
         }
-        return book.getBookLoans(); // TODO: determine if this is OK
+        return book.getBookLoans();
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping(value = "/{id}/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Reservation> getReservationsOfBook(@PathVariable int id) {
         final Book book = service.find(id);
         if (book == null) {
             throw RestUtils.newNotFoundEx("Book", id);
         }
-        return book.getReservations(); // TODO: determine if this is OK
+        return book.getReservations();
     }
 
     @GetMapping(value = "/{id}/ratings", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -119,6 +102,6 @@ public class BookController {
         if (book == null) {
             throw RestUtils.newNotFoundEx("Book", id);
         }
-        return book.getRatings(); // TODO: determine if this is OK
+        return book.getRatings();
     }
 }

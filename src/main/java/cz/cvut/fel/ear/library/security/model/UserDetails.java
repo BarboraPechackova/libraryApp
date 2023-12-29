@@ -31,7 +31,11 @@ public class UserDetails implements org.springframework.security.core.userdetail
     }
 
     private void addUserRole() {
-        authorities.add(new SimpleGrantedAuthority(getHighestRoleOfUser(user)));
+        String role = getHighestRoleOfUser(user);
+        if(!role.startsWith("ROLE_")) {
+            role = "ROLE_"+role;
+        }
+        authorities.add(new SimpleGrantedAuthority(role));
     }
 
     public String getHighestRoleOfUser(User user) {

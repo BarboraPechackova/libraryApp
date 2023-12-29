@@ -56,22 +56,22 @@ public class Book {
     @JoinColumn(name = "id_user")
     private User user;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @OrderBy("dateTo desc")
     private List<BookLoan> bookLoans;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @OrderBy("reservationTs asc")
     private List<Reservation> reservations;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @OrderBy("uploadTs asc")
     private List<BookCover> bookCovers;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @OrderBy("id desc")
     private List<Rating> ratings;

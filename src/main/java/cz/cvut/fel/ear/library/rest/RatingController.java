@@ -43,7 +43,7 @@ public class RatingController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole(\"ADMIN\", \"USER\")")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Void> createRating(@RequestBody(required = false) Rating rating) {
         service.persist(rating);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromUri("/{id}", rating.getId());
@@ -51,7 +51,7 @@ public class RatingController {
     }
 
     @DeleteMapping(value = "/{id}")
-    @PreAuthorize("hasAnyRole(\"ADMIN\", \"USER\")")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Void> removeRating(@PathVariable int id) {
         final Rating rating = service.find(id);
         if (rating == null) {
